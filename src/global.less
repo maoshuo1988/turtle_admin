@@ -1,0 +1,111 @@
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #f5f7fb;
+}
+
+.turtle-app-shell {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.turtle-app-sider {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.turtle-app-sider-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.turtle-app-menu-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.turtle-app-main {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.turtle-app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  flex: 0 0 auto;
+}
+
+.turtle-app-content {
+  min-height: 0;
+  overflow: visible;
+}
+
+.turtle-app-content-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+  padding: 24px;
+  box-sizing: border-box;
+  scrollbar-gutter: stable;
+}
+
+.turtle-app-content-scroll .ant-pro-page-container-warp-page-header {
+  position: static;
+  background: transparent;
+  padding-top: 0;
+}
+
+.turtle-app-content-scroll .ant-pro-page-container-children-container {
+  padding-inline: 0;
+  padding-block-start: 16px;
+}
+
+.turtle-page-toolbar {
+  position: sticky;
+  top: 68px;
+  z-index: 18;
+  background: #f5f7fb;
+  padding-bottom: 16px;
+}
+
+.turtle-page-toolbar-with-tabs {
+  top: 116px;
+}
+
+.turtle-sticky-tabs > .ant-tabs-nav {
+  position: sticky;
+  top: 68px;
+  z-index: 19;
+  background: #f5f7fb;
+  margin-bottom: 16px;
+  padding-top: 8px;
+}
+
+.turtle-sticky-tabs > .ant-tabs-nav::before {
+  border-bottom: none;
+}
+
+.turtle-sticky-tabs > .ant-tabs-nav .ant-tabs-ink-bar {
+  display: none;
+}
+
+.turtle-sticky-tabs .ant-tabs-content-holder,
+.turtle-sticky-tabs .ant-tabs-content,
+.turtle-sticky-tabs .ant-tabs-tabpane {
+  overflow: visible;
+}
+
+.turtle-stat-card {
+  min-height: 132px;
+}
