@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/login","layout":false,"id":"1"},"2":{"path":"/","name":"dashboard","parentId":"@@/global-layout","id":"2"},"3":{"path":"/dashboard","redirect":"/","hideInMenu":true,"parentId":"@@/global-layout","id":"3"},"4":{"path":"/predict","name":"predict","parentId":"@@/global-layout","id":"4"},"5":{"path":"/battle","name":"battle","parentId":"@@/global-layout","id":"5"},"6":{"path":"/community","name":"community","parentId":"@@/global-layout","id":"6"},"7":{"path":"/comments","name":"comments","parentId":"@@/global-layout","id":"7"},"8":{"path":"/nodes","name":"nodes","parentId":"@@/global-layout","id":"8"},"9":{"path":"/risk","name":"risk","parentId":"@@/global-layout","id":"9"},"10":{"path":"/audit","name":"audit","parentId":"@@/global-layout","id":"10"},"11":{"path":"/rules","name":"rules","parentId":"@@/global-layout","id":"11"},"12":{"path":"/403","layout":false,"id":"12"},"13":{"path":"*","layout":false,"id":"13"},"@@/global-layout":{"id":"@@/global-layout","path":"/","isLayout":true}} as const;
+  const routes = {"1":{"path":"/login","layout":false,"id":"1"},"2":{"path":"/","name":"dashboard","access":"canDashboard","parentId":"@@/global-layout","id":"2"},"3":{"path":"/dashboard","redirect":"/","hideInMenu":true,"parentId":"@@/global-layout","id":"3"},"4":{"path":"/predict","name":"predict","access":"canPredict","parentId":"@@/global-layout","id":"4"},"5":{"path":"/battle","name":"battle","access":"canBattle","parentId":"@@/global-layout","id":"5"},"6":{"path":"/community","name":"community","access":"canCommunity","parentId":"@@/global-layout","id":"6"},"7":{"path":"/comments","name":"comments","access":"canComments","parentId":"@@/global-layout","id":"7"},"8":{"path":"/nodes","name":"nodes","access":"canNodes","parentId":"@@/global-layout","id":"8"},"9":{"path":"/pets","name":"pets","access":"canPets","parentId":"@@/global-layout","id":"9"},"10":{"path":"/pet-features","name":"petFeatures","access":"canPetFeatures","parentId":"@@/global-layout","id":"10"},"11":{"path":"/risk","name":"risk","access":"canRisk","parentId":"@@/global-layout","id":"11"},"12":{"path":"/audit","name":"audit","access":"canAudit","parentId":"@@/global-layout","id":"12"},"13":{"path":"/rules","name":"rules","access":"canRules","parentId":"@@/global-layout","id":"13"},"14":{"path":"/403","layout":false,"id":"14"},"15":{"path":"*","layout":false,"id":"15"},"@@/global-layout":{"id":"@@/global-layout","path":"/","isLayout":true}} as const;
   return {
     routes,
     routeComponents: {
@@ -16,12 +16,14 @@ export async function getRoutes() {
 '6': React.lazy(() => import(/* webpackChunkName: "p__Community__index" */'@/pages/Community/index.tsx')),
 '7': React.lazy(() => import(/* webpackChunkName: "p__Comments__index" */'@/pages/Comments/index.tsx')),
 '8': React.lazy(() => import(/* webpackChunkName: "p__Nodes__index" */'@/pages/Nodes/index.tsx')),
-'9': React.lazy(() => import(/* webpackChunkName: "p__Risk__index" */'@/pages/Risk/index.tsx')),
-'10': React.lazy(() => import(/* webpackChunkName: "p__Audit__index" */'@/pages/Audit/index.tsx')),
-'11': React.lazy(() => import(/* webpackChunkName: "p__Rules__index" */'@/pages/Rules/index.tsx')),
-'12': React.lazy(() => import(/* webpackChunkName: "p__403__index" */'@/pages/403/index.tsx')),
-'13': React.lazy(() => import(/* webpackChunkName: "p__404__index" */'@/pages/404/index.tsx')),
-'@@/global-layout': React.lazy(() => import(/* webpackChunkName: "layouts__index" */'/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/src/layouts/index.tsx')),
+'9': React.lazy(() => import(/* webpackChunkName: "p__Pets__index" */'@/pages/Pets/index.tsx')),
+'10': React.lazy(() => import(/* webpackChunkName: "p__PetFeatures__index" */'@/pages/PetFeatures/index.tsx')),
+'11': React.lazy(() => import(/* webpackChunkName: "p__Risk__index" */'@/pages/Risk/index.tsx')),
+'12': React.lazy(() => import(/* webpackChunkName: "p__Audit__index" */'@/pages/Audit/index.tsx')),
+'13': React.lazy(() => import(/* webpackChunkName: "p__Rules__index" */'@/pages/Rules/index.tsx')),
+'14': React.lazy(() => import(/* webpackChunkName: "p__403__index" */'@/pages/403/index.tsx')),
+'15': React.lazy(() => import(/* webpackChunkName: "p__404__index" */'@/pages/404/index.tsx')),
+'@@/global-layout': React.lazy(() => import(/* webpackChunkName: "layouts__index" */'/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/layouts/index.tsx')),
 },
   };
 }

@@ -12,7 +12,7 @@ interface TurtleResponseEnvelope<T> {
 
 interface AxiosCustomOptions {
   cmd: string;
-  method?: 'get' | 'post' | 'delete' | 'put';
+  method?: 'get' | 'post' | 'delete' | 'put' | 'patch';
   headers?: Record<string, string | number | boolean>;
   params?: Record<string, unknown>;
   data?: Record<string, unknown> | FormData | URLSearchParams | unknown[] | string;
@@ -53,7 +53,7 @@ function resolveRequestType(
   data: AxiosCustomOptions['data'],
   headers: AxiosCustomOptions['headers'],
 ) {
-  if (method !== 'post' && method !== 'put') {
+  if (method !== 'post' && method !== 'put' && method !== 'patch') {
     return undefined;
   }
 
@@ -96,11 +96,24 @@ export async function axiosCustom<T>({
       requestType: resolveRequestType(method, data, headers),
     }) as TurtleResponseEnvelope<T>;
 
+    if (response === undefined || response === null || response === '') {
+      return {
+        code: 0,
+        cmd,
+        method,
+        msg: undefined,
+        message: undefined,
+        data: {} as T,
+        success: true,
+      };
+    }
+
     return {
       code: Number(response?.errorCode ?? 0),
       cmd,
       method,
       msg: response?.message,
+      message: response?.message,
       data: (response?.data ?? {}) as T,
       success: response?.success === true,
     };
@@ -114,7 +127,15 @@ export async function axiosCustom<T>({
 
     if (status === 401) {
       clearAuthStorage();
-      history.push(LOGIN_PATH);
+      const redirectPath =
+        history.location.pathname && history.location.pathname !== LOGIN_PATH
+          ? `${history.location.pathname}${history.location.search || ''}`
+          : '';
+      const loginTarget = redirectPath
+        ? `${LOGIN_PATH}?redirect=${encodeURIComponent(redirectPath)}`
+        : LOGIN_PATH;
+
+      history.replace(loginTarget);
     }
 
     return {
@@ -122,6 +143,7 @@ export async function axiosCustom<T>({
       cmd,
       method,
       msg: getRequestErrorMessage(error),
+      message: getRequestErrorMessage(error),
       data: {} as T,
       success: false,
     };

@@ -1,21 +1,23 @@
 import {
+  ApiOutlined,
   AppstoreOutlined,
   AuditOutlined,
   BookOutlined,
   CommentOutlined,
   DashboardOutlined,
+  GoldOutlined,
   NotificationOutlined,
   SafetyOutlined,
   TeamOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
-import { history, Outlet, useIntl, useLocation, useModel } from '@umijs/max';
+import { history, Outlet, useAccess, useIntl, useLocation, useModel } from '@umijs/max';
 import { Layout, Menu, Spin, Typography } from 'antd';
 import { useEffect, useMemo } from 'react';
 import { appRouteManifest } from '../../config/routeManifest';
 import HeaderActions from '@/components/HeaderActions';
 import type { AppInitialState } from '@/types/runtime';
-import { LOGIN_PATH, getAccessToken } from '@/utils/auth';
+import { LOGIN_PATH } from '@/utils/auth';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,6 +30,8 @@ const menuIconMap: Record<string, JSX.Element> = {
   community: <TeamOutlined />,
   comments: <CommentOutlined />,
   nodes: <AppstoreOutlined />,
+  pets: <GoldOutlined />,
+  petFeatures: <ApiOutlined />,
   risk: <SafetyOutlined />,
   audit: <AuditOutlined />,
   rules: <BookOutlined />,
@@ -36,22 +40,29 @@ const menuIconMap: Record<string, JSX.Element> = {
 export default function AppLayout() {
   const intl = useIntl();
   const location = useLocation();
+  const access = useAccess() as Record<string, unknown>;
   const { initialState, loading } = useModel('@@initialState');
   const appState = initialState as AppInitialState | undefined;
-  const hasAccessToken = Boolean(getAccessToken());
-
   const isPublicPage = publicPaths.has(location.pathname);
+  const redirectPath = `${location.pathname}${location.search}`;
 
   useEffect(() => {
-    if (!loading && !isPublicPage && !appState?.currentUser && !hasAccessToken) {
-      history.replace(`${LOGIN_PATH}?redirect=${encodeURIComponent(location.pathname)}`);
+    if (!loading && !isPublicPage && !appState?.currentUser) {
+      history.replace(`${LOGIN_PATH}?redirect=${encodeURIComponent(redirectPath)}`);
     }
-  }, [appState?.currentUser, hasAccessToken, isPublicPage, loading, location.pathname]);
+  }, [appState?.currentUser, isPublicPage, loading, redirectPath]);
 
   const menuItems = useMemo(
     () =>
       appRouteManifest
-        .filter((item) => item.name && item.path && !item.hideInMenu && !publicPaths.has(item.path))
+        .filter(
+          (item) =>
+            item.name &&
+            item.path &&
+            !item.hideInMenu &&
+            !publicPaths.has(item.path) &&
+            (!item.access || access[item.access] === true),
+        )
         .map((item) => ({
           key: item.path,
           icon: menuIconMap[item.name as keyof typeof menuIconMap],
@@ -60,7 +71,7 @@ export default function AppLayout() {
             defaultMessage: item.name,
           }),
         })),
-    [intl],
+    [access, intl],
   );
 
   const selectedKeys = useMemo(() => {

@@ -1,14 +1,15 @@
 # Turtle Admin
 
-基于 `Umi Max + Ant Design + ProComponents` 的企业后台骨架，已经把以下基础能力接好：
+基于 `Umi Max + Ant Design + ProComponents` 的运营后台，当前已经接好这些基础能力：
 
-- 路由与布局：Umi Max runtime layout + 路由菜单
-- 权限：`src/access.ts`
+- 自定义应用壳：`src/layouts/index.tsx`
+- 路由清单：`config/routeManifest.ts`
+- 权限映射：`src/access.ts`、`src/core/access/permissions.ts`
 - 登录态与本地存储：`src/utils/auth.ts`、`src/utils/storage.ts`
+- 请求封装：`src/api`、`src/hooks/useRequest.ts`、`src/hooks/useAdminRequest.ts`
+- 宠物运营接口：`src/hooks/usePetAdminRequest.ts`
 - 国际化：`src/locales`
-- 请求运行时：`src/app.tsx` 中的 `request` 配置
-- 服务层：`src/services`
-- 页面级请求 hook：`src/hooks/usePageQuery.ts`
+- 初始化用户态：`src/runtime/initialState.ts`
 
 ## 目录结构
 
@@ -16,43 +17,45 @@
 config/
   config.ts
   defaultSettings.ts
+  routeManifest.ts
   routes.ts
 
 src/
   app.tsx
   access.ts
-  global.less
-  data/
-  hooks/
-    usePageQuery.ts
+  api/
+  assets/
   components/
-    HeaderActions/
+  core/
+  data/
+  features/
+  global.less
+  hooks/
+  layouts/
   models/
     useAuthModel.ts
   locales/
     zh-CN.ts
     en-US.ts
-  services/
-    api.ts
-    auth.ts
-    dashboard.ts
-    admin.ts
-    typing.ts
-  utils/
-    auth.ts
-    storage.ts
-    format.ts
   pages/
     Login/
     Dashboard/
     Predict/
     Battle/
     Community/
+    Comments/
+    Nodes/
+    Pets/
+    PetFeatures/
     Risk/
     Audit/
     Rules/
     403/
     404/
+  query/
+  runtime/
+  types/
+  utils/
 ```
 
 ## 开发命令
@@ -68,14 +71,16 @@ npm run lint
 
 ### 接真实接口
 
-- 所有 HTTP 调用优先放到 `src/services/*.ts`
-- 公共 headers、token 注入、401 跳转统一放在 `src/app.tsx`
+- 所有 HTTP 调用优先收敛到 `src/api/*.ts` 和 `src/hooks/*.ts`
+- 公共 headers、401 跳转、响应规范统一放在 `src/api/axios.ts`
+- 宠物相关接口统一放在 `src/hooks/usePetAdminRequest.ts`
 - 页面组件不要直接写裸 `fetch`
 
 ### 做权限控制
 
-- 路由权限放在 `config/routes.ts`
-- 按钮权限统一从 `useAccess()` 读取
+- 路由权限放在 `config/routeManifest.ts`
+- 页面和菜单权限统一从 `src/access.ts` 生成的 access map 读取
+- `Pets / PetFeatures` 已接入路由权限和菜单过滤
 - 权限源统一从 `src/access.ts` 生成
 
 ### 做国际化

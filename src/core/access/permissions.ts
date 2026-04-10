@@ -9,6 +9,10 @@ export const rolePermissions: Record<UserRole, PermissionKey[]> = {
     'battle.manage',
     'community.view',
     'community.manage',
+    'pet.view',
+    'pet.manage',
+    'pet.feature.view',
+    'pet.feature.manage',
     'risk.view',
     'risk.manage',
     'audit.view',
@@ -22,6 +26,10 @@ export const rolePermissions: Record<UserRole, PermissionKey[]> = {
     'battle.manage',
     'community.view',
     'community.manage',
+    'pet.view',
+    'pet.manage',
+    'pet.feature.view',
+    'pet.feature.manage',
     'rules.view',
   ],
   risk: ['dashboard.view', 'risk.view', 'risk.manage', 'audit.view', 'rules.view'],
@@ -33,6 +41,8 @@ export function hasPermission(user: CurrentUser | undefined, permission: Permiss
 }
 
 export function createAccessMap(currentUser: CurrentUser | undefined) {
+  const canManageCommunity = hasPermission(currentUser, 'community.manage');
+
   return {
     canDashboard: hasPermission(currentUser, 'dashboard.view'),
     canPredict: hasPermission(currentUser, 'predict.view'),
@@ -40,7 +50,13 @@ export function createAccessMap(currentUser: CurrentUser | undefined) {
     canBattle: hasPermission(currentUser, 'battle.view'),
     canManageBattle: hasPermission(currentUser, 'battle.manage'),
     canCommunity: hasPermission(currentUser, 'community.view'),
-    canManageCommunity: hasPermission(currentUser, 'community.manage'),
+    canManageCommunity,
+    canComments: canManageCommunity,
+    canNodes: canManageCommunity,
+    canPets: hasPermission(currentUser, 'pet.view'),
+    canManagePets: hasPermission(currentUser, 'pet.manage'),
+    canPetFeatures: hasPermission(currentUser, 'pet.feature.view'),
+    canManagePetFeatures: hasPermission(currentUser, 'pet.feature.manage'),
     canRisk: hasPermission(currentUser, 'risk.view'),
     canManageRisk: hasPermission(currentUser, 'risk.manage'),
     canAudit: hasPermission(currentUser, 'audit.view'),

@@ -5,6 +5,7 @@ export interface TurtleRequestResult<T> {
   cmd: string;
   method: string;
   msg?: unknown;
+  message?: unknown;
   data: T;
   success: boolean;
 }
@@ -16,7 +17,7 @@ export function getAuthorizationHeaders() {
 
 export function assertSuccess<T>(response: TurtleRequestResult<T>) {
   if (response.success !== true) {
-    throw new Error(String(response.msg ?? '请求失败，请稍后重试'));
+    throw new Error(String(response.message ?? response.msg ?? '请求失败，请稍后重试'));
   }
 
   return response.data;

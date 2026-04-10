@@ -129,7 +129,13 @@ export async function requestUserCurrentQuery(): Promise<CurrentUser | undefined
 
     return currentUser;
   } catch {
-    return getCurrentUserFromStorage();
+    const cachedUser = getCurrentUserFromStorage();
+
+    if (!cachedUser) {
+      clearAuthStorage();
+    }
+
+    return cachedUser;
   }
 }
 

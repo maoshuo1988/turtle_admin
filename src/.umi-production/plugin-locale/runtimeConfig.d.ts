@@ -3,7 +3,7 @@
 import {
   IntlCache,
   createIntl,
-} from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/react-intl';
+} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/react-intl';
 type OptionalIntlConfig = Omit<Parameters<typeof createIntl>[0], 'locale' | 'defaultLocale'>;
 export interface IRuntimeConfig {
     locale?: {

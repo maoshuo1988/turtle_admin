@@ -4,8 +4,8 @@
 import React from 'react';
 import { ConfigProvider } from 'antd';
 
-import moment from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/moment';
-import '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/moment/locale/zh-cn';
+import moment from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/moment';
+import '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/moment/locale/zh-cn';
 import { RawIntlProvider, getLocale, getDirection , setIntl, getIntl, localeInfo, event, LANG_CHANGE_EVENT } from './localeExports';
 
 

@@ -3,14 +3,14 @@
 // DO NOT CHANGE IT MANUALLY!
 import React, { useEffect, useState } from 'react';
 import { ApplyPluginsType } from 'umi';
-import { renderClient, RenderClientOpts } from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/renderer-react';
+import { renderClient, RenderClientOpts } from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/renderer-react';
 import { createHistory } from './core/history';
 import { createPluginManager } from './core/plugin';
 import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
 
-import '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/src/global.less';
+import '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/global.less';
 import 'antd/dist/reset.css';
 const publicPath = '/';
 const runtimePublicPath = false;

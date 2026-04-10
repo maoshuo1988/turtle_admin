@@ -29,6 +29,10 @@ export const API_TOPIC_STICKY = '/api/topic/sticky';
 export const API_ADMIN_COMMENT_LIST = '/api/admin/comment/list';
 export const API_ADMIN_COMMENT_DELETE = '/api/admin/comment/delete';
 
+export const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';
+export const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';
+export const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';
+
 export const API_ADMIN_TOPIC_NODE_LIST = '/api/admin/topic-node/list';
 export const API_ADMIN_TOPIC_NODE_BY = '/api/admin/topic-node/by';
 export const API_ADMIN_TOPIC_NODE_CREATE = '/api/admin/topic-node/create';
@@ -65,6 +69,22 @@ export function getTopicStickyPath(topicId: number | string) {
 
 export function getAdminCommentDeletePath(id: number | string) {
   return `${API_ADMIN_COMMENT_DELETE}/${id}`;
+}
+
+export function getAdminPetDefinitionPath(petId: string) {
+  return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petId)}`;
+}
+
+export function getAdminPetAbilitiesPath(petId: string) {
+  return `${getAdminPetDefinitionPath(petId)}/abilities`;
+}
+
+export function getAdminPetAbilityPath(petId: string, featureKey: string) {
+  return `${getAdminPetAbilitiesPath(petId)}/${encodeURIComponent(featureKey)}`;
+}
+
+export function getAdminPetFeaturePath(featureKey: string) {
+  return `${API_ADMIN_PET_FEATURES}/${encodeURIComponent(featureKey)}`;
 }
 
 export function getAdminTopicNodeByPath(id: number | string) {

@@ -1,0 +1,99 @@
+import type { PageParams } from '@/types/http';
+
+export type PetRarity = 'C' | 'B' | 'A' | 'S' | 'SS' | 'SSS';
+export type FeatureScope = 'PET' | 'GLOBAL';
+export type FeatureEffectiveEvent =
+  | 'DAILY_SIGNIN'
+  | 'EGG_PURCHASE'
+  | 'EGG_RESOLVE'
+  | 'BET_SETTLE'
+  | 'CHAT_STAMINA'
+  | 'MINIGAME';
+
+export interface LocalizedText {
+  [locale: string]: string;
+}
+
+export interface PetDisplay {
+  icon?: string;
+  cover?: string;
+  thumbnail?: string;
+}
+
+export interface PetDiscount {
+  type: 'rate' | 'fixed';
+  value: number;
+}
+
+export interface PetPricing {
+  egg_price?: number;
+  egg_discount?: PetDiscount | null;
+}
+
+export interface PetMetadata {
+  created_at?: string;
+  created_by?: string;
+  updated_at?: string;
+  updated_by?: string;
+}
+
+export interface PetAbilityConfig {
+  enabled?: boolean;
+  [key: string]: unknown;
+}
+
+export type PetAbilities = Record<string, PetAbilityConfig>;
+
+export interface PetDefinition {
+  pet_id: string;
+  name: LocalizedText;
+  rarity: PetRarity;
+  enabled: boolean;
+  obtainable_by_egg: boolean;
+  display?: PetDisplay;
+  description?: LocalizedText;
+  abilities?: PetAbilities;
+  pricing?: PetPricing;
+  metadata?: PetMetadata;
+  raw: Record<string, unknown>;
+}
+
+export interface FeatureCatalogItem {
+  feature_key: string;
+  name: LocalizedText;
+  scope: FeatureScope;
+  effective_event: FeatureEffectiveEvent;
+  params_schema: Record<string, unknown>;
+  enabled: boolean;
+  metadata?: PetMetadata;
+  raw: Record<string, unknown>;
+}
+
+export interface PetDefinitionListParams extends PageParams {
+  enabled?: boolean;
+  rarity?: PetRarity;
+}
+
+export interface FeatureCatalogListParams extends PageParams {
+  enabled?: boolean;
+  scope?: FeatureScope;
+  q?: string;
+}
+
+export interface PetKillSwitchPayload {
+  action: string;
+  scope: string;
+  reason?: string;
+}
+
+export interface ReplacePetAbilitiesPayload {
+  petId: string;
+  abilities: PetAbilities;
+}
+
+export interface PatchPetAbilityPayload {
+  petId: string;
+  featureKey: string;
+  enabled: boolean;
+  params?: Record<string, unknown>;
+}

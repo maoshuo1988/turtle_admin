@@ -6,8 +6,8 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
   type AxiosError,
-} from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/axios';
-import useUmiRequest, { UseRequestProvider } from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request';
+} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/axios';
+import useUmiRequest, { UseRequestProvider } from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request';
 import { ApplyPluginsType } from 'umi';
 import { getPluginManager } from '../core/plugin';
 
@@ -26,7 +26,7 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from '/Users/macbookpro/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request/es/types';
+} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request/es/types';
 
 type ResultWithData< T = any > = { data?: T; [key: string]: any };
 
