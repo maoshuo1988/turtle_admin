@@ -7,6 +7,10 @@ function isRecord(value: unknown): value is AnyRecord {
 }
 
 function toString(value: unknown, fallback = '') {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return String(value);
+  }
+
   return typeof value === 'string' ? value : fallback;
 }
 
@@ -74,6 +78,11 @@ function pickBoolean(source: AnyRecord, ...keys: string[]) {
 }
 
 function sanitizeLocalizedText(value: unknown) {
+  if (typeof value === 'string') {
+    const normalized = value.trim();
+    return normalized ? ({ 'zh-CN': normalized } satisfies LocalizedText) : {};
+  }
+
   if (!isRecord(value)) {
     return {};
   }
@@ -91,6 +100,14 @@ function sanitizeLocalizedText(value: unknown) {
 }
 
 function sanitizeAbilities(value: unknown) {
+  if (typeof value === 'string' && value.trim()) {
+    try {
+      return sanitizeAbilities(JSON.parse(value));
+    } catch {
+      return undefined;
+    }
+  }
+
   if (!isRecord(value)) {
     return undefined;
   }
@@ -137,6 +154,31 @@ function sanitizePricing(value: unknown) {
   return Object.keys(pricing).length ? pricing : undefined;
 }
 
+function normalizeTimestamp(value: unknown) {
+  const numeric = toNumber(value);
+  if (!numeric) {
+    return undefined;
+  }
+
+  return numeric > 1_000_000_000_000 ? numeric : numeric * 1000;
+}
+
+function formatTimestamp(value: unknown) {
+  const timestamp = normalizeTimestamp(value);
+  if (!timestamp) {
+    return undefined;
+  }
+
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hour = String(date.getHours()).padStart(2, '0');
+  const minute = String(date.getMinutes()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hour}:${minute}`;
+}
+
 function sanitizeMetadata(source: AnyRecord) {
   const metadata = pickRecord(source, 'metadata') ?? source;
   const result: PetMetadata = {
@@ -146,10 +188,28 @@ function sanitizeMetadata(source: AnyRecord) {
     updated_by: pickString(metadata, 'updated_by', 'updatedBy') || undefined,
   };
 
+  if (!result.created_at) {
+    result.created_at = formatTimestamp(source.createTime ?? metadata.createTime);
+  }
+
+  if (!result.updated_at) {
+    result.updated_at = formatTimestamp(source.updateTime ?? metadata.updateTime);
+  }
+
   return Object.values(result).some(Boolean) ? result : undefined;
 }
 
 function normalizeRarity(value: unknown): PetRarity {
+  const numeric = toNumber(value);
+  if (numeric !== undefined) {
+    if (numeric <= 0) return 'C';
+    if (numeric === 1) return 'B';
+    if (numeric === 2) return 'A';
+    if (numeric === 3) return 'S';
+    if (numeric === 4) return 'SS';
+    return 'SSS';
+  }
+
   const normalized = toString(value).toUpperCase();
   if (
     normalized === 'C' ||
@@ -196,12 +256,15 @@ export function getLocalizedLabel(text: LocalizedText | undefined) {
 export function mapPetDefinition(item: unknown): PetDefinition {
   const record = isRecord(item) ? item : {};
   const display = pickRecord(record, 'display');
+  const icon = pickString(record, 'icon');
+  const petKey = pickString(record, 'pet_id', 'petId', 'petKey');
+  const id = toString(record.id).trim();
 
   return {
-    pet_id: pickString(record, 'pet_id', 'petId', 'id') || 'unknown',
+    pet_id: petKey || id || 'unknown',
     name: sanitizeLocalizedText(record.name),
     rarity: normalizeRarity(record.rarity),
-    enabled: pickBoolean(record, 'enabled'),
+    enabled: 'enabled' in record ? pickBoolean(record, 'enabled') : pickBoolean(record, 'status'),
     obtainable_by_egg: pickBoolean(record, 'obtainable_by_egg', 'obtainableByEgg'),
     display: display
       ? {
@@ -209,7 +272,9 @@ export function mapPetDefinition(item: unknown): PetDefinition {
           cover: pickString(display, 'cover') || undefined,
           thumbnail: pickString(display, 'thumbnail') || undefined,
         }
-      : undefined,
+      : icon
+        ? { icon }
+        : undefined,
     description: sanitizeLocalizedText(record.description),
     abilities: sanitizeAbilities(record.abilities),
     pricing: sanitizePricing(record.pricing),

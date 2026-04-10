@@ -81,6 +81,11 @@ interface AbilityFormValues {
   params_json?: string;
 }
 
+interface AbilityRow {
+  featureKey: string;
+  params: Record<string, unknown>;
+}
+
 function formatJsonEditor(value: unknown) {
   if (!value || (typeof value === 'object' && !Object.keys(value as Record<string, unknown>).length)) {
     return '';
@@ -137,6 +142,35 @@ function parseJsonField(text: string | undefined, fieldLabel: string) {
   }
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeAbilities(
+  value: Record<string, unknown> | undefined,
+  allowedFeatureKeys?: Set<string>,
+) {
+  if (!value) {
+    return undefined;
+  }
+
+  const next: PetAbilities = {};
+
+  Object.entries(value).forEach(([featureKey, params]) => {
+    if (!isPlainObject(params)) {
+      throw new Error(`abilities.${featureKey} 必须是 JSON 对象`);
+    }
+
+    if (allowedFeatureKeys && !allowedFeatureKeys.has(featureKey)) {
+      throw new Error(`abilities.${featureKey} 不是已启用的特性模板`);
+    }
+
+    next[featureKey] = params;
+  });
+
+  return Object.keys(next).length ? next : undefined;
+}
+
 function toBooleanFilter(value: 'all' | 'true' | 'false') {
   if (value === 'true') {
     return true;
@@ -149,7 +183,12 @@ function toBooleanFilter(value: 'all' | 'true' | 'false') {
   return undefined;
 }
 
-function buildPetPayload(values: PetFormValues) {
+function buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>) {
+  const abilities = normalizeAbilities(
+    parseJsonField(values.abilities_json, 'abilities'),
+    allowedFeatureKeys,
+  );
+
   const base = compactObject({
     pet_id: values.pet_id,
     name: values.name,
@@ -159,7 +198,7 @@ function buildPetPayload(values: PetFormValues) {
     display: values.display,
     description: values.description,
     pricing: values.pricing,
-    abilities: parseJsonField(values.abilities_json, 'abilities'),
+    abilities,
   }) as Record<string, unknown> | undefined;
 
   return {
@@ -238,7 +277,15 @@ export default function PetsPage() {
   }, []);
 
   const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);
-  const featureOptions = petFeaturesRequest.data?.data || [];
+  const featureOptions = useMemo(
+    () => petFeaturesRequest.data?.data || [],
+    [petFeaturesRequest.data?.data],
+  );
+  const enabledFeatureKeys = useMemo(
+    () => new Set(featureOptions.filter((item) => item.enabled).map((item) => item.feature_key)),
+    [featureOptions],
+  );
+  const abilityFeatureKeys = featureOptions.length ? enabledFeatureKeys : undefined;
 
   const petStats = useMemo(() => {
     return {
@@ -248,22 +295,15 @@ export default function PetsPage() {
     };
   }, [petRecords]);
 
-  const abilityRows = useMemo(() => {
+  const abilityRows = useMemo<AbilityRow[]>(() => {
     if (!activePet?.abilities) {
       return [];
     }
 
-    return Object.entries(activePet.abilities).map(([featureKey, config]) => {
-      const params = { ...config };
-      const enabled = typeof params.enabled === 'boolean' ? Boolean(params.enabled) : true;
-      delete params.enabled;
-
-      return {
-        featureKey,
-        enabled,
-        params,
-      };
-    });
+    return Object.entries(activePet.abilities).map(([featureKey, params]) => ({
+      featureKey,
+      params,
+    }));
   }, [activePet?.abilities]);
 
   const openCreateModal = () => {
@@ -308,7 +348,7 @@ export default function PetsPage() {
   const handleSavePet = async () => {
     try {
       const values = await petForm.validateFields();
-      const payload = buildPetPayload(values);
+      const payload = buildPetPayload(values, abilityFeatureKeys);
       await savePetRequest.run(payload);
       message.success(editingPetId ? '龟种已更新' : '龟种已创建');
       closeEditor();
@@ -380,7 +420,10 @@ export default function PetsPage() {
 
     try {
       const values = await replaceAbilitiesForm.validateFields();
-      const abilities = parseJsonField(values.abilities_json, 'abilities') as PetAbilities | undefined;
+      const abilities = normalizeAbilities(
+        parseJsonField(values.abilities_json, 'abilities'),
+        abilityFeatureKeys,
+      );
       const updated = await replaceAbilitiesRequest.run({
         petId: activePet.pet_id,
         abilities: (abilities ?? {}) as PetAbilities,
@@ -398,7 +441,7 @@ export default function PetsPage() {
     }
   };
 
-  const openAbilityEditor = (row?: { featureKey: string; enabled: boolean; params: Record<string, unknown> }) => {
+  const openAbilityEditor = (row?: AbilityRow) => {
     if (!activePet) {
       return;
     }
@@ -407,7 +450,7 @@ export default function PetsPage() {
     abilityForm.resetFields();
     abilityForm.setFieldsValue({
       feature_key: row?.featureKey ?? undefined,
-      enabled: row?.enabled ?? true,
+      enabled: true,
       params_json: formatJsonEditor(row?.params),
     });
     setAbilityEditorOpen(true);
@@ -421,11 +464,15 @@ export default function PetsPage() {
     try {
       const values = await abilityForm.validateFields();
       const params = parseJsonField(values.params_json, '能力参数');
+      if (values.enabled && !params) {
+        throw new Error('启用时必须提供能力参数');
+      }
+
       const updated = await patchAbilityRequest.run({
         petId: activePet.pet_id,
         featureKey: values.feature_key,
         enabled: values.enabled,
-        params: values.enabled ? params : undefined,
+        params,
       });
       setActivePet(updated);
       replaceAbilitiesForm.setFieldsValue({
@@ -798,7 +845,7 @@ export default function PetsPage() {
           <Form.Item name="abilities_json" label="abilities JSON">
             <Input.TextArea
               autoSize={{ minRows: 8, maxRows: 16 }}
-              placeholder='{"spark_multiplier":{"enabled":true,"base":1.3}}'
+              placeholder='{"spark_multiplier":{"base":1.3}}'
             />
           </Form.Item>
         </Form>
@@ -818,7 +865,7 @@ export default function PetsPage() {
               type="info"
               showIcon
               message={`当前龟种：${getLocalizedLabel(activePet.name)} (${activePet.pet_id})`}
-              description="这里同时接了整体替换 abilities、单项 PATCH/DELETE，以及特性模板白名单选择。"
+              description="abilities 按 featureKey -> params 存储，这里支持整体替换、单项编辑和删除。"
             />
 
             <ProCard
@@ -839,14 +886,6 @@ export default function PetsPage() {
                 dataSource={abilityRows}
                 columns={[
                   { title: 'featureKey', dataIndex: 'featureKey', width: 180 },
-                  {
-                    title: '状态',
-                    dataIndex: 'enabled',
-                    width: 100,
-                    render: (value: boolean) => (
-                      <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '禁用'}</Tag>
-                    ),
-                  },
                   {
                     title: '参数',
                     dataIndex: 'params',

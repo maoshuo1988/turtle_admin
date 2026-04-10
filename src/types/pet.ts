@@ -37,12 +37,9 @@ export interface PetMetadata {
   updated_by?: string;
 }
 
-export interface PetAbilityConfig {
-  enabled?: boolean;
-  [key: string]: unknown;
-}
+export type PetAbilityParams = Record<string, unknown>;
 
-export type PetAbilities = Record<string, PetAbilityConfig>;
+export type PetAbilities = Record<string, PetAbilityParams>;
 
 export interface PetDefinition {
   pet_id: string;
