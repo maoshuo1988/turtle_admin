@@ -39,6 +39,7 @@ import {
   useRequestReplacePetAbilities,
   useRequestSavePetDefinition,
 } from '@/hooks/usePetAdminRequest';
+import { PET_RARITY_OPTIONS } from '@/types/pet';
 import type {
   FeatureCatalogItem,
   LocalizedText,
@@ -51,7 +52,7 @@ import type {
 } from '@/types/pet';
 import { getLocalizedLabel } from '@/utils/petAdminAdapters';
 
-const rarityOptions: PetRarity[] = ['C', 'B', 'A', 'S', 'SS', 'SSS'];
+const rarityOptions = PET_RARITY_OPTIONS;
 const killSwitchActions = [
   { label: '关闭开蛋池', value: 'disable_pool' },
   { label: '禁用单项能力', value: 'disable_feature' },
@@ -59,19 +60,13 @@ const killSwitchActions = [
 
 interface PetFormValues {
   pet_id: string;
-  name?: Record<string, string>;
+  name?: LocalizedText;
   rarity: PetRarity;
   enabled: boolean;
   obtainable_by_egg: boolean;
-  display?: Record<string, string>;
-  description?: Record<string, string>;
-  pricing?: {
-    egg_price?: number;
-    egg_discount?: {
-      type?: 'rate' | 'fixed';
-      value?: number;
-    };
-  };
+  display?: PetDisplay;
+  description?: LocalizedText;
+  pricing?: PetPricing;
   abilities_json?: string;
 }
 
@@ -216,7 +211,7 @@ function buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>
 
 export default function PetsPage() {
   const { message, modal } = App.useApp();
-  const access = useAccess() as Record<string, boolean>;
+  const access = useAccess() as { canManagePets?: boolean };
   const canManagePets = access.canManagePets === true;
   const [petForm] = Form.useForm<PetFormValues>();
   const [killSwitchForm] = Form.useForm<PetKillSwitchPayload>();

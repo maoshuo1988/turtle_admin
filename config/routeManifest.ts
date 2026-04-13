@@ -69,6 +69,12 @@ export const appRouteManifest: AppRouteItem[] = [
     access: 'canPetFeatures',
   },
   {
+    path: '/pet-gacha',
+    name: 'petGacha',
+    component: '@/pages/PetGacha',
+    access: 'canPets',
+  },
+  {
     path: '/risk',
     name: 'risk',
     component: '@/pages/Risk',
@@ -108,6 +114,7 @@ export const pageTitleMap: Record<string, string> = {
   '/nodes': '节点管理',
   '/pets': '龟种管理',
   '/pet-features': '特性模板',
+  '/pet-gacha': '开蛋池配置',
   '/risk': '风控中心',
   '/audit': '审计日志',
   '/rules': '处罚规则',

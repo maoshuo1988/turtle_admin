@@ -1,6 +1,7 @@
 import type { PageParams } from '@/types/http';
 
 export type PetRarity = 'C' | 'B' | 'A' | 'S' | 'SS' | 'SSS';
+export const PET_RARITY_OPTIONS: PetRarity[] = ['C', 'B', 'A', 'S', 'SS', 'SSS'];
 export type FeatureScope = 'PET' | 'GLOBAL';
 export type FeatureEffectiveEvent =
   | 'DAILY_SIGNIN'
@@ -75,6 +76,14 @@ export interface FeatureCatalogListParams extends PageParams {
   enabled?: boolean;
   scope?: FeatureScope;
   q?: string;
+}
+
+export type GachaPoolRarityWeights = Record<PetRarity, number>;
+
+export interface GachaPoolConfig {
+  enabled: boolean;
+  base_cost: number;
+  rarity_weights: GachaPoolRarityWeights;
 }
 
 export interface PetKillSwitchPayload {

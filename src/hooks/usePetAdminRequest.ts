@@ -3,6 +3,8 @@ import { useState } from 'react';
 import {
   API_ADMIN_PET_DEFS,
   API_ADMIN_PET_FEATURES,
+  API_ADMIN_PET_GACHA_CONFIG,
+  API_ADMIN_PET_GACHA_CONFIG_RESET,
   API_ADMIN_PET_KILL_SWITCH,
   getAdminPetAbilitiesPath,
   getAdminPetAbilityPath,
@@ -13,6 +15,7 @@ import { axiosCustom } from '@/api/axios';
 import type {
   FeatureCatalogItem,
   FeatureCatalogListParams,
+  GachaPoolConfig,
   PatchPetAbilityPayload,
   PetDefinition,
   PetDefinitionListParams,
@@ -20,7 +23,11 @@ import type {
   ReplacePetAbilitiesPayload,
 } from '@/types/pet';
 import { normalizePageResult } from '@/utils/adminAdapters';
-import { mapFeatureCatalogItem, mapPetDefinition } from '@/utils/petAdminAdapters';
+import {
+  mapFeatureCatalogItem,
+  mapGachaPoolConfig,
+  mapPetDefinition,
+} from '@/utils/petAdminAdapters';
 import { assertSuccess, getAuthorizationHeaders } from '@/utils/requestUtils';
 
 interface ManualRequestResult<TResult, TParams extends unknown[]> {
@@ -282,6 +289,43 @@ async function requestPetKillSwitch(payload: PetKillSwitchPayload) {
   return assertSuccess(response);
 }
 
+async function requestPetGachaConfig() {
+  const response = await axiosCustom<unknown>({
+    method: 'get',
+    cmd: API_ADMIN_PET_GACHA_CONFIG,
+    headers: getAuthorizationHeaders(),
+  });
+
+  return mapGachaPoolConfig(assertSuccess(response));
+}
+
+async function requestSavePetGachaConfig(payload: GachaPoolConfig) {
+  const response = await axiosCustom<unknown>({
+    method: 'post',
+    cmd: API_ADMIN_PET_GACHA_CONFIG,
+    data: payload,
+    headers: {
+      ...getAuthorizationHeaders(),
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return mapGachaPoolConfig(assertSuccess(response));
+}
+
+async function requestResetPetGachaConfig() {
+  const response = await axiosCustom<unknown>({
+    method: 'post',
+    cmd: API_ADMIN_PET_GACHA_CONFIG_RESET,
+    headers: {
+      ...getAuthorizationHeaders(),
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return mapGachaPoolConfig(assertSuccess(response));
+}
+
 export function useRequestPetDefinitions() {
   return useLazyQueryRequest(
     (params: PetDefinitionListParams) => ['requestPetDefinitions', params],
@@ -340,4 +384,19 @@ export function useRequestDeletePetAbility() {
 
 export function useRequestPetKillSwitch() {
   return useMutationRequest(['requestPetKillSwitch'], requestPetKillSwitch);
+}
+
+export function useRequestPetGachaConfig() {
+  return useLazyQueryRequest(
+    () => ['requestPetGachaConfig'],
+    () => requestPetGachaConfig(),
+  );
+}
+
+export function useRequestSavePetGachaConfig() {
+  return useMutationRequest(['requestSavePetGachaConfig'], requestSavePetGachaConfig);
+}
+
+export function useRequestResetPetGachaConfig() {
+  return useMutationRequest(['requestResetPetGachaConfig'], requestResetPetGachaConfig);
 }

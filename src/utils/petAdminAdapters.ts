@@ -1,4 +1,17 @@
-import type { FeatureCatalogItem, FeatureEffectiveEvent, FeatureScope, LocalizedText, PetAbilities, PetDefinition, PetMetadata, PetPricing, PetRarity } from '@/types/pet';
+import { PET_RARITY_OPTIONS } from '@/types/pet';
+import type {
+  FeatureCatalogItem,
+  FeatureEffectiveEvent,
+  FeatureScope,
+  GachaPoolConfig,
+  GachaPoolRarityWeights,
+  LocalizedText,
+  PetAbilities,
+  PetDefinition,
+  PetMetadata,
+  PetPricing,
+  PetRarity,
+} from '@/types/pet';
 
 type AnyRecord = Record<string, unknown>;
 
@@ -71,6 +84,32 @@ function pickBoolean(source: AnyRecord, ...keys: string[]) {
   for (const key of keys) {
     if (key in source) {
       return toBoolean(source[key]);
+    }
+  }
+
+  return false;
+}
+
+function normalizePetEnabled(source: AnyRecord) {
+  if ('enabled' in source) {
+    return pickBoolean(source, 'enabled');
+  }
+
+  const status = source.status;
+
+  if (typeof status === 'number') {
+    return status === 0;
+  }
+
+  if (typeof status === 'string') {
+    const normalized = status.trim().toLowerCase();
+
+    if (normalized === '0' || normalized === 'enabled' || normalized === 'active' || normalized === 'normal') {
+      return true;
+    }
+
+    if (normalized === '1' || normalized === 'disabled' || normalized === 'inactive') {
+      return false;
     }
   }
 
@@ -202,11 +241,11 @@ function sanitizeMetadata(source: AnyRecord) {
 function normalizeRarity(value: unknown): PetRarity {
   const numeric = toNumber(value);
   if (numeric !== undefined) {
-    if (numeric <= 0) return 'C';
-    if (numeric === 1) return 'B';
-    if (numeric === 2) return 'A';
-    if (numeric === 3) return 'S';
-    if (numeric === 4) return 'SS';
+    if (numeric <= 1) return 'C';
+    if (numeric === 2) return 'B';
+    if (numeric === 3) return 'A';
+    if (numeric === 4) return 'S';
+    if (numeric === 5) return 'SS';
     return 'SSS';
   }
 
@@ -245,6 +284,15 @@ function normalizeEffectiveEvent(value: unknown): FeatureEffectiveEvent {
   return 'DAILY_SIGNIN';
 }
 
+function sanitizeRarityWeights(value: unknown): GachaPoolRarityWeights {
+  const record = isRecord(value) ? value : {};
+
+  return PET_RARITY_OPTIONS.reduce((result, rarity) => {
+    result[rarity] = toNumber(record[rarity]) ?? 0;
+    return result;
+  }, {} as GachaPoolRarityWeights);
+}
+
 export function getLocalizedLabel(text: LocalizedText | undefined) {
   if (!text) {
     return '-';
@@ -264,7 +312,7 @@ export function mapPetDefinition(item: unknown): PetDefinition {
     pet_id: petKey || id || 'unknown',
     name: sanitizeLocalizedText(record.name),
     rarity: normalizeRarity(record.rarity),
-    enabled: 'enabled' in record ? pickBoolean(record, 'enabled') : pickBoolean(record, 'status'),
+    enabled: normalizePetEnabled(record),
     obtainable_by_egg: pickBoolean(record, 'obtainable_by_egg', 'obtainableByEgg'),
     display: display
       ? {
@@ -296,5 +344,16 @@ export function mapFeatureCatalogItem(item: unknown): FeatureCatalogItem {
     enabled: pickBoolean(record, 'enabled'),
     metadata: sanitizeMetadata(record),
     raw: record,
+  };
+}
+
+export function mapGachaPoolConfig(item: unknown): GachaPoolConfig {
+  const record = isRecord(item) ? item : {};
+  const rarityWeights = pickRecord(record, 'rarity_weights', 'rarityWeights');
+
+  return {
+    enabled: pickBoolean(record, 'enabled'),
+    base_cost: toNumber(record.base_cost ?? record.baseCost) ?? 0,
+    rarity_weights: sanitizeRarityWeights(rarityWeights),
   };
 }

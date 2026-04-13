@@ -122,7 +122,7 @@ function toBooleanFilter(value: 'all' | 'true' | 'false') {
 
 export default function PetFeaturesPage() {
   const { message, modal } = App.useApp();
-  const access = useAccess() as Record<string, boolean>;
+  const access = useAccess() as { canManagePetFeatures?: boolean };
   const canManagePetFeatures = access.canManagePetFeatures === true;
   const [featureForm] = Form.useForm<FeatureFormValues>();
   const [keyword, setKeyword] = useState('');

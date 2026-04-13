@@ -10,12 +10,16 @@ interface TurtleResponseEnvelope<T> {
   success?: boolean;
 }
 
+type AxiosRequestData = object | FormData | URLSearchParams | unknown[] | string;
+
+type TurtleResponseResult<T> = TurtleResponseEnvelope<T> | '' | null | undefined;
+
 interface AxiosCustomOptions {
   cmd: string;
   method?: 'get' | 'post' | 'delete' | 'put' | 'patch';
   headers?: Record<string, string | number | boolean>;
   params?: Record<string, unknown>;
-  data?: Record<string, unknown> | FormData | URLSearchParams | unknown[] | string;
+  data?: AxiosRequestData;
 }
 
 function getRequestErrorMessage(error: unknown) {
@@ -94,7 +98,7 @@ export async function axiosCustom<T>({
       withCredentials: true,
       skipErrorHandler: true,
       requestType: resolveRequestType(method, data, headers),
-    }) as TurtleResponseEnvelope<T>;
+    }) as TurtleResponseResult<T>;
 
     if (response === undefined || response === null || response === '') {
       return {

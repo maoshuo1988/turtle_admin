@@ -32,6 +32,8 @@ export const API_ADMIN_COMMENT_DELETE = '/api/admin/comment/delete';
 export const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';
 export const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';
 export const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';
+export const API_ADMIN_PET_GACHA_CONFIG = '/api/admin/pet/gacha/config';
+export const API_ADMIN_PET_GACHA_CONFIG_RESET = '/api/admin/pet/gacha/config/reset';
 
 export const API_ADMIN_TOPIC_NODE_LIST = '/api/admin/topic-node/list';
 export const API_ADMIN_TOPIC_NODE_BY = '/api/admin/topic-node/by';
