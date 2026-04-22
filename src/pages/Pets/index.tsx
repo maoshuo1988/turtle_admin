@@ -31,12 +31,11 @@ import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestDeletePetAbility,
   useRequestDeletePetDefinition,
-  useRequestPatchPetAbility,
-  useRequestPetDefinitionBy,
   useRequestPetDefinitions,
   useRequestPetFeatures,
   useRequestPetKillSwitch,
   useRequestReplacePetAbilities,
+  useRequestSavePetAbility,
   useRequestSavePetDefinition,
 } from '@/hooks/usePetAdminRequest';
 import { PET_RARITY_OPTIONS } from '@/types/pet';
@@ -72,8 +71,7 @@ interface PetFormValues {
 
 interface AbilityFormValues {
   feature_key: string;
-  enabled: boolean;
-  params_json?: string;
+  params_json: string;
 }
 
 interface AbilityRow {
@@ -206,7 +204,7 @@ function buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>
     description: base?.description as LocalizedText | undefined,
     pricing: base?.pricing as PetPricing | undefined,
     abilities: base?.abilities as PetAbilities | undefined,
-  } satisfies Omit<PetDefinition, 'raw'>;
+  } satisfies Omit<PetDefinition, 'raw' | 'id'>;
 }
 
 export default function PetsPage() {
@@ -227,13 +225,11 @@ export default function PetsPage() {
   const [editingAbilityKey, setEditingAbilityKey] = useState<string | null>(null);
 
   const petListRequest = useRequestPetDefinitions();
-  const petEditorDetailRequest = useRequestPetDefinitionBy();
-  const petAbilityDetailRequest = useRequestPetDefinitionBy();
   const petFeaturesRequest = useRequestPetFeatures();
   const savePetRequest = useRequestSavePetDefinition();
   const deletePetRequest = useRequestDeletePetDefinition();
   const replaceAbilitiesRequest = useRequestReplacePetAbilities();
-  const patchAbilityRequest = useRequestPatchPetAbility();
+  const saveAbilityRequest = useRequestSavePetAbility();
   const deleteAbilityRequest = useRequestDeletePetAbility();
   const killSwitchRequest = useRequestPetKillSwitch();
 
@@ -313,25 +309,20 @@ export default function PetsPage() {
     setEditorOpen(true);
   };
 
-  const openEditModal = async (petId: string) => {
-    try {
-      const detail = await petEditorDetailRequest.run(petId);
-      setEditingPetId(detail.pet_id);
-      petForm.setFieldsValue({
-        pet_id: detail.pet_id,
-        name: detail.name,
-        rarity: detail.rarity,
-        enabled: detail.enabled,
-        obtainable_by_egg: detail.obtainable_by_egg,
-        display: detail.display,
-        description: detail.description,
-        pricing: detail.pricing,
-        abilities_json: formatJsonEditor(detail.abilities),
-      });
-      setEditorOpen(true);
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '龟种详情加载失败');
-    }
+  const openEditModal = (record: PetDefinition) => {
+    setEditingPetId(record.id);
+    petForm.setFieldsValue({
+      pet_id: record.pet_id,
+      name: record.name,
+      rarity: record.rarity,
+      enabled: record.enabled,
+      obtainable_by_egg: record.obtainable_by_egg,
+      display: record.display,
+      description: record.description,
+      pricing: record.pricing,
+      abilities_json: formatJsonEditor(record.abilities),
+    });
+    setEditorOpen(true);
   };
 
   const closeEditor = () => {
@@ -362,7 +353,7 @@ export default function PetsPage() {
       okButtonProps: { danger: true },
       onOk: async () => {
         try {
-          await deletePetRequest.run(record.pet_id);
+          await deletePetRequest.run(record.id);
           message.success('龟种已删除');
           await loadPets();
         } catch (error) {
@@ -372,32 +363,11 @@ export default function PetsPage() {
     });
   };
 
-  const openAbilitiesModal = async (petId: string) => {
-    try {
-      const detail = await petAbilityDetailRequest.run(petId);
-      setActivePet(detail);
-      replaceAbilitiesForm.setFieldsValue({
-        abilities_json: formatJsonEditor(detail.abilities),
-      });
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '能力详情加载失败');
-    }
-  };
-
-  const refreshActivePet = async () => {
-    if (!activePet?.pet_id) {
-      return;
-    }
-
-    try {
-      const detail = await petAbilityDetailRequest.run(activePet.pet_id);
-      setActivePet(detail);
-      replaceAbilitiesForm.setFieldsValue({
-        abilities_json: formatJsonEditor(detail.abilities),
-      });
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '能力详情刷新失败');
-    }
+  const openAbilitiesModal = (record: PetDefinition) => {
+    setActivePet(record);
+    replaceAbilitiesForm.setFieldsValue({
+      abilities_json: formatJsonEditor(record.abilities),
+    });
   };
 
   const closeAbilitiesModal = () => {
@@ -420,7 +390,7 @@ export default function PetsPage() {
         abilityFeatureKeys,
       );
       const updated = await replaceAbilitiesRequest.run({
-        petId: activePet.pet_id,
+        petDefinitionId: activePet.id,
         abilities: (abilities ?? {}) as PetAbilities,
       });
       setActivePet(updated);
@@ -445,7 +415,6 @@ export default function PetsPage() {
     abilityForm.resetFields();
     abilityForm.setFieldsValue({
       feature_key: row?.featureKey ?? undefined,
-      enabled: true,
       params_json: formatJsonEditor(row?.params),
     });
     setAbilityEditorOpen(true);
@@ -459,14 +428,13 @@ export default function PetsPage() {
     try {
       const values = await abilityForm.validateFields();
       const params = parseJsonField(values.params_json, '能力参数');
-      if (values.enabled && !params) {
-        throw new Error('启用时必须提供能力参数');
+      if (!params) {
+        throw new Error('请提供能力参数');
       }
 
-      const updated = await patchAbilityRequest.run({
-        petId: activePet.pet_id,
+      const updated = await saveAbilityRequest.run({
+        petDefinitionId: activePet.id,
         featureKey: values.feature_key,
-        enabled: values.enabled,
         params,
       });
       setActivePet(updated);
@@ -496,11 +464,20 @@ export default function PetsPage() {
       onOk: async () => {
         try {
           await deleteAbilityRequest.run({
-            petId: activePet.pet_id,
+            petDefinitionId: activePet.id,
             featureKey,
           });
+          const nextAbilities = { ...(activePet.abilities || {}) };
+          delete nextAbilities[featureKey];
+          const updatedPet = {
+            ...activePet,
+            abilities: Object.keys(nextAbilities).length ? nextAbilities : undefined,
+          };
+          setActivePet(updatedPet);
+          replaceAbilitiesForm.setFieldsValue({
+            abilities_json: formatJsonEditor(updatedPet.abilities),
+          });
           message.success('能力已移除');
-          await refreshActivePet();
           await loadPets();
         } catch (error) {
           message.error(error instanceof Error ? error.message : '能力移除失败');
@@ -644,7 +621,7 @@ export default function PetsPage() {
 
         <ProCard title="龟种列表" style={panelStyle}>
           <Table
-            rowKey="pet_id"
+            rowKey="id"
             loading={petListRequest.loading}
             pagination={false}
             dataSource={petRecords}
@@ -700,7 +677,7 @@ export default function PetsPage() {
                     <Button
                       size="small"
                       icon={<SettingOutlined />}
-                      onClick={() => void openAbilitiesModal(record.pet_id)}
+                      onClick={() => openAbilitiesModal(record)}
                     >
                       abilities
                     </Button>
@@ -708,8 +685,7 @@ export default function PetsPage() {
                       <Button
                         size="small"
                         icon={<EditOutlined />}
-                        loading={petEditorDetailRequest.loading && editingPetId === record.pet_id}
-                        onClick={() => void openEditModal(record.pet_id)}
+                        onClick={() => openEditModal(record)}
                       >
                         编辑
                       </Button>
@@ -735,7 +711,7 @@ export default function PetsPage() {
 
       <Modal
         width={840}
-        title={editingPetId ? `编辑龟种 ${editingPetId}` : '新建龟种'}
+        title={editingPetId ? `编辑龟种 ${petForm.getFieldValue('pet_id') || ''}` : '新建龟种'}
         open={editorOpen}
         onCancel={closeEditor}
         onOk={() => void handleSavePet()}
@@ -876,7 +852,7 @@ export default function PetsPage() {
             >
               <Table
                 rowKey="featureKey"
-                loading={petAbilityDetailRequest.loading || deleteAbilityRequest.loading}
+                loading={deleteAbilityRequest.loading}
                 pagination={false}
                 dataSource={abilityRows}
                 columns={[
@@ -956,7 +932,7 @@ export default function PetsPage() {
         }}
         onOk={() => void handleSaveAbility()}
         okText="保存"
-        confirmLoading={patchAbilityRequest.loading}
+        confirmLoading={saveAbilityRequest.loading}
         destroyOnClose
       >
         <Form form={abilityForm} layout="vertical">
@@ -974,28 +950,13 @@ export default function PetsPage() {
               }))}
             />
           </Form.Item>
-          <Form.Item name="enabled" label="是否启用" valuePropName="checked">
-            <Switch />
-          </Form.Item>
           <Form.Item
-            noStyle
-            shouldUpdate={(prev, next) => prev.enabled !== next.enabled}
+            name="params_json"
+            label="能力参数 JSON"
+            extra="按接口契约直接提交 { params }，启用状态请放在 params.enabled 中。"
+            rules={[{ required: true, message: '请输入能力参数 JSON' }]}
           >
-            {({ getFieldValue }) =>
-              getFieldValue('enabled') ? (
-                <Form.Item
-                  name="params_json"
-                  label="能力参数 JSON"
-                  rules={[{ required: true, message: '启用时必须提供参数' }]}
-                >
-                  <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />
-                </Form.Item>
-              ) : (
-                <Form.Item name="params_json" label="能力参数 JSON">
-                  <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />
-                </Form.Item>
-              )
-            }
+            <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />
           </Form.Item>
         </Form>
       </Modal>

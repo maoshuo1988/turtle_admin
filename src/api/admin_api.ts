@@ -73,16 +73,16 @@ export function getAdminCommentDeletePath(id: number | string) {
   return `${API_ADMIN_COMMENT_DELETE}/${id}`;
 }
 
-export function getAdminPetDefinitionPath(petId: string) {
-  return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petId)}`;
+export function getAdminPetDefinitionPath(petDefinitionId: string) {
+  return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petDefinitionId)}`;
 }
 
-export function getAdminPetAbilitiesPath(petId: string) {
-  return `${getAdminPetDefinitionPath(petId)}/abilities`;
+export function getAdminPetAbilitiesPath(petDefinitionId: string) {
+  return `${getAdminPetDefinitionPath(petDefinitionId)}/abilities`;
 }
 
-export function getAdminPetAbilityPath(petId: string, featureKey: string) {
-  return `${getAdminPetAbilitiesPath(petId)}/${encodeURIComponent(featureKey)}`;
+export function getAdminPetAbilityPath(petDefinitionId: string, featureKey: string) {
+  return `${getAdminPetAbilitiesPath(petDefinitionId)}/${encodeURIComponent(featureKey)}`;
 }
 
 export function getAdminPetFeaturePath(featureKey: string) {

@@ -43,6 +43,7 @@ export type PetAbilityParams = Record<string, unknown>;
 export type PetAbilities = Record<string, PetAbilityParams>;
 
 export interface PetDefinition {
+  id: string;
   pet_id: string;
   name: LocalizedText;
   rarity: PetRarity;
@@ -93,13 +94,17 @@ export interface PetKillSwitchPayload {
 }
 
 export interface ReplacePetAbilitiesPayload {
-  petId: string;
+  petDefinitionId: string;
   abilities: PetAbilities;
 }
 
-export interface PatchPetAbilityPayload {
-  petId: string;
+export interface SavePetAbilityPayload {
+  petDefinitionId: string;
   featureKey: string;
-  enabled: boolean;
-  params?: Record<string, unknown>;
+  params: Record<string, unknown>;
+}
+
+export interface DeletePetAbilityPayload {
+  petDefinitionId: string;
+  featureKey: string;
 }

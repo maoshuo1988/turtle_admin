@@ -13,14 +13,15 @@ import {
 } from '@/api/admin_api';
 import { axiosCustom } from '@/api/axios';
 import type {
+  DeletePetAbilityPayload,
   FeatureCatalogItem,
   FeatureCatalogListParams,
   GachaPoolConfig,
-  PatchPetAbilityPayload,
   PetDefinition,
   PetDefinitionListParams,
   PetKillSwitchPayload,
   ReplacePetAbilitiesPayload,
+  SavePetAbilityPayload,
 } from '@/types/pet';
 import { normalizePageResult } from '@/utils/adminAdapters';
 import {
@@ -148,17 +149,17 @@ async function requestPetDefinitions(
   };
 }
 
-async function requestPetDefinitionBy(petId: string) {
+async function requestPetDefinitionBy(petDefinitionId: string) {
   const response = await axiosCustom<unknown>({
     method: 'get',
-    cmd: getAdminPetDefinitionPath(petId),
+    cmd: getAdminPetDefinitionPath(petDefinitionId),
     headers: getAuthorizationHeaders(),
   });
 
   return mapPetDefinition(assertSuccess(response));
 }
 
-async function requestSavePetDefinition(payload: Omit<PetDefinition, 'raw'>) {
+async function requestSavePetDefinition(payload: Omit<PetDefinition, 'raw' | 'id'>) {
   const response = await axiosCustom<unknown>({
     method: 'post',
     cmd: API_ADMIN_PET_DEFS,
@@ -172,10 +173,10 @@ async function requestSavePetDefinition(payload: Omit<PetDefinition, 'raw'>) {
   return assertSuccess(response);
 }
 
-async function requestDeletePetDefinition(petId: string) {
+async function requestDeletePetDefinition(petDefinitionId: string) {
   const response = await axiosCustom<unknown>({
     method: 'delete',
-    cmd: getAdminPetDefinitionPath(petId),
+    cmd: getAdminPetDefinitionPath(petDefinitionId),
     headers: getAuthorizationHeaders(),
   });
 
@@ -237,7 +238,7 @@ async function requestDeletePetFeature(featureKey: string) {
 async function requestReplacePetAbilities(payload: ReplacePetAbilitiesPayload) {
   const response = await axiosCustom<unknown>({
     method: 'put',
-    cmd: getAdminPetAbilitiesPath(payload.petId),
+    cmd: getAdminPetAbilitiesPath(payload.petDefinitionId),
     data: { abilities: payload.abilities },
     headers: {
       ...getAuthorizationHeaders(),
@@ -248,12 +249,11 @@ async function requestReplacePetAbilities(payload: ReplacePetAbilitiesPayload) {
   return mapPetDefinition(assertSuccess(response));
 }
 
-async function requestPatchPetAbility(payload: PatchPetAbilityPayload) {
+async function requestSavePetAbility(payload: SavePetAbilityPayload) {
   const response = await axiosCustom<unknown>({
     method: 'patch',
-    cmd: getAdminPetAbilityPath(payload.petId, payload.featureKey),
+    cmd: getAdminPetAbilityPath(payload.petDefinitionId, payload.featureKey),
     data: {
-      enabled: payload.enabled,
       params: payload.params,
     },
     headers: {
@@ -265,10 +265,10 @@ async function requestPatchPetAbility(payload: PatchPetAbilityPayload) {
   return mapPetDefinition(assertSuccess(response));
 }
 
-async function requestDeletePetAbility(payload: { petId: string; featureKey: string }) {
+async function requestDeletePetAbility(payload: DeletePetAbilityPayload) {
   const response = await axiosCustom<unknown>({
     method: 'delete',
-    cmd: getAdminPetAbilityPath(payload.petId, payload.featureKey),
+    cmd: getAdminPetAbilityPath(payload.petDefinitionId, payload.featureKey),
     headers: getAuthorizationHeaders(),
   });
 
@@ -335,7 +335,7 @@ export function useRequestPetDefinitions() {
 
 export function useRequestPetDefinitionBy() {
   return useLazyQueryRequest(
-    (petId: string) => ['requestPetDefinitionBy', petId],
+    (petDefinitionId: string) => ['requestPetDefinitionBy', petDefinitionId],
     requestPetDefinitionBy,
   );
 }
@@ -374,8 +374,8 @@ export function useRequestReplacePetAbilities() {
   return useMutationRequest(['requestReplacePetAbilities'], requestReplacePetAbilities);
 }
 
-export function useRequestPatchPetAbility() {
-  return useMutationRequest(['requestPatchPetAbility'], requestPatchPetAbility);
+export function useRequestSavePetAbility() {
+  return useMutationRequest(['requestSavePetAbility'], requestSavePetAbility);
 }
 
 export function useRequestDeletePetAbility() {

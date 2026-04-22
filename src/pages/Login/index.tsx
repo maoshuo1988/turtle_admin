@@ -1,10 +1,11 @@
 import { ProCard, ProForm, ProFormText } from '@ant-design/pro-components';
 import { LockOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';
-import { history, useIntl, useModel } from '@umijs/max';
+import { history, useIntl, useLocation, useModel } from '@umijs/max';
 import { App, Button, Form, Input, Typography } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequestImageCaptcha, useRequestSignIn } from '@/hooks/useRequest';
 import type { AppInitialState } from '@/types/runtime';
+import { LOGIN_PATH } from '@/utils/auth';
 import { normalizeCaptchaImage } from '@/utils/captcha';
 import styles from './index.module.scss';
 
@@ -16,14 +17,25 @@ interface LoginFormValues {
 
 export default function LoginPage() {
   const intl = useIntl();
+  const location = useLocation();
   const { message } = App.useApp();
   const { initialState, setInitialState } = useModel('@@initialState');
+  const appState = initialState as AppInitialState | undefined;
   const [form] = Form.useForm<LoginFormValues>();
   const { run: runSignIn, loading: signInLoading } = useRequestSignIn();
   const { run: runImageCaptcha } = useRequestImageCaptcha();
   const [captchaId, setCaptchaId] = useState('');
   const [captchaImage, setCaptchaImage] = useState('');
   const [captchaLoading, setCaptchaLoading] = useState(false);
+  const redirectTarget = useMemo(() => {
+    const redirect = new URLSearchParams(location.search).get('redirect');
+
+    if (!redirect || redirect === LOGIN_PATH || redirect.startsWith(`${LOGIN_PATH}?`)) {
+      return '/';
+    }
+
+    return redirect;
+  }, [location.search]);
 
   const loadCaptcha = useCallback(async (silent = false) => {
     setCaptchaLoading(true);
@@ -44,6 +56,12 @@ export default function LoginPage() {
   useEffect(() => {
     void loadCaptcha(true);
   }, [loadCaptcha]);
+
+  useEffect(() => {
+    if (appState?.currentUser) {
+      history.replace(redirectTarget);
+    }
+  }, [appState?.currentUser, redirectTarget]);
 
   return (
     <div className={styles.page}>
@@ -84,7 +102,6 @@ export default function LoginPage() {
                   captchaProtocol: 3,
                 });
 
-                const appState = initialState as AppInitialState | undefined;
                 const currentUser = appState?.fetchUserInfo
                   ? await appState.fetchUserInfo()
                   : result.currentUser;
@@ -95,8 +112,6 @@ export default function LoginPage() {
                 }));
 
                 message.success(intl.formatMessage({ id: 'login.success' }));
-                const redirect = new URLSearchParams(window.location.search).get('redirect');
-                history.replace(redirect || '/');
                 return true;
               } catch (error) {
                 message.error(error instanceof Error ? error.message : '登录失败');

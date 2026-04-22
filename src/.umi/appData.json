@@ -55,7 +55,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 7
       },
       "enableBy": "register"
     },
@@ -85,7 +85,7 @@
             0
           ]
         },
-        "register": 3
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -121,10 +121,6 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
@@ -142,23 +138,23 @@
       "time": {
         "hooks": {
           "onDevCompileDone": [
-            8,
+            11,
+            2,
             3,
             3,
             3,
-            6,
-            7,
-            5,
-            30,
-            10,
+            1,
+            2,
+            3,
             4,
             5,
             2,
-            4,
-            6
+            2,
+            3,
+            3
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -172,22 +168,18 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            13
+            11
           ],
           "onGenerateFiles": [
-            1,
-            12,
-            5,
-            4,
-            5,
-            5,
+            2,
+            18,
             8,
-            7,
-            7,
-            7
+            17,
+            19,
+            20
           ]
         },
-        "register": 12
+        "register": 11
       },
       "enableBy": "register"
     },
@@ -206,14 +198,10 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -227,13 +215,13 @@
       "time": {
         "hooks": {
           "onCheckConfig": [
-            0,
             0
           ],
           "onCheck": [
             0
           ],
           "onPrepareBuildSuccess": [
+            0,
             0,
             0,
             0,
@@ -256,19 +244,7 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            1,
             0,
             0,
             0,
@@ -306,7 +282,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -323,7 +299,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -336,7 +312,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -350,11 +326,10 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ]
         },
-        "register": 5
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1223,7 +1198,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1237,7 +1212,7 @@
       "time": {
         "hooks": {
           "addBeforeMiddlewares": [
-            6
+            5
           ]
         },
         "register": 0
@@ -1253,7 +1228,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 39
+        "register": 41
       },
       "enableBy": "register"
     },
@@ -1266,7 +1241,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 22
+        "register": 20
       },
       "enableBy": "config"
     },
@@ -1279,7 +1254,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 11
       },
       "enableBy": "config"
     },
@@ -1293,16 +1268,12 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            0
+            1
           ],
           "addBeforeMiddlewares": [
             0
           ],
           "modifyHTMLFavicon": [
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1334,15 +1305,11 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
+            0,
+            0,
+            0,
             1,
             1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePlugin": [
@@ -1351,14 +1318,10 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1371,7 +1334,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1434,21 +1397,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addEntryImports": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1490,65 +1441,17 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1,
-            1
+            0
           ],
           "onGenerateFiles": [
-            41,
+            43,
+            19,
+            8,
             21,
-            22,
-            6,
-            17,
-            7,
             11,
-            9,
-            31,
-            10
+            16
           ],
           "addPolyfillImports": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ]
-        },
-        "register": 0
-      }
-    },
-    "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
-      "cwd": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin",
-      "type": "plugin",
-      "path": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill.js",
-      "id": "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill",
-      "key": "publicPathPolyfill",
-      "config": {},
-      "time": {
-        "hooks": {
-          "addPolyfillImports": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -1564,6 +1467,33 @@
           ]
         },
         "register": 1
+      }
+    },
+    "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
+      "cwd": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin",
+      "type": "plugin",
+      "path": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill.js",
+      "id": "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill",
+      "key": "publicPathPolyfill",
+      "config": {},
+      "time": {
+        "hooks": {
+          "addPolyfillImports": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1577,11 +1507,7 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
-            125,
-            0,
-            0,
-            0,
-            0,
+            72,
             0,
             0,
             0,
@@ -1629,14 +1555,10 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
             0,
             1,
+            1,
+            0,
             1,
             0
           ],
@@ -1644,7 +1566,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1660,27 +1582,19 @@
           "onGenerateFiles": [
             6,
             3,
-            14,
+            8,
             4,
-            6,
-            3,
             5,
-            3,
-            9,
             2,
-            6,
-            2,
-            6,
-            2,
-            6,
+            8,
             3,
-            15,
-            3,
-            6,
+            7,
+            4,
+            5,
             2
           ]
         },
-        "register": 3
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1732,16 +1646,12 @@
       "time": {
         "hooks": {
           "onGenerateFiles": [
-            208,
-            14,
+            188,
             8,
             4,
+            10,
             5,
-            4,
-            5,
-            4,
-            6,
-            5
+            4
           ]
         },
         "register": 1
@@ -1761,7 +1671,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1812,7 +1722,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 11
+        "register": 10
       },
       "enableBy": "config"
     },
@@ -1828,17 +1738,13 @@
           "onGenerateFiles": [
             3,
             1,
-            0,
-            0,
             1,
             0,
             1,
-            0,
-            1,
-            0
+            1
           ]
         },
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/clickToComponent/clickToComponent": {
@@ -1850,7 +1756,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1863,7 +1769,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1918,7 +1824,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1930,7 +1836,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1979,17 +1885,13 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            1,
             0,
             0,
             0
           ]
         },
-        "register": 12
+        "register": 13
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -2001,7 +1903,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2015,10 +1917,10 @@
       "time": {
         "hooks": {
           "modifyUniBundler": [
-            318
+            393
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2058,7 +1960,7 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            6
+            5
           ]
         },
         "register": 23
@@ -2099,7 +2001,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2112,7 +2014,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2177,7 +2079,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2203,7 +2105,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2242,7 +2144,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -2268,7 +2170,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2294,7 +2196,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2349,26 +2251,18 @@
           "addRuntimePlugin": [
             0,
             0,
-            1,
-            0,
-            0,
-            0,
             0,
             0,
             0,
             0
           ],
           "onGenerateFiles": [
-            0,
-            1,
             1,
             0,
             0,
             0,
             0,
-            0,
-            0,
-            1
+            0
           ],
           "addTmpGenerateWatcherPaths": [
             0
@@ -2402,8 +2296,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            2,
-            0
+            1
           ],
           "modifyAppData": [
             0
@@ -2423,21 +2316,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePlugin": [
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2451,23 +2332,15 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            2,
             1,
-            0,
             1,
-            0,
-            0,
-            0,
             1,
-            0,
-            0
+            3,
+            1,
+            1
           ],
           "addExtraBabelPlugins": [
             0
@@ -2507,17 +2380,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePluginKey": [
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2529,19 +2394,11 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
             1,
+            0,
             0
           ],
           "addExtraModels": [
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2565,7 +2422,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2590,21 +2447,9 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "addRuntimePlugin": [
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -2618,26 +2463,18 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            20,
+            19,
             4,
             3,
+            4,
             3,
-            3,
-            5,
-            3,
-            3,
-            6,
             3
           ],
           "addTmpGenerateWatcherPaths": [
-            2
+            1
           ]
         },
         "register": 1
@@ -2653,7 +2490,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2672,29 +2509,21 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
-            11,
-            18,
-            10,
-            12,
-            10,
-            8,
+            13,
+            9,
             10,
             10,
-            12,
+            9,
             10
           ],
           "addTmpGenerateWatcherPaths": [
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2707,7 +2536,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2726,14 +2555,10 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2746,7 +2571,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/plugins/dist/qiankun/slave": {
@@ -2758,7 +2583,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2770,7 +2595,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2789,26 +2614,18 @@
             0,
             0,
             0,
-            0,
-            0,
-            0,
-            0,
             0
           ],
           "onGenerateFiles": [
+            0,
+            0,
             1,
-            1,
-            1,
-            0,
-            0,
-            0,
-            0,
             0,
             1,
             1
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2821,7 +2638,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2847,7 +2664,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2861,7 +2678,6 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0,
             0
           ]
         },
@@ -2995,6 +2811,12 @@
         "access": "canPetFeatures"
       },
       {
+        "path": "/pet-gacha",
+        "name": "petGacha",
+        "component": "@/pages/PetGacha",
+        "access": "canPets"
+      },
+      {
         "path": "/risk",
         "name": "risk",
         "component": "@/pages/Risk",
@@ -3124,6 +2946,12 @@
         "name": "petFeatures",
         "component": "@/pages/PetFeatures",
         "access": "canPetFeatures"
+      },
+      {
+        "path": "/pet-gacha",
+        "name": "petGacha",
+        "component": "@/pages/PetGacha",
+        "access": "canPets"
       },
       {
         "path": "/risk",
@@ -4078,7 +3906,7 @@
       "file": "@/pages/Login/index.tsx",
       "id": "1",
       "absPath": "/login",
-      "__content": "import { ProCard, ProForm, ProFormText } from '@ant-design/pro-components';\nimport { LockOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';\nimport { history, useIntl, useModel } from '@umijs/max';\nimport { App, Button, Form, Input, Typography } from 'antd';\nimport { useCallback, useEffect, useState } from 'react';\nimport { useRequestImageCaptcha, useRequestSignIn } from '@/hooks/useRequest';\nimport type { AppInitialState } from '@/types/runtime';\nimport { normalizeCaptchaImage } from '@/utils/captcha';\nimport styles from './index.module.scss';\n\ninterface LoginFormValues {\n  account: string;\n  password: string;\n  captchaCode: string;\n}\n\nexport default function LoginPage() {\n  const intl = useIntl();\n  const { message } = App.useApp();\n  const { initialState, setInitialState } = useModel('@@initialState');\n  const [form] = Form.useForm<LoginFormValues>();\n  const { run: runSignIn, loading: signInLoading } = useRequestSignIn();\n  const { run: runImageCaptcha } = useRequestImageCaptcha();\n  const [captchaId, setCaptchaId] = useState('');\n  const [captchaImage, setCaptchaImage] = useState('');\n  const [captchaLoading, setCaptchaLoading] = useState(false);\n\n  const loadCaptcha = useCallback(async (silent = false) => {\n    setCaptchaLoading(true);\n    try {\n      const response = await runImageCaptcha();\n      setCaptchaId(response.captchaId);\n      setCaptchaImage(normalizeCaptchaImage(response.captchaBase64));\n      form.setFieldValue('captchaCode', '');\n    } catch (error) {\n      if (!silent) {\n        message.error(error instanceof Error ? error.message : '验证码加载失败');\n      }\n    } finally {\n      setCaptchaLoading(false);\n    }\n  }, [form, message, runImageCaptcha]);\n\n  useEffect(() => {\n    void loadCaptcha(true);\n  }, [loadCaptcha]);\n\n  return (\n    <div className={styles.page}>\n      <div className={styles.shell}>\n        <ProCard bordered className={styles.card}>\n          <Typography.Title level={3} style={{ marginTop: 0 }}>\n            {intl.formatMessage({ id: 'login.title' })}\n          </Typography.Title>\n          <Typography.Paragraph type=\"secondary\">\n            {intl.formatMessage({ id: 'login.subtitle' })}\n          </Typography.Paragraph>\n\n          <ProForm<LoginFormValues>\n            form={form}\n            layout=\"vertical\"\n            submitter={{\n              searchConfig: {\n                submitText: intl.formatMessage({ id: 'login.submit' }),\n              },\n              submitButtonProps: {\n                size: 'large',\n                block: true,\n              },\n              resetButtonProps: false,\n            }}\n            onFinish={async (values) => {\n              if (!captchaId) {\n                await loadCaptcha();\n                return false;\n              }\n\n              try {\n                const result = await runSignIn({\n                  account: values.account,\n                  password: values.password,\n                  captchaCode: values.captchaCode,\n                  captchaId,\n                  captchaProtocol: 3,\n                });\n\n                const appState = initialState as AppInitialState | undefined;\n                const currentUser = appState?.fetchUserInfo\n                  ? await appState.fetchUserInfo()\n                  : result.currentUser;\n\n                await setInitialState((state) => ({\n                  ...(state as AppInitialState),\n                  currentUser: currentUser || result.currentUser,\n                }));\n\n                message.success(intl.formatMessage({ id: 'login.success' }));\n                const redirect = new URLSearchParams(window.location.search).get('redirect');\n                history.replace(redirect || '/');\n                return true;\n              } catch (error) {\n                message.error(error instanceof Error ? error.message : '登录失败');\n                await loadCaptcha(true);\n                return false;\n              }\n            }}\n          loading={signInLoading}\n          >\n            <ProFormText\n              name=\"account\"\n              fieldProps={{\n                size: 'large',\n                prefix: <UserOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.account' })}\n              rules={[{ required: true }]}\n            />\n\n            <ProFormText.Password\n              name=\"password\"\n              fieldProps={{\n                size: 'large',\n                prefix: <LockOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.password' })}\n              rules={[{ required: true }]}\n            />\n\n            <Form.Item\n              name=\"captchaCode\"\n              rules={[{ required: true, message: intl.formatMessage({ id: 'login.captcha.required' }) }]}\n            >\n              <div className={styles.captchaRow}>\n                <Input\n                  size=\"large\"\n                  inputMode=\"numeric\"\n                  maxLength={6}\n                  placeholder={intl.formatMessage({ id: 'login.captcha.placeholder' })}\n                />\n\n                <div className={styles.captchaImageBox}>\n                  {captchaImage ? (\n                    <img alt=\"captcha\" className={styles.captchaImage} src={captchaImage} />\n                  ) : (\n                    <span className={styles.captchaFallback}>\n                      {captchaLoading\n                        ? intl.formatMessage({ id: 'login.captcha.loading' })\n                        : intl.formatMessage({ id: 'login.captcha.loadError' })}\n                    </span>\n                  )}\n                </div>\n\n                <Button\n                  icon={<ReloadOutlined />}\n                  loading={captchaLoading}\n                  onClick={() => {\n                    void loadCaptcha();\n                  }}\n                  size=\"large\"\n                >\n                  {intl.formatMessage({ id: 'login.captcha.refresh' })}\n                </Button>\n              </div>\n            </Form.Item>\n          </ProForm>\n        </ProCard>\n      </div>\n    </div>\n  );\n}\n",
+      "__content": "import { ProCard, ProForm, ProFormText } from '@ant-design/pro-components';\nimport { LockOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';\nimport { history, useIntl, useLocation, useModel } from '@umijs/max';\nimport { App, Button, Form, Input, Typography } from 'antd';\nimport { useCallback, useEffect, useMemo, useState } from 'react';\nimport { useRequestImageCaptcha, useRequestSignIn } from '@/hooks/useRequest';\nimport type { AppInitialState } from '@/types/runtime';\nimport { LOGIN_PATH } from '@/utils/auth';\nimport { normalizeCaptchaImage } from '@/utils/captcha';\nimport styles from './index.module.scss';\n\ninterface LoginFormValues {\n  account: string;\n  password: string;\n  captchaCode: string;\n}\n\nexport default function LoginPage() {\n  const intl = useIntl();\n  const location = useLocation();\n  const { message } = App.useApp();\n  const { initialState, setInitialState } = useModel('@@initialState');\n  const appState = initialState as AppInitialState | undefined;\n  const [form] = Form.useForm<LoginFormValues>();\n  const { run: runSignIn, loading: signInLoading } = useRequestSignIn();\n  const { run: runImageCaptcha } = useRequestImageCaptcha();\n  const [captchaId, setCaptchaId] = useState('');\n  const [captchaImage, setCaptchaImage] = useState('');\n  const [captchaLoading, setCaptchaLoading] = useState(false);\n  const redirectTarget = useMemo(() => {\n    const redirect = new URLSearchParams(location.search).get('redirect');\n\n    if (!redirect || redirect === LOGIN_PATH || redirect.startsWith(`${LOGIN_PATH}?`)) {\n      return '/';\n    }\n\n    return redirect;\n  }, [location.search]);\n\n  const loadCaptcha = useCallback(async (silent = false) => {\n    setCaptchaLoading(true);\n    try {\n      const response = await runImageCaptcha();\n      setCaptchaId(response.captchaId);\n      setCaptchaImage(normalizeCaptchaImage(response.captchaBase64));\n      form.setFieldValue('captchaCode', '');\n    } catch (error) {\n      if (!silent) {\n        message.error(error instanceof Error ? error.message : '验证码加载失败');\n      }\n    } finally {\n      setCaptchaLoading(false);\n    }\n  }, [form, message, runImageCaptcha]);\n\n  useEffect(() => {\n    void loadCaptcha(true);\n  }, [loadCaptcha]);\n\n  useEffect(() => {\n    if (appState?.currentUser) {\n      history.replace(redirectTarget);\n    }\n  }, [appState?.currentUser, redirectTarget]);\n\n  return (\n    <div className={styles.page}>\n      <div className={styles.shell}>\n        <ProCard bordered className={styles.card}>\n          <Typography.Title level={3} style={{ marginTop: 0 }}>\n            {intl.formatMessage({ id: 'login.title' })}\n          </Typography.Title>\n          <Typography.Paragraph type=\"secondary\">\n            {intl.formatMessage({ id: 'login.subtitle' })}\n          </Typography.Paragraph>\n\n          <ProForm<LoginFormValues>\n            form={form}\n            layout=\"vertical\"\n            submitter={{\n              searchConfig: {\n                submitText: intl.formatMessage({ id: 'login.submit' }),\n              },\n              submitButtonProps: {\n                size: 'large',\n                block: true,\n              },\n              resetButtonProps: false,\n            }}\n            onFinish={async (values) => {\n              if (!captchaId) {\n                await loadCaptcha();\n                return false;\n              }\n\n              try {\n                const result = await runSignIn({\n                  account: values.account,\n                  password: values.password,\n                  captchaCode: values.captchaCode,\n                  captchaId,\n                  captchaProtocol: 3,\n                });\n\n                const currentUser = appState?.fetchUserInfo\n                  ? await appState.fetchUserInfo()\n                  : result.currentUser;\n\n                await setInitialState((state) => ({\n                  ...(state as AppInitialState),\n                  currentUser: currentUser || result.currentUser,\n                }));\n\n                message.success(intl.formatMessage({ id: 'login.success' }));\n                return true;\n              } catch (error) {\n                message.error(error instanceof Error ? error.message : '登录失败');\n                await loadCaptcha(true);\n                return false;\n              }\n            }}\n          loading={signInLoading}\n          >\n            <ProFormText\n              name=\"account\"\n              fieldProps={{\n                size: 'large',\n                prefix: <UserOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.account' })}\n              rules={[{ required: true }]}\n            />\n\n            <ProFormText.Password\n              name=\"password\"\n              fieldProps={{\n                size: 'large',\n                prefix: <LockOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.password' })}\n              rules={[{ required: true }]}\n            />\n\n            <Form.Item\n              name=\"captchaCode\"\n              rules={[{ required: true, message: intl.formatMessage({ id: 'login.captcha.required' }) }]}\n            >\n              <div className={styles.captchaRow}>\n                <Input\n                  size=\"large\"\n                  inputMode=\"numeric\"\n                  maxLength={6}\n                  placeholder={intl.formatMessage({ id: 'login.captcha.placeholder' })}\n                />\n\n                <div className={styles.captchaImageBox}>\n                  {captchaImage ? (\n                    <img alt=\"captcha\" className={styles.captchaImage} src={captchaImage} />\n                  ) : (\n                    <span className={styles.captchaFallback}>\n                      {captchaLoading\n                        ? intl.formatMessage({ id: 'login.captcha.loading' })\n                        : intl.formatMessage({ id: 'login.captcha.loadError' })}\n                    </span>\n                  )}\n                </div>\n\n                <Button\n                  icon={<ReloadOutlined />}\n                  loading={captchaLoading}\n                  onClick={() => {\n                    void loadCaptcha();\n                  }}\n                  size=\"large\"\n                >\n                  {intl.formatMessage({ id: 'login.captcha.refresh' })}\n                </Button>\n              </div>\n            </Form.Item>\n          </ProForm>\n        </ProCard>\n      </div>\n    </div>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/Login/index.tsx"
     },
@@ -4170,7 +3998,7 @@
       "parentId": "@@/global-layout",
       "id": "9",
       "absPath": "/pets",
-      "__content": "import {\n  DeleteOutlined,\n  EditOutlined,\n  PlusOutlined,\n  ReloadOutlined,\n  SafetyOutlined,\n  SaveOutlined,\n  SettingOutlined,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport { useAccess } from '@umijs/max';\nimport {\n  Alert,\n  App,\n  Button,\n  Col,\n  Form,\n  Input,\n  InputNumber,\n  Modal,\n  Row,\n  Select,\n  Space,\n  Switch,\n  Table,\n  Tag,\n  Typography,\n} from 'antd';\nimport { useEffect, useMemo, useState } from 'react';\nimport { panelStyle } from '@/features/admin/shared';\nimport {\n  useRequestDeletePetAbility,\n  useRequestDeletePetDefinition,\n  useRequestPatchPetAbility,\n  useRequestPetDefinitionBy,\n  useRequestPetDefinitions,\n  useRequestPetFeatures,\n  useRequestPetKillSwitch,\n  useRequestReplacePetAbilities,\n  useRequestSavePetDefinition,\n} from '@/hooks/usePetAdminRequest';\nimport { PET_RARITY_OPTIONS } from '@/types/pet';\nimport type {\n  FeatureCatalogItem,\n  LocalizedText,\n  PetAbilities,\n  PetDefinition,\n  PetDisplay,\n  PetKillSwitchPayload,\n  PetPricing,\n  PetRarity,\n} from '@/types/pet';\nimport { getLocalizedLabel } from '@/utils/petAdminAdapters';\n\nconst rarityOptions = PET_RARITY_OPTIONS;\nconst killSwitchActions = [\n  { label: '关闭开蛋池', value: 'disable_pool' },\n  { label: '禁用单项能力', value: 'disable_feature' },\n];\n\ninterface PetFormValues {\n  pet_id: string;\n  name?: LocalizedText;\n  rarity: PetRarity;\n  enabled: boolean;\n  obtainable_by_egg: boolean;\n  display?: PetDisplay;\n  description?: LocalizedText;\n  pricing?: PetPricing;\n  abilities_json?: string;\n}\n\ninterface AbilityFormValues {\n  feature_key: string;\n  enabled: boolean;\n  params_json?: string;\n}\n\ninterface AbilityRow {\n  featureKey: string;\n  params: Record<string, unknown>;\n}\n\nfunction formatJsonEditor(value: unknown) {\n  if (!value || (typeof value === 'object' && !Object.keys(value as Record<string, unknown>).length)) {\n    return '';\n  }\n\n  return JSON.stringify(value, null, 2);\n}\n\nfunction compactObject(value: Record<string, unknown> | undefined) {\n  if (!value) {\n    return undefined;\n  }\n\n  const next: Record<string, unknown> = {};\n\n  Object.entries(value).forEach(([key, current]) => {\n    if (typeof current === 'string') {\n      const trimmed = current.trim();\n      if (trimmed) {\n        next[key] = trimmed;\n      }\n      return;\n    }\n\n    if (current && typeof current === 'object' && !Array.isArray(current)) {\n      const nested = compactObject(current as Record<string, unknown>);\n      if (nested) {\n        next[key] = nested;\n      }\n      return;\n    }\n\n    if (current !== undefined && current !== null && current !== '') {\n      next[key] = current;\n    }\n  });\n\n  return Object.keys(next).length ? next : undefined;\n}\n\nfunction parseJsonField(text: string | undefined, fieldLabel: string) {\n  if (!text?.trim()) {\n    return undefined;\n  }\n\n  try {\n    const parsed = JSON.parse(text);\n    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {\n      throw new Error();\n    }\n    return parsed as Record<string, unknown>;\n  } catch {\n    throw new Error(`${fieldLabel} 需要是合法的 JSON 对象`);\n  }\n}\n\nfunction isPlainObject(value: unknown): value is Record<string, unknown> {\n  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);\n}\n\nfunction normalizeAbilities(\n  value: Record<string, unknown> | undefined,\n  allowedFeatureKeys?: Set<string>,\n) {\n  if (!value) {\n    return undefined;\n  }\n\n  const next: PetAbilities = {};\n\n  Object.entries(value).forEach(([featureKey, params]) => {\n    if (!isPlainObject(params)) {\n      throw new Error(`abilities.${featureKey} 必须是 JSON 对象`);\n    }\n\n    if (allowedFeatureKeys && !allowedFeatureKeys.has(featureKey)) {\n      throw new Error(`abilities.${featureKey} 不是已启用的特性模板`);\n    }\n\n    next[featureKey] = params;\n  });\n\n  return Object.keys(next).length ? next : undefined;\n}\n\nfunction toBooleanFilter(value: 'all' | 'true' | 'false') {\n  if (value === 'true') {\n    return true;\n  }\n\n  if (value === 'false') {\n    return false;\n  }\n\n  return undefined;\n}\n\nfunction buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>) {\n  const abilities = normalizeAbilities(\n    parseJsonField(values.abilities_json, 'abilities'),\n    allowedFeatureKeys,\n  );\n\n  const base = compactObject({\n    pet_id: values.pet_id,\n    name: values.name,\n    rarity: values.rarity,\n    enabled: values.enabled,\n    obtainable_by_egg: values.obtainable_by_egg,\n    display: values.display,\n    description: values.description,\n    pricing: values.pricing,\n    abilities,\n  }) as Record<string, unknown> | undefined;\n\n  return {\n    pet_id: String(base?.pet_id ?? '').trim(),\n    name: (base?.name as LocalizedText | undefined) ?? {},\n    rarity: values.rarity,\n    enabled: values.enabled,\n    obtainable_by_egg: values.obtainable_by_egg,\n    display: base?.display as PetDisplay | undefined,\n    description: base?.description as LocalizedText | undefined,\n    pricing: base?.pricing as PetPricing | undefined,\n    abilities: base?.abilities as PetAbilities | undefined,\n  } satisfies Omit<PetDefinition, 'raw'>;\n}\n\nexport default function PetsPage() {\n  const { message, modal } = App.useApp();\n  const access = useAccess() as { canManagePets?: boolean };\n  const canManagePets = access.canManagePets === true;\n  const [petForm] = Form.useForm<PetFormValues>();\n  const [killSwitchForm] = Form.useForm<PetKillSwitchPayload>();\n  const [replaceAbilitiesForm] = Form.useForm<{ abilities_json?: string }>();\n  const [abilityForm] = Form.useForm<AbilityFormValues>();\n  const [keyword, setKeyword] = useState('');\n  const [enabledFilter, setEnabledFilter] = useState<'all' | 'true' | 'false'>('all');\n  const [rarityFilter, setRarityFilter] = useState<'all' | PetRarity>('all');\n  const [editorOpen, setEditorOpen] = useState(false);\n  const [editingPetId, setEditingPetId] = useState<string | null>(null);\n  const [activePet, setActivePet] = useState<PetDefinition | null>(null);\n  const [abilityEditorOpen, setAbilityEditorOpen] = useState(false);\n  const [editingAbilityKey, setEditingAbilityKey] = useState<string | null>(null);\n\n  const petListRequest = useRequestPetDefinitions();\n  const petEditorDetailRequest = useRequestPetDefinitionBy();\n  const petAbilityDetailRequest = useRequestPetDefinitionBy();\n  const petFeaturesRequest = useRequestPetFeatures();\n  const savePetRequest = useRequestSavePetDefinition();\n  const deletePetRequest = useRequestDeletePetDefinition();\n  const replaceAbilitiesRequest = useRequestReplacePetAbilities();\n  const patchAbilityRequest = useRequestPatchPetAbility();\n  const deleteAbilityRequest = useRequestDeletePetAbility();\n  const killSwitchRequest = useRequestPetKillSwitch();\n\n  const loadPets = async () => {\n    try {\n      await petListRequest.run({\n        current: 1,\n        pageSize: 200,\n        keyword: keyword.trim() || undefined,\n        enabled: toBooleanFilter(enabledFilter),\n        rarity: rarityFilter === 'all' ? undefined : rarityFilter,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '龟种列表加载失败');\n    }\n  };\n\n  const loadPetFeatureOptions = async () => {\n    try {\n      await petFeaturesRequest.run({\n        current: 1,\n        pageSize: 200,\n        scope: 'PET',\n        enabled: true,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '特性模板加载失败');\n    }\n  };\n\n  useEffect(() => {\n    void loadPets();\n    void loadPetFeatureOptions();\n    // Initial bootstrap only.\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);\n  const featureOptions = useMemo(\n    () => petFeaturesRequest.data?.data || [],\n    [petFeaturesRequest.data?.data],\n  );\n  const enabledFeatureKeys = useMemo(\n    () => new Set(featureOptions.filter((item) => item.enabled).map((item) => item.feature_key)),\n    [featureOptions],\n  );\n  const abilityFeatureKeys = featureOptions.length ? enabledFeatureKeys : undefined;\n\n  const petStats = useMemo(() => {\n    return {\n      total: petRecords.length,\n      enabled: petRecords.filter((item) => item.enabled).length,\n      obtainable: petRecords.filter((item) => item.obtainable_by_egg).length,\n    };\n  }, [petRecords]);\n\n  const abilityRows = useMemo<AbilityRow[]>(() => {\n    if (!activePet?.abilities) {\n      return [];\n    }\n\n    return Object.entries(activePet.abilities).map(([featureKey, params]) => ({\n      featureKey,\n      params,\n    }));\n  }, [activePet?.abilities]);\n\n  const openCreateModal = () => {\n    setEditingPetId(null);\n    petForm.resetFields();\n    petForm.setFieldsValue({\n      rarity: 'C',\n      enabled: true,\n      obtainable_by_egg: true,\n      abilities_json: '',\n    });\n    setEditorOpen(true);\n  };\n\n  const openEditModal = async (petId: string) => {\n    try {\n      const detail = await petEditorDetailRequest.run(petId);\n      setEditingPetId(detail.pet_id);\n      petForm.setFieldsValue({\n        pet_id: detail.pet_id,\n        name: detail.name,\n        rarity: detail.rarity,\n        enabled: detail.enabled,\n        obtainable_by_egg: detail.obtainable_by_egg,\n        display: detail.display,\n        description: detail.description,\n        pricing: detail.pricing,\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n      setEditorOpen(true);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '龟种详情加载失败');\n    }\n  };\n\n  const closeEditor = () => {\n    setEditorOpen(false);\n    setEditingPetId(null);\n    petForm.resetFields();\n  };\n\n  const handleSavePet = async () => {\n    try {\n      const values = await petForm.validateFields();\n      const payload = buildPetPayload(values, abilityFeatureKeys);\n      await savePetRequest.run(payload);\n      message.success(editingPetId ? '龟种已更新' : '龟种已创建');\n      closeEditor();\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleDeletePet = (record: PetDefinition) => {\n    modal.confirm({\n      title: `确认下架 ${record.pet_id} 吗？`,\n      content: '接口约定支持软删，后端通常会将 enabled 置为 false。',\n      okButtonProps: { danger: true },\n      onOk: async () => {\n        try {\n          await deletePetRequest.run(record.pet_id);\n          message.success('龟种已删除');\n          await loadPets();\n        } catch (error) {\n          message.error(error instanceof Error ? error.message : '龟种删除失败');\n        }\n      },\n    });\n  };\n\n  const openAbilitiesModal = async (petId: string) => {\n    try {\n      const detail = await petAbilityDetailRequest.run(petId);\n      setActivePet(detail);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '能力详情加载失败');\n    }\n  };\n\n  const refreshActivePet = async () => {\n    if (!activePet?.pet_id) {\n      return;\n    }\n\n    try {\n      const detail = await petAbilityDetailRequest.run(activePet.pet_id);\n      setActivePet(detail);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '能力详情刷新失败');\n    }\n  };\n\n  const closeAbilitiesModal = () => {\n    setActivePet(null);\n    setAbilityEditorOpen(false);\n    setEditingAbilityKey(null);\n    replaceAbilitiesForm.resetFields();\n    abilityForm.resetFields();\n  };\n\n  const handleReplaceAbilities = async () => {\n    if (!activePet) {\n      return;\n    }\n\n    try {\n      const values = await replaceAbilitiesForm.validateFields();\n      const abilities = normalizeAbilities(\n        parseJsonField(values.abilities_json, 'abilities'),\n        abilityFeatureKeys,\n      );\n      const updated = await replaceAbilitiesRequest.run({\n        petId: activePet.pet_id,\n        abilities: (abilities ?? {}) as PetAbilities,\n      });\n      setActivePet(updated);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(updated.abilities),\n      });\n      message.success('abilities 已整体替换');\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const openAbilityEditor = (row?: AbilityRow) => {\n    if (!activePet) {\n      return;\n    }\n\n    setEditingAbilityKey(row?.featureKey ?? null);\n    abilityForm.resetFields();\n    abilityForm.setFieldsValue({\n      feature_key: row?.featureKey ?? undefined,\n      enabled: true,\n      params_json: formatJsonEditor(row?.params),\n    });\n    setAbilityEditorOpen(true);\n  };\n\n  const handleSaveAbility = async () => {\n    if (!activePet) {\n      return;\n    }\n\n    try {\n      const values = await abilityForm.validateFields();\n      const params = parseJsonField(values.params_json, '能力参数');\n      if (values.enabled && !params) {\n        throw new Error('启用时必须提供能力参数');\n      }\n\n      const updated = await patchAbilityRequest.run({\n        petId: activePet.pet_id,\n        featureKey: values.feature_key,\n        enabled: values.enabled,\n        params,\n      });\n      setActivePet(updated);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(updated.abilities),\n      });\n      setAbilityEditorOpen(false);\n      setEditingAbilityKey(null);\n      abilityForm.resetFields();\n      message.success('能力已保存');\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleDeleteAbility = (featureKey: string) => {\n    if (!activePet) {\n      return;\n    }\n\n    modal.confirm({\n      title: `确认移除能力 ${featureKey} 吗？`,\n      okButtonProps: { danger: true },\n      onOk: async () => {\n        try {\n          await deleteAbilityRequest.run({\n            petId: activePet.pet_id,\n            featureKey,\n          });\n          message.success('能力已移除');\n          await refreshActivePet();\n          await loadPets();\n        } catch (error) {\n          message.error(error instanceof Error ? error.message : '能力移除失败');\n        }\n      },\n    });\n  };\n\n  const handleKillSwitch = async () => {\n    try {\n      const values = await killSwitchForm.validateFields();\n      await killSwitchRequest.run(values);\n      message.success('紧急开关已执行');\n      killSwitchForm.resetFields();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  return (\n    <PageContainer\n      title=\"龟种管理\"\n      extra={[\n        <Button key=\"refresh\" icon={<ReloadOutlined />} onClick={() => void loadPets()}>\n          刷新\n        </Button>,\n        canManagePets ? (\n          <Button key=\"create\" type=\"primary\" icon={<PlusOutlined />} onClick={openCreateModal}>\n            新建龟种\n          </Button>\n        ) : null,\n      ].filter(Boolean)}\n    >\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        {petListRequest.error instanceof Error ? (\n          <Alert\n            type=\"error\"\n            showIcon\n            message=\"龟种列表加载失败\"\n            description={petListRequest.error.message}\n          />\n        ) : null}\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.total}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                当前龟种总数\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.enabled}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                已启用龟种\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.obtainable}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                可通过开蛋获得\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n        </Row>\n\n        <ProCard title=\"筛选\" style={panelStyle}>\n          <Space wrap>\n            <Input\n              allowClear\n              style={{ width: 260 }}\n              placeholder=\"搜索 pet_id / 名称 / 描述\"\n              value={keyword}\n              onChange={(event) => setKeyword(event.target.value)}\n            />\n            <Select\n              style={{ width: 160 }}\n              value={enabledFilter}\n              options={[\n                { label: '全部状态', value: 'all' },\n                { label: '已启用', value: 'true' },\n                { label: '已停用', value: 'false' },\n              ]}\n              onChange={(value) => setEnabledFilter(value)}\n            />\n            <Select\n              style={{ width: 160 }}\n              value={rarityFilter}\n              options={[\n                { label: '全部稀有度', value: 'all' },\n                ...rarityOptions.map((item) => ({ label: item, value: item })),\n              ]}\n              onChange={(value) => setRarityFilter(value)}\n            />\n            <Button type=\"primary\" icon={<ReloadOutlined />} onClick={() => void loadPets()}>\n              应用筛选\n            </Button>\n          </Space>\n        </ProCard>\n\n        {canManagePets ? (\n          <ProCard title=\"紧急止血开关\" extra={<SafetyOutlined />} style={panelStyle}>\n            <Form form={killSwitchForm} layout=\"inline\" onFinish={() => void handleKillSwitch()}>\n              <Form.Item\n                name=\"action\"\n                rules={[{ required: true, message: '请选择动作' }]}\n                initialValue=\"disable_pool\"\n              >\n                <Select style={{ width: 180 }} options={killSwitchActions} />\n              </Form.Item>\n              <Form.Item\n                name=\"scope\"\n                rules={[{ required: true, message: '请输入作用域' }]}\n                initialValue=\"global\"\n              >\n                <Input style={{ width: 180 }} placeholder=\"global / feature_key\" />\n              </Form.Item>\n              <Form.Item name=\"reason\" style={{ minWidth: 320 }}>\n                <Input placeholder=\"触发原因，例如 emergency: exploit\" />\n              </Form.Item>\n              <Form.Item>\n                <Button type=\"primary\" danger htmlType=\"submit\" loading={killSwitchRequest.loading}>\n                  执行\n                </Button>\n              </Form.Item>\n            </Form>\n          </ProCard>\n        ) : null}\n\n        <ProCard title=\"龟种列表\" style={panelStyle}>\n          <Table\n            rowKey=\"pet_id\"\n            loading={petListRequest.loading}\n            pagination={false}\n            dataSource={petRecords}\n            columns={[\n              { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },\n              {\n                title: '名称',\n                dataIndex: 'name',\n                render: (value: LocalizedText) => getLocalizedLabel(value),\n              },\n              {\n                title: '稀有度',\n                dataIndex: 'rarity',\n                width: 100,\n                render: (value: PetRarity) => <Tag color=\"processing\">{value}</Tag>,\n              },\n              {\n                title: '启用',\n                dataIndex: 'enabled',\n                width: 100,\n                render: (value: boolean) => (\n                  <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>\n                ),\n              },\n              {\n                title: '开蛋获取',\n                dataIndex: 'obtainable_by_egg',\n                width: 120,\n                render: (value: boolean) => (\n                  <Tag color={value ? 'gold' : 'default'}>{value ? '可抽取' : '不可抽取'}</Tag>\n                ),\n              },\n              {\n                title: '默认价格',\n                width: 120,\n                render: (_, record) => record.pricing?.egg_price ?? '-',\n              },\n              {\n                title: '能力数',\n                width: 100,\n                render: (_, record) => Object.keys(record.abilities || {}).length,\n              },\n              {\n                title: '更新时间',\n                width: 180,\n                render: (_, record) => record.metadata?.updated_at || '-',\n              },\n              {\n                title: '操作',\n                width: 260,\n                render: (_, record) => (\n                  <Space wrap>\n                    <Button\n                      size=\"small\"\n                      icon={<SettingOutlined />}\n                      onClick={() => void openAbilitiesModal(record.pet_id)}\n                    >\n                      abilities\n                    </Button>\n                    {canManagePets ? (\n                      <Button\n                        size=\"small\"\n                        icon={<EditOutlined />}\n                        loading={petEditorDetailRequest.loading && editingPetId === record.pet_id}\n                        onClick={() => void openEditModal(record.pet_id)}\n                      >\n                        编辑\n                      </Button>\n                    ) : null}\n                    {canManagePets ? (\n                      <Button\n                        size=\"small\"\n                        danger\n                        icon={<DeleteOutlined />}\n                        loading={deletePetRequest.loading}\n                        onClick={() => handleDeletePet(record)}\n                      >\n                        删除\n                      </Button>\n                    ) : null}\n                  </Space>\n                ),\n              },\n            ]}\n          />\n        </ProCard>\n      </Space>\n\n      <Modal\n        width={840}\n        title={editingPetId ? `编辑龟种 ${editingPetId}` : '新建龟种'}\n        open={editorOpen}\n        onCancel={closeEditor}\n        onOk={() => void handleSavePet()}\n        okText=\"保存\"\n        confirmLoading={savePetRequest.loading}\n        destroyOnClose\n      >\n        <Form form={petForm} layout=\"vertical\">\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item\n                name=\"pet_id\"\n                label=\"Pet ID\"\n                rules={[\n                  { required: true, message: '请输入 pet_id' },\n                  { pattern: /^[a-z0-9_]+$/, message: '仅支持小写字母、数字和下划线' },\n                ]}\n              >\n                <Input disabled={Boolean(editingPetId)} placeholder=\"basic / lava / space\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name=\"rarity\"\n                label=\"稀有度\"\n                rules={[{ required: true, message: '请选择稀有度' }]}\n              >\n                <Select options={rarityOptions.map((item) => ({ label: item, value: item }))} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name={['name', 'zh-CN']}\n                label=\"中文名称\"\n                rules={[{ required: true, message: '请输入中文名称' }]}\n              >\n                <Input placeholder=\"火山龟\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['name', 'en-US']} label=\"英文名称\">\n                <Input placeholder=\"Lava Turtle\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"enabled\" label=\"启用展示\" valuePropName=\"checked\">\n                <Switch />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"obtainable_by_egg\" label=\"可开蛋获得\" valuePropName=\"checked\">\n                <Switch />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'icon']} label=\"图标资源\">\n                <Input placeholder=\"pet:lava:icon_v2\" />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'cover']} label=\"封面资源\">\n                <Input placeholder=\"pet:lava:cover\" />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'thumbnail']} label=\"缩略图资源\">\n                <Input placeholder=\"pet:lava:thumb\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['description', 'zh-CN']} label=\"中文描述\">\n                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['description', 'en-US']} label=\"英文描述\">\n                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_price']} label=\"开蛋价格\">\n                <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_discount', 'type']} label=\"折扣类型\">\n                <Select\n                  allowClear\n                  options={[\n                    { label: 'rate', value: 'rate' },\n                    { label: 'fixed', value: 'fixed' },\n                  ]}\n                />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_discount', 'value']} label=\"折扣值\">\n                <InputNumber min={0} style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Form.Item name=\"abilities_json\" label=\"abilities JSON\">\n            <Input.TextArea\n              autoSize={{ minRows: 8, maxRows: 16 }}\n              placeholder='{\"spark_multiplier\":{\"base\":1.3}}'\n            />\n          </Form.Item>\n        </Form>\n      </Modal>\n\n      <Modal\n        width={980}\n        title={activePet ? `能力挂载 - ${activePet.pet_id}` : '能力挂载'}\n        open={Boolean(activePet)}\n        onCancel={closeAbilitiesModal}\n        footer={null}\n        destroyOnClose\n      >\n        {activePet ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Alert\n              type=\"info\"\n              showIcon\n              message={`当前龟种：${getLocalizedLabel(activePet.name)} (${activePet.pet_id})`}\n              description=\"abilities 按 featureKey -> params 存储，这里支持整体替换、单项编辑和删除。\"\n            />\n\n            <ProCard\n              title=\"单项能力\"\n              extra={\n                canManagePets ? (\n                  <Button type=\"primary\" icon={<PlusOutlined />} onClick={() => openAbilityEditor()}>\n                    新增能力\n                  </Button>\n                ) : null\n              }\n              style={panelStyle}\n            >\n              <Table\n                rowKey=\"featureKey\"\n                loading={petAbilityDetailRequest.loading || deleteAbilityRequest.loading}\n                pagination={false}\n                dataSource={abilityRows}\n                columns={[\n                  { title: 'featureKey', dataIndex: 'featureKey', width: 180 },\n                  {\n                    title: '参数',\n                    dataIndex: 'params',\n                    render: (value: Record<string, unknown>) => (\n                      <Typography.Text code>{formatJsonEditor(value) || '{}'}</Typography.Text>\n                    ),\n                  },\n                  {\n                    title: '操作',\n                    width: 180,\n                    render: (_, record) => (\n                      <Space wrap>\n                        {canManagePets ? (\n                          <Button\n                            size=\"small\"\n                            icon={<EditOutlined />}\n                            onClick={() => openAbilityEditor(record)}\n                          >\n                            编辑\n                          </Button>\n                        ) : null}\n                        {canManagePets ? (\n                          <Button\n                            size=\"small\"\n                            danger\n                            icon={<DeleteOutlined />}\n                            onClick={() => handleDeleteAbility(record.featureKey)}\n                          >\n                            删除\n                          </Button>\n                        ) : null}\n                      </Space>\n                    ),\n                  },\n                ]}\n              />\n            </ProCard>\n\n            <ProCard\n              title=\"整体替换 abilities\"\n              extra={\n                canManagePets ? (\n                  <Button\n                    type=\"primary\"\n                    icon={<SaveOutlined />}\n                    loading={replaceAbilitiesRequest.loading}\n                    onClick={() => void handleReplaceAbilities()}\n                  >\n                    保存整体配置\n                  </Button>\n                ) : null\n              }\n              style={panelStyle}\n            >\n              <Form form={replaceAbilitiesForm} layout=\"vertical\">\n                <Form.Item name=\"abilities_json\" label=\"abilities JSON\">\n                  <Input.TextArea autoSize={{ minRows: 10, maxRows: 20 }} />\n                </Form.Item>\n              </Form>\n            </ProCard>\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        width={720}\n        title={editingAbilityKey ? `编辑能力 ${editingAbilityKey}` : '新增能力'}\n        open={abilityEditorOpen}\n        onCancel={() => {\n          setAbilityEditorOpen(false);\n          setEditingAbilityKey(null);\n          abilityForm.resetFields();\n        }}\n        onOk={() => void handleSaveAbility()}\n        okText=\"保存\"\n        confirmLoading={patchAbilityRequest.loading}\n        destroyOnClose\n      >\n        <Form form={abilityForm} layout=\"vertical\">\n          <Form.Item\n            name=\"feature_key\"\n            label=\"特性模板\"\n            rules={[{ required: true, message: '请选择 featureKey' }]}\n          >\n            <Select\n              showSearch\n              disabled={Boolean(editingAbilityKey)}\n              options={featureOptions.map((item: FeatureCatalogItem) => ({\n                label: `${item.feature_key} · ${getLocalizedLabel(item.name)}`,\n                value: item.feature_key,\n              }))}\n            />\n          </Form.Item>\n          <Form.Item name=\"enabled\" label=\"是否启用\" valuePropName=\"checked\">\n            <Switch />\n          </Form.Item>\n          <Form.Item\n            noStyle\n            shouldUpdate={(prev, next) => prev.enabled !== next.enabled}\n          >\n            {({ getFieldValue }) =>\n              getFieldValue('enabled') ? (\n                <Form.Item\n                  name=\"params_json\"\n                  label=\"能力参数 JSON\"\n                  rules={[{ required: true, message: '启用时必须提供参数' }]}\n                >\n                  <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />\n                </Form.Item>\n              ) : (\n                <Form.Item name=\"params_json\" label=\"能力参数 JSON\">\n                  <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />\n                </Form.Item>\n              )\n            }\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n}\n",
+      "__content": "import {\n  DeleteOutlined,\n  EditOutlined,\n  PlusOutlined,\n  ReloadOutlined,\n  SafetyOutlined,\n  SaveOutlined,\n  SettingOutlined,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport { useAccess } from '@umijs/max';\nimport {\n  Alert,\n  App,\n  Button,\n  Col,\n  Form,\n  Input,\n  InputNumber,\n  Modal,\n  Row,\n  Select,\n  Space,\n  Switch,\n  Table,\n  Tag,\n  Typography,\n} from 'antd';\nimport { useEffect, useMemo, useState } from 'react';\nimport { panelStyle } from '@/features/admin/shared';\nimport {\n  useRequestDeletePetAbility,\n  useRequestDeletePetDefinition,\n  useRequestPetDefinitionBy,\n  useRequestPetDefinitions,\n  useRequestPetFeatures,\n  useRequestPetKillSwitch,\n  useRequestReplacePetAbilities,\n  useRequestSavePetAbility,\n  useRequestSavePetDefinition,\n} from '@/hooks/usePetAdminRequest';\nimport { PET_RARITY_OPTIONS } from '@/types/pet';\nimport type {\n  FeatureCatalogItem,\n  LocalizedText,\n  PetAbilities,\n  PetDefinition,\n  PetDisplay,\n  PetKillSwitchPayload,\n  PetPricing,\n  PetRarity,\n} from '@/types/pet';\nimport { getLocalizedLabel } from '@/utils/petAdminAdapters';\n\nconst rarityOptions = PET_RARITY_OPTIONS;\nconst killSwitchActions = [\n  { label: '关闭开蛋池', value: 'disable_pool' },\n  { label: '禁用单项能力', value: 'disable_feature' },\n];\n\ninterface PetFormValues {\n  pet_id: string;\n  name?: LocalizedText;\n  rarity: PetRarity;\n  enabled: boolean;\n  obtainable_by_egg: boolean;\n  display?: PetDisplay;\n  description?: LocalizedText;\n  pricing?: PetPricing;\n  abilities_json?: string;\n}\n\ninterface AbilityFormValues {\n  feature_key: string;\n  params_json: string;\n}\n\ninterface AbilityRow {\n  featureKey: string;\n  params: Record<string, unknown>;\n}\n\nfunction formatJsonEditor(value: unknown) {\n  if (!value || (typeof value === 'object' && !Object.keys(value as Record<string, unknown>).length)) {\n    return '';\n  }\n\n  return JSON.stringify(value, null, 2);\n}\n\nfunction compactObject(value: Record<string, unknown> | undefined) {\n  if (!value) {\n    return undefined;\n  }\n\n  const next: Record<string, unknown> = {};\n\n  Object.entries(value).forEach(([key, current]) => {\n    if (typeof current === 'string') {\n      const trimmed = current.trim();\n      if (trimmed) {\n        next[key] = trimmed;\n      }\n      return;\n    }\n\n    if (current && typeof current === 'object' && !Array.isArray(current)) {\n      const nested = compactObject(current as Record<string, unknown>);\n      if (nested) {\n        next[key] = nested;\n      }\n      return;\n    }\n\n    if (current !== undefined && current !== null && current !== '') {\n      next[key] = current;\n    }\n  });\n\n  return Object.keys(next).length ? next : undefined;\n}\n\nfunction parseJsonField(text: string | undefined, fieldLabel: string) {\n  if (!text?.trim()) {\n    return undefined;\n  }\n\n  try {\n    const parsed = JSON.parse(text);\n    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {\n      throw new Error();\n    }\n    return parsed as Record<string, unknown>;\n  } catch {\n    throw new Error(`${fieldLabel} 需要是合法的 JSON 对象`);\n  }\n}\n\nfunction isPlainObject(value: unknown): value is Record<string, unknown> {\n  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);\n}\n\nfunction normalizeAbilities(\n  value: Record<string, unknown> | undefined,\n  allowedFeatureKeys?: Set<string>,\n) {\n  if (!value) {\n    return undefined;\n  }\n\n  const next: PetAbilities = {};\n\n  Object.entries(value).forEach(([featureKey, params]) => {\n    if (!isPlainObject(params)) {\n      throw new Error(`abilities.${featureKey} 必须是 JSON 对象`);\n    }\n\n    if (allowedFeatureKeys && !allowedFeatureKeys.has(featureKey)) {\n      throw new Error(`abilities.${featureKey} 不是已启用的特性模板`);\n    }\n\n    next[featureKey] = params;\n  });\n\n  return Object.keys(next).length ? next : undefined;\n}\n\nfunction toBooleanFilter(value: 'all' | 'true' | 'false') {\n  if (value === 'true') {\n    return true;\n  }\n\n  if (value === 'false') {\n    return false;\n  }\n\n  return undefined;\n}\n\nfunction buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>) {\n  const abilities = normalizeAbilities(\n    parseJsonField(values.abilities_json, 'abilities'),\n    allowedFeatureKeys,\n  );\n\n  const base = compactObject({\n    pet_id: values.pet_id,\n    name: values.name,\n    rarity: values.rarity,\n    enabled: values.enabled,\n    obtainable_by_egg: values.obtainable_by_egg,\n    display: values.display,\n    description: values.description,\n    pricing: values.pricing,\n    abilities,\n  }) as Record<string, unknown> | undefined;\n\n  return {\n    pet_id: String(base?.pet_id ?? '').trim(),\n    name: (base?.name as LocalizedText | undefined) ?? {},\n    rarity: values.rarity,\n    enabled: values.enabled,\n    obtainable_by_egg: values.obtainable_by_egg,\n    display: base?.display as PetDisplay | undefined,\n    description: base?.description as LocalizedText | undefined,\n    pricing: base?.pricing as PetPricing | undefined,\n    abilities: base?.abilities as PetAbilities | undefined,\n  } satisfies Omit<PetDefinition, 'raw' | 'id'>;\n}\n\nexport default function PetsPage() {\n  const { message, modal } = App.useApp();\n  const access = useAccess() as { canManagePets?: boolean };\n  const canManagePets = access.canManagePets === true;\n  const [petForm] = Form.useForm<PetFormValues>();\n  const [killSwitchForm] = Form.useForm<PetKillSwitchPayload>();\n  const [replaceAbilitiesForm] = Form.useForm<{ abilities_json?: string }>();\n  const [abilityForm] = Form.useForm<AbilityFormValues>();\n  const [keyword, setKeyword] = useState('');\n  const [enabledFilter, setEnabledFilter] = useState<'all' | 'true' | 'false'>('all');\n  const [rarityFilter, setRarityFilter] = useState<'all' | PetRarity>('all');\n  const [editorOpen, setEditorOpen] = useState(false);\n  const [editingPetId, setEditingPetId] = useState<string | null>(null);\n  const [activePet, setActivePet] = useState<PetDefinition | null>(null);\n  const [abilityEditorOpen, setAbilityEditorOpen] = useState(false);\n  const [editingAbilityKey, setEditingAbilityKey] = useState<string | null>(null);\n\n  const petListRequest = useRequestPetDefinitions();\n  const petEditorDetailRequest = useRequestPetDefinitionBy();\n  const petAbilityDetailRequest = useRequestPetDefinitionBy();\n  const petFeaturesRequest = useRequestPetFeatures();\n  const savePetRequest = useRequestSavePetDefinition();\n  const deletePetRequest = useRequestDeletePetDefinition();\n  const replaceAbilitiesRequest = useRequestReplacePetAbilities();\n  const saveAbilityRequest = useRequestSavePetAbility();\n  const deleteAbilityRequest = useRequestDeletePetAbility();\n  const killSwitchRequest = useRequestPetKillSwitch();\n\n  const loadPets = async () => {\n    try {\n      await petListRequest.run({\n        current: 1,\n        pageSize: 200,\n        keyword: keyword.trim() || undefined,\n        enabled: toBooleanFilter(enabledFilter),\n        rarity: rarityFilter === 'all' ? undefined : rarityFilter,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '龟种列表加载失败');\n    }\n  };\n\n  const loadPetFeatureOptions = async () => {\n    try {\n      await petFeaturesRequest.run({\n        current: 1,\n        pageSize: 200,\n        scope: 'PET',\n        enabled: true,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '特性模板加载失败');\n    }\n  };\n\n  useEffect(() => {\n    void loadPets();\n    void loadPetFeatureOptions();\n    // Initial bootstrap only.\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);\n  const featureOptions = useMemo(\n    () => petFeaturesRequest.data?.data || [],\n    [petFeaturesRequest.data?.data],\n  );\n  const enabledFeatureKeys = useMemo(\n    () => new Set(featureOptions.filter((item) => item.enabled).map((item) => item.feature_key)),\n    [featureOptions],\n  );\n  const abilityFeatureKeys = featureOptions.length ? enabledFeatureKeys : undefined;\n\n  const petStats = useMemo(() => {\n    return {\n      total: petRecords.length,\n      enabled: petRecords.filter((item) => item.enabled).length,\n      obtainable: petRecords.filter((item) => item.obtainable_by_egg).length,\n    };\n  }, [petRecords]);\n\n  const abilityRows = useMemo<AbilityRow[]>(() => {\n    if (!activePet?.abilities) {\n      return [];\n    }\n\n    return Object.entries(activePet.abilities).map(([featureKey, params]) => ({\n      featureKey,\n      params,\n    }));\n  }, [activePet?.abilities]);\n\n  const openCreateModal = () => {\n    setEditingPetId(null);\n    petForm.resetFields();\n    petForm.setFieldsValue({\n      rarity: 'C',\n      enabled: true,\n      obtainable_by_egg: true,\n      abilities_json: '',\n    });\n    setEditorOpen(true);\n  };\n\n  const openEditModal = async (petDefinitionId: string) => {\n    try {\n      const detail = await petEditorDetailRequest.run(petDefinitionId);\n      setEditingPetId(detail.id);\n      petForm.setFieldsValue({\n        pet_id: detail.pet_id,\n        name: detail.name,\n        rarity: detail.rarity,\n        enabled: detail.enabled,\n        obtainable_by_egg: detail.obtainable_by_egg,\n        display: detail.display,\n        description: detail.description,\n        pricing: detail.pricing,\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n      setEditorOpen(true);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '龟种详情加载失败');\n    }\n  };\n\n  const closeEditor = () => {\n    setEditorOpen(false);\n    setEditingPetId(null);\n    petForm.resetFields();\n  };\n\n  const handleSavePet = async () => {\n    try {\n      const values = await petForm.validateFields();\n      const payload = buildPetPayload(values, abilityFeatureKeys);\n      await savePetRequest.run(payload);\n      message.success(editingPetId ? '龟种已更新' : '龟种已创建');\n      closeEditor();\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleDeletePet = (record: PetDefinition) => {\n    modal.confirm({\n      title: `确认下架 ${record.pet_id} 吗？`,\n      content: '接口约定支持软删，后端通常会将 enabled 置为 false。',\n      okButtonProps: { danger: true },\n      onOk: async () => {\n        try {\n          await deletePetRequest.run(record.id);\n          message.success('龟种已删除');\n          await loadPets();\n        } catch (error) {\n          message.error(error instanceof Error ? error.message : '龟种删除失败');\n        }\n      },\n    });\n  };\n\n  const openAbilitiesModal = async (petDefinitionId: string) => {\n    try {\n      const detail = await petAbilityDetailRequest.run(petDefinitionId);\n      setActivePet(detail);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '能力详情加载失败');\n    }\n  };\n\n  const refreshActivePet = async () => {\n    if (!activePet?.id) {\n      return;\n    }\n\n    try {\n      const detail = await petAbilityDetailRequest.run(activePet.id);\n      setActivePet(detail);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(detail.abilities),\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '能力详情刷新失败');\n    }\n  };\n\n  const closeAbilitiesModal = () => {\n    setActivePet(null);\n    setAbilityEditorOpen(false);\n    setEditingAbilityKey(null);\n    replaceAbilitiesForm.resetFields();\n    abilityForm.resetFields();\n  };\n\n  const handleReplaceAbilities = async () => {\n    if (!activePet) {\n      return;\n    }\n\n    try {\n      const values = await replaceAbilitiesForm.validateFields();\n      const abilities = normalizeAbilities(\n        parseJsonField(values.abilities_json, 'abilities'),\n        abilityFeatureKeys,\n      );\n      const updated = await replaceAbilitiesRequest.run({\n        petDefinitionId: activePet.id,\n        abilities: (abilities ?? {}) as PetAbilities,\n      });\n      setActivePet(updated);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(updated.abilities),\n      });\n      message.success('abilities 已整体替换');\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const openAbilityEditor = (row?: AbilityRow) => {\n    if (!activePet) {\n      return;\n    }\n\n    setEditingAbilityKey(row?.featureKey ?? null);\n    abilityForm.resetFields();\n    abilityForm.setFieldsValue({\n      feature_key: row?.featureKey ?? undefined,\n      params_json: formatJsonEditor(row?.params),\n    });\n    setAbilityEditorOpen(true);\n  };\n\n  const handleSaveAbility = async () => {\n    if (!activePet) {\n      return;\n    }\n\n    try {\n      const values = await abilityForm.validateFields();\n      const params = parseJsonField(values.params_json, '能力参数');\n      if (!params) {\n        throw new Error('请提供能力参数');\n      }\n\n      const updated = await saveAbilityRequest.run({\n        petDefinitionId: activePet.id,\n        featureKey: values.feature_key,\n        params,\n      });\n      setActivePet(updated);\n      replaceAbilitiesForm.setFieldsValue({\n        abilities_json: formatJsonEditor(updated.abilities),\n      });\n      setAbilityEditorOpen(false);\n      setEditingAbilityKey(null);\n      abilityForm.resetFields();\n      message.success('能力已保存');\n      await loadPets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleDeleteAbility = (featureKey: string) => {\n    if (!activePet) {\n      return;\n    }\n\n    modal.confirm({\n      title: `确认移除能力 ${featureKey} 吗？`,\n      okButtonProps: { danger: true },\n      onOk: async () => {\n        try {\n          await deleteAbilityRequest.run({\n            petDefinitionId: activePet.id,\n            featureKey,\n          });\n          message.success('能力已移除');\n          await refreshActivePet();\n          await loadPets();\n        } catch (error) {\n          message.error(error instanceof Error ? error.message : '能力移除失败');\n        }\n      },\n    });\n  };\n\n  const handleKillSwitch = async () => {\n    try {\n      const values = await killSwitchForm.validateFields();\n      await killSwitchRequest.run(values);\n      message.success('紧急开关已执行');\n      killSwitchForm.resetFields();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  return (\n    <PageContainer\n      title=\"龟种管理\"\n      extra={[\n        <Button key=\"refresh\" icon={<ReloadOutlined />} onClick={() => void loadPets()}>\n          刷新\n        </Button>,\n        canManagePets ? (\n          <Button key=\"create\" type=\"primary\" icon={<PlusOutlined />} onClick={openCreateModal}>\n            新建龟种\n          </Button>\n        ) : null,\n      ].filter(Boolean)}\n    >\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        {petListRequest.error instanceof Error ? (\n          <Alert\n            type=\"error\"\n            showIcon\n            message=\"龟种列表加载失败\"\n            description={petListRequest.error.message}\n          />\n        ) : null}\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.total}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                当前龟种总数\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.enabled}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                已启用龟种\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n          <Col xs={24} md={8}>\n            <ProCard style={panelStyle}>\n              <Typography.Title level={4} style={{ margin: 0 }}>\n                {petStats.obtainable}\n              </Typography.Title>\n              <Typography.Paragraph type=\"secondary\" style={{ margin: '8px 0 0' }}>\n                可通过开蛋获得\n              </Typography.Paragraph>\n            </ProCard>\n          </Col>\n        </Row>\n\n        <ProCard title=\"筛选\" style={panelStyle}>\n          <Space wrap>\n            <Input\n              allowClear\n              style={{ width: 260 }}\n              placeholder=\"搜索 pet_id / 名称 / 描述\"\n              value={keyword}\n              onChange={(event) => setKeyword(event.target.value)}\n            />\n            <Select\n              style={{ width: 160 }}\n              value={enabledFilter}\n              options={[\n                { label: '全部状态', value: 'all' },\n                { label: '已启用', value: 'true' },\n                { label: '已停用', value: 'false' },\n              ]}\n              onChange={(value) => setEnabledFilter(value)}\n            />\n            <Select\n              style={{ width: 160 }}\n              value={rarityFilter}\n              options={[\n                { label: '全部稀有度', value: 'all' },\n                ...rarityOptions.map((item) => ({ label: item, value: item })),\n              ]}\n              onChange={(value) => setRarityFilter(value)}\n            />\n            <Button type=\"primary\" icon={<ReloadOutlined />} onClick={() => void loadPets()}>\n              应用筛选\n            </Button>\n          </Space>\n        </ProCard>\n\n        {canManagePets ? (\n          <ProCard title=\"紧急止血开关\" extra={<SafetyOutlined />} style={panelStyle}>\n            <Form form={killSwitchForm} layout=\"inline\" onFinish={() => void handleKillSwitch()}>\n              <Form.Item\n                name=\"action\"\n                rules={[{ required: true, message: '请选择动作' }]}\n                initialValue=\"disable_pool\"\n              >\n                <Select style={{ width: 180 }} options={killSwitchActions} />\n              </Form.Item>\n              <Form.Item\n                name=\"scope\"\n                rules={[{ required: true, message: '请输入作用域' }]}\n                initialValue=\"global\"\n              >\n                <Input style={{ width: 180 }} placeholder=\"global / feature_key\" />\n              </Form.Item>\n              <Form.Item name=\"reason\" style={{ minWidth: 320 }}>\n                <Input placeholder=\"触发原因，例如 emergency: exploit\" />\n              </Form.Item>\n              <Form.Item>\n                <Button type=\"primary\" danger htmlType=\"submit\" loading={killSwitchRequest.loading}>\n                  执行\n                </Button>\n              </Form.Item>\n            </Form>\n          </ProCard>\n        ) : null}\n\n        <ProCard title=\"龟种列表\" style={panelStyle}>\n          <Table\n            rowKey=\"id\"\n            loading={petListRequest.loading}\n            pagination={false}\n            dataSource={petRecords}\n            columns={[\n              { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },\n              {\n                title: '名称',\n                dataIndex: 'name',\n                render: (value: LocalizedText) => getLocalizedLabel(value),\n              },\n              {\n                title: '稀有度',\n                dataIndex: 'rarity',\n                width: 100,\n                render: (value: PetRarity) => <Tag color=\"processing\">{value}</Tag>,\n              },\n              {\n                title: '启用',\n                dataIndex: 'enabled',\n                width: 100,\n                render: (value: boolean) => (\n                  <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>\n                ),\n              },\n              {\n                title: '开蛋获取',\n                dataIndex: 'obtainable_by_egg',\n                width: 120,\n                render: (value: boolean) => (\n                  <Tag color={value ? 'gold' : 'default'}>{value ? '可抽取' : '不可抽取'}</Tag>\n                ),\n              },\n              {\n                title: '默认价格',\n                width: 120,\n                render: (_, record) => record.pricing?.egg_price ?? '-',\n              },\n              {\n                title: '能力数',\n                width: 100,\n                render: (_, record) => Object.keys(record.abilities || {}).length,\n              },\n              {\n                title: '更新时间',\n                width: 180,\n                render: (_, record) => record.metadata?.updated_at || '-',\n              },\n              {\n                title: '操作',\n                width: 260,\n                render: (_, record) => (\n                  <Space wrap>\n                    <Button\n                      size=\"small\"\n                      icon={<SettingOutlined />}\n                      onClick={() => void openAbilitiesModal(record.id)}\n                    >\n                      abilities\n                    </Button>\n                    {canManagePets ? (\n                      <Button\n                        size=\"small\"\n                        icon={<EditOutlined />}\n                        loading={petEditorDetailRequest.loading && editingPetId === record.id}\n                        onClick={() => void openEditModal(record.id)}\n                      >\n                        编辑\n                      </Button>\n                    ) : null}\n                    {canManagePets ? (\n                      <Button\n                        size=\"small\"\n                        danger\n                        icon={<DeleteOutlined />}\n                        loading={deletePetRequest.loading}\n                        onClick={() => handleDeletePet(record)}\n                      >\n                        删除\n                      </Button>\n                    ) : null}\n                  </Space>\n                ),\n              },\n            ]}\n          />\n        </ProCard>\n      </Space>\n\n      <Modal\n        width={840}\n        title={editingPetId ? `编辑龟种 ${petForm.getFieldValue('pet_id') || ''}` : '新建龟种'}\n        open={editorOpen}\n        onCancel={closeEditor}\n        onOk={() => void handleSavePet()}\n        okText=\"保存\"\n        confirmLoading={savePetRequest.loading}\n        destroyOnClose\n      >\n        <Form form={petForm} layout=\"vertical\">\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item\n                name=\"pet_id\"\n                label=\"Pet ID\"\n                rules={[\n                  { required: true, message: '请输入 pet_id' },\n                  { pattern: /^[a-z0-9_]+$/, message: '仅支持小写字母、数字和下划线' },\n                ]}\n              >\n                <Input disabled={Boolean(editingPetId)} placeholder=\"basic / lava / space\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name=\"rarity\"\n                label=\"稀有度\"\n                rules={[{ required: true, message: '请选择稀有度' }]}\n              >\n                <Select options={rarityOptions.map((item) => ({ label: item, value: item }))} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name={['name', 'zh-CN']}\n                label=\"中文名称\"\n                rules={[{ required: true, message: '请输入中文名称' }]}\n              >\n                <Input placeholder=\"火山龟\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['name', 'en-US']} label=\"英文名称\">\n                <Input placeholder=\"Lava Turtle\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"enabled\" label=\"启用展示\" valuePropName=\"checked\">\n                <Switch />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"obtainable_by_egg\" label=\"可开蛋获得\" valuePropName=\"checked\">\n                <Switch />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'icon']} label=\"图标资源\">\n                <Input placeholder=\"pet:lava:icon_v2\" />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'cover']} label=\"封面资源\">\n                <Input placeholder=\"pet:lava:cover\" />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['display', 'thumbnail']} label=\"缩略图资源\">\n                <Input placeholder=\"pet:lava:thumb\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['description', 'zh-CN']} label=\"中文描述\">\n                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name={['description', 'en-US']} label=\"英文描述\">\n                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_price']} label=\"开蛋价格\">\n                <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_discount', 'type']} label=\"折扣类型\">\n                <Select\n                  allowClear\n                  options={[\n                    { label: 'rate', value: 'rate' },\n                    { label: 'fixed', value: 'fixed' },\n                  ]}\n                />\n              </Form.Item>\n            </Col>\n            <Col span={8}>\n              <Form.Item name={['pricing', 'egg_discount', 'value']} label=\"折扣值\">\n                <InputNumber min={0} style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Form.Item name=\"abilities_json\" label=\"abilities JSON\">\n            <Input.TextArea\n              autoSize={{ minRows: 8, maxRows: 16 }}\n              placeholder='{\"spark_multiplier\":{\"base\":1.3}}'\n            />\n          </Form.Item>\n        </Form>\n      </Modal>\n\n      <Modal\n        width={980}\n        title={activePet ? `能力挂载 - ${activePet.pet_id}` : '能力挂载'}\n        open={Boolean(activePet)}\n        onCancel={closeAbilitiesModal}\n        footer={null}\n        destroyOnClose\n      >\n        {activePet ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Alert\n              type=\"info\"\n              showIcon\n              message={`当前龟种：${getLocalizedLabel(activePet.name)} (${activePet.pet_id})`}\n              description=\"abilities 按 featureKey -> params 存储，这里支持整体替换、单项编辑和删除。\"\n            />\n\n            <ProCard\n              title=\"单项能力\"\n              extra={\n                canManagePets ? (\n                  <Button type=\"primary\" icon={<PlusOutlined />} onClick={() => openAbilityEditor()}>\n                    新增能力\n                  </Button>\n                ) : null\n              }\n              style={panelStyle}\n            >\n              <Table\n                rowKey=\"featureKey\"\n                loading={petAbilityDetailRequest.loading || deleteAbilityRequest.loading}\n                pagination={false}\n                dataSource={abilityRows}\n                columns={[\n                  { title: 'featureKey', dataIndex: 'featureKey', width: 180 },\n                  {\n                    title: '参数',\n                    dataIndex: 'params',\n                    render: (value: Record<string, unknown>) => (\n                      <Typography.Text code>{formatJsonEditor(value) || '{}'}</Typography.Text>\n                    ),\n                  },\n                  {\n                    title: '操作',\n                    width: 180,\n                    render: (_, record) => (\n                      <Space wrap>\n                        {canManagePets ? (\n                          <Button\n                            size=\"small\"\n                            icon={<EditOutlined />}\n                            onClick={() => openAbilityEditor(record)}\n                          >\n                            编辑\n                          </Button>\n                        ) : null}\n                        {canManagePets ? (\n                          <Button\n                            size=\"small\"\n                            danger\n                            icon={<DeleteOutlined />}\n                            onClick={() => handleDeleteAbility(record.featureKey)}\n                          >\n                            删除\n                          </Button>\n                        ) : null}\n                      </Space>\n                    ),\n                  },\n                ]}\n              />\n            </ProCard>\n\n            <ProCard\n              title=\"整体替换 abilities\"\n              extra={\n                canManagePets ? (\n                  <Button\n                    type=\"primary\"\n                    icon={<SaveOutlined />}\n                    loading={replaceAbilitiesRequest.loading}\n                    onClick={() => void handleReplaceAbilities()}\n                  >\n                    保存整体配置\n                  </Button>\n                ) : null\n              }\n              style={panelStyle}\n            >\n              <Form form={replaceAbilitiesForm} layout=\"vertical\">\n                <Form.Item name=\"abilities_json\" label=\"abilities JSON\">\n                  <Input.TextArea autoSize={{ minRows: 10, maxRows: 20 }} />\n                </Form.Item>\n              </Form>\n            </ProCard>\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        width={720}\n        title={editingAbilityKey ? `编辑能力 ${editingAbilityKey}` : '新增能力'}\n        open={abilityEditorOpen}\n        onCancel={() => {\n          setAbilityEditorOpen(false);\n          setEditingAbilityKey(null);\n          abilityForm.resetFields();\n        }}\n        onOk={() => void handleSaveAbility()}\n        okText=\"保存\"\n        confirmLoading={saveAbilityRequest.loading}\n        destroyOnClose\n      >\n        <Form form={abilityForm} layout=\"vertical\">\n          <Form.Item\n            name=\"feature_key\"\n            label=\"特性模板\"\n            rules={[{ required: true, message: '请选择 featureKey' }]}\n          >\n            <Select\n              showSearch\n              disabled={Boolean(editingAbilityKey)}\n              options={featureOptions.map((item: FeatureCatalogItem) => ({\n                label: `${item.feature_key} · ${getLocalizedLabel(item.name)}`,\n                value: item.feature_key,\n              }))}\n            />\n          </Form.Item>\n          <Form.Item\n            name=\"params_json\"\n            label=\"能力参数 JSON\"\n            extra=\"按接口契约直接提交 { params }，启用状态请放在 params.enabled 中。\"\n            rules={[{ required: true, message: '请输入能力参数 JSON' }]}\n          >\n            <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/Pets/index.tsx"
     },
@@ -4194,7 +4022,7 @@
       "parentId": "@@/global-layout",
       "id": "11",
       "absPath": "/pet-gacha",
-      "__content": "import {\n  CheckCircleOutlined,\n  ExclamationCircleOutlined,\n  ReloadOutlined,\n  SaveOutlined,\n  SyncOutlined,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport { useAccess } from '@umijs/max';\nimport {\n  Alert,\n  App,\n  Button,\n  Col,\n  Form,\n  InputNumber,\n  Progress,\n  Row,\n  Space,\n  Statistic,\n  Switch,\n  Tag,\n  Typography,\n} from 'antd';\nimport { useEffect, useMemo } from 'react';\nimport { panelStyle } from '@/features/admin/shared';\nimport {\n  useRequestPetDefinitions,\n  useRequestPetGachaConfig,\n  useRequestResetPetGachaConfig,\n  useRequestSavePetGachaConfig,\n} from '@/hooks/usePetAdminRequest';\nimport { PET_RARITY_OPTIONS } from '@/types/pet';\nimport type { GachaPoolConfig, GachaPoolRarityWeights, PetDefinition, PetRarity } from '@/types/pet';\n\nconst petRarityOptions = PET_RARITY_OPTIONS;\nconst probabilityEpsilon = 1e-9;\nconst recommendedGachaPoolConfig: GachaPoolConfig = {\n  enabled: true,\n  base_cost: 500,\n  rarity_weights: {\n    C: 0.4,\n    B: 0.3,\n    A: 0.15,\n    S: 0.1,\n    SS: 0.04,\n    SSS: 0.01,\n  },\n};\n\nfunction formatProbability(value: number) {\n  return `${(value * 100).toFixed(2)}%`;\n}\n\nfunction buildWeights(values: Partial<GachaPoolRarityWeights> | undefined) {\n  return petRarityOptions.reduce((result, rarity) => {\n    result[rarity] = Number(values?.[rarity] ?? 0);\n    return result;\n  }, {} as GachaPoolRarityWeights);\n}\n\nfunction normalizeConfig(values: GachaPoolConfig): GachaPoolConfig {\n  return {\n    enabled: values.enabled === true,\n    base_cost: Number(values.base_cost ?? 0),\n    rarity_weights: buildWeights(values.rarity_weights),\n  };\n}\n\nfunction getProbabilitySum(weights: GachaPoolRarityWeights) {\n  return petRarityOptions.reduce((sum, rarity) => sum + Number(weights[rarity] ?? 0), 0);\n}\n\nfunction getEligibleCountsByRarity(records: PetDefinition[]) {\n  return petRarityOptions.reduce((result, rarity) => {\n    result[rarity] = records.filter(\n      (item) => item.rarity === rarity && item.obtainable_by_egg && item.enabled,\n    ).length;\n    return result;\n  }, {} as Record<PetRarity, number>);\n}\n\nfunction validateGachaConfig(\n  config: GachaPoolConfig,\n  eligibleCountsByRarity: Record<PetRarity, number>,\n) {\n  const issues: string[] = [];\n  const missingCandidateRarities: PetRarity[] = [];\n  const weightKeys = Object.keys(config.rarity_weights ?? {});\n  const invalidKeys = weightKeys.filter(\n    (key) => !petRarityOptions.includes(key as PetRarity),\n  );\n\n  if (invalidKeys.length) {\n    issues.push(`rarity_weights 存在非法 key：${invalidKeys.join(', ')}`);\n  }\n\n  if (!Number.isFinite(config.base_cost) || config.base_cost < 0) {\n    issues.push('base_cost 必须大于等于 0');\n  }\n\n  petRarityOptions.forEach((rarity) => {\n    const value = Number(config.rarity_weights[rarity]);\n\n    if (!Number.isFinite(value)) {\n      issues.push(`${rarity} 概率必须是数字`);\n      return;\n    }\n\n    if (value < 0 || value > 1) {\n      issues.push(`${rarity} 概率必须在 0 到 1 之间`);\n    }\n\n    if (value > 0 && eligibleCountsByRarity[rarity] === 0) {\n      missingCandidateRarities.push(rarity);\n    }\n  });\n\n  if (missingCandidateRarities.length) {\n    issues.push(\n      `以下稀有度已配置概率，但当前没有可开蛋获得的龟种：${missingCandidateRarities.join('、')}。请先补充对应龟种，或将这些稀有度概率设为 0`,\n    );\n  }\n\n  const sum = getProbabilitySum(config.rarity_weights);\n  if (Math.abs(sum - 1) > probabilityEpsilon) {\n    issues.push(`rarity_weights 概率累加必须等于 1，当前 sum=${sum.toFixed(6)}`);\n  }\n\n  return issues;\n}\n\nexport default function PetGachaPage() {\n  const { message } = App.useApp();\n  const access = useAccess() as { canManagePets?: boolean };\n  const canManagePets = access.canManagePets === true;\n  const [form] = Form.useForm<GachaPoolConfig>();\n  const watchedConfig = Form.useWatch([], form);\n\n  const gachaConfigRequest = useRequestPetGachaConfig();\n  const saveGachaConfigRequest = useRequestSavePetGachaConfig();\n  const resetGachaConfigRequest = useRequestResetPetGachaConfig();\n  const petListRequest = useRequestPetDefinitions();\n\n  const applyConfig = (config: GachaPoolConfig) => {\n    form.setFieldsValue(normalizeConfig(config));\n  };\n\n  const loadConfig = async () => {\n    try {\n      const config = await gachaConfigRequest.run(undefined);\n      applyConfig(config);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '开蛋池配置加载失败');\n    }\n  };\n\n  const loadPetCandidates = async () => {\n    try {\n      await petListRequest.run({\n        current: 1,\n        pageSize: 500,\n        enabled: true,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '可抽取龟种加载失败');\n    }\n  };\n\n  const refreshAll = async () => {\n    await Promise.all([loadConfig(), loadPetCandidates()]);\n  };\n\n  useEffect(() => {\n    applyConfig(recommendedGachaPoolConfig);\n    void refreshAll();\n    // Initial bootstrap only.\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const eligiblePetRecords = useMemo(\n    () =>\n      (petListRequest.data?.data ?? []).filter(\n        (item) => item.enabled && item.obtainable_by_egg,\n      ),\n    [petListRequest.data?.data],\n  );\n  const eligibleCountsByRarity = useMemo(\n    () => getEligibleCountsByRarity(eligiblePetRecords),\n    [eligiblePetRecords],\n  );\n  const liveConfig = useMemo(\n    () => normalizeConfig(watchedConfig ?? recommendedGachaPoolConfig),\n    [watchedConfig],\n  );\n  const liveIssues = useMemo(\n    () => validateGachaConfig(liveConfig, eligibleCountsByRarity),\n    [eligibleCountsByRarity, liveConfig],\n  );\n  const probabilitySum = useMemo(\n    () => getProbabilitySum(liveConfig.rarity_weights),\n    [liveConfig.rarity_weights],\n  );\n  const sumPercent = Math.max(0, Math.min(100, probabilitySum * 100));\n  const sumIsValid = Math.abs(probabilitySum - 1) <= probabilityEpsilon;\n  const weightedRarityCount = petRarityOptions.filter(\n    (rarity) => liveConfig.rarity_weights[rarity] > 0,\n  ).length;\n  const loading = gachaConfigRequest.loading || petListRequest.loading;\n\n  const handleSave = async () => {\n    try {\n      const values = await form.validateFields();\n      const payload = normalizeConfig(values);\n      const issues = validateGachaConfig(payload, eligibleCountsByRarity);\n\n      if (issues.length) {\n        throw new Error(issues.join('；'));\n      }\n\n      const saved = await saveGachaConfigRequest.run(payload);\n      applyConfig(saved);\n      message.success('开蛋池配置已保存');\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleApplyRecommended = () => {\n    applyConfig(recommendedGachaPoolConfig);\n    message.success('已填入推荐默认值');\n  };\n\n  const handleReset = async () => {\n    try {\n      const config = await resetGachaConfigRequest.run(undefined);\n      applyConfig(config);\n      message.success('已重置为后端默认配置');\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '重置默认配置失败');\n    }\n  };\n\n  return (\n    <PageContainer\n      title=\"开蛋池配置\"\n      extra={[\n        <Button key=\"refresh\" icon={<ReloadOutlined />} onClick={() => void refreshAll()}>\n          刷新\n        </Button>,\n        canManagePets ? (\n          <Button key=\"apply-default\" icon={<SyncOutlined />} onClick={handleApplyRecommended}>\n            应用推荐值\n          </Button>\n        ) : null,\n        canManagePets ? (\n          <Button\n            key=\"reset\"\n            onClick={() => void handleReset()}\n            loading={resetGachaConfigRequest.loading}\n          >\n            重置默认\n          </Button>\n        ) : null,\n        canManagePets ? (\n          <Button\n            key=\"save\"\n            type=\"primary\"\n            icon={<SaveOutlined />}\n            loading={saveGachaConfigRequest.loading}\n            onClick={() => void handleSave()}\n          >\n            保存配置\n          </Button>\n        ) : null,\n      ].filter(Boolean)}\n    >\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        {gachaConfigRequest.error instanceof Error ? (\n          <Alert\n            type=\"error\"\n            showIcon\n            message=\"开蛋池配置加载失败\"\n            description={gachaConfigRequest.error.message}\n          />\n        ) : null}\n\n        {petListRequest.error instanceof Error ? (\n          <Alert\n            type=\"warning\"\n            showIcon\n            message=\"候选龟种校验未完成\"\n            description={petListRequest.error.message}\n          />\n        ) : null}\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic\n                title=\"总开关\"\n                value={liveConfig.enabled ? '启用中' : '已关闭'}\n                valueStyle={{ color: liveConfig.enabled ? '#1677ff' : '#98a2b3' }}\n              />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic title=\"基础费用\" value={liveConfig.base_cost} suffix=\"币\" />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic\n                title=\"概率合计\"\n                value={probabilitySum}\n                precision={6}\n                valueStyle={{ color: sumIsValid ? '#1677ff' : '#ff4d4f' }}\n              />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic title=\"可抽稀有度数\" value={weightedRarityCount} suffix=\"/ 6\" />\n            </ProCard>\n          </Col>\n        </Row>\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} xl={16}>\n            <ProCard\n              title=\"基础配置\"\n              style={panelStyle}\n              extra={\n                <Space size={8}>\n                  <Tag color={liveConfig.enabled ? 'success' : 'default'}>\n                    {liveConfig.enabled ? '用户侧可用' : '用户侧不可用'}\n                  </Tag>\n                  <Tag color={sumIsValid ? 'processing' : 'error'}>\n                    概率和 {probabilitySum.toFixed(6)}\n                  </Tag>\n                </Space>\n              }\n            >\n              <Form\n                form={form}\n                layout=\"vertical\"\n                initialValues={recommendedGachaPoolConfig}\n                disabled={!canManagePets}\n              >\n                <Row gutter={16}>\n                  <Col xs={24} md={8}>\n                    <Form.Item\n                      name=\"enabled\"\n                      label=\"总开关\"\n                      valuePropName=\"checked\"\n                      extra=\"关闭后，用户侧所有开蛋入口应直接不可用。\"\n                    >\n                      <Switch checkedChildren=\"启用\" unCheckedChildren=\"关闭\" />\n                    </Form.Item>\n                  </Col>\n                  <Col xs={24} md={8}>\n                    <Form.Item\n                      name=\"base_cost\"\n                      label=\"基础费用\"\n                      rules={[\n                        { required: true, message: '请输入基础费用' },\n                        {\n                          validator: async (_, value) => {\n                            if (typeof value !== 'number' || !Number.isFinite(value)) {\n                              throw new Error('基础费用必须是数字');\n                            }\n\n                            if (value < 0) {\n                              throw new Error('基础费用必须大于等于 0');\n                            }\n                          },\n                        },\n                      ]}\n                    >\n                      <InputNumber style={{ width: '100%' }} min={0} precision={0} />\n                    </Form.Item>\n                  </Col>\n                  <Col xs={24} md={8}>\n                    <Typography.Text type=\"secondary\">\n                      推荐值：500，建议与用户侧展示口径保持一致。\n                    </Typography.Text>\n                    <div style={{ marginTop: 16 }}>\n                      <Progress\n                        percent={sumPercent}\n                        status={sumIsValid ? 'normal' : 'exception'}\n                        format={() => `当前 ${(probabilitySum * 100).toFixed(2)}%`}\n                      />\n                    </div>\n                  </Col>\n                </Row>\n\n                <Typography.Title level={5} style={{ marginTop: 8 }}>\n                  稀有度概率\n                </Typography.Title>\n                <Row gutter={[16, 16]}>\n                  {petRarityOptions.map((rarity) => (\n                    <Col key={rarity} xs={24} md={12} xl={8}>\n                      <div\n                        style={{\n                          border: '1px solid #eaecf0',\n                          borderRadius: 14,\n                          padding: 16,\n                          background: '#fafcff',\n                        }}\n                      >\n                        <Space\n                          align=\"center\"\n                          style={{ width: '100%', justifyContent: 'space-between' }}\n                        >\n                          <Typography.Text strong>{rarity}</Typography.Text>\n                          <Tag color={eligibleCountsByRarity[rarity] > 0 ? 'success' : 'warning'}>\n                            候选 {eligibleCountsByRarity[rarity]}\n                          </Tag>\n                        </Space>\n                        <Form.Item\n                          style={{ marginTop: 12, marginBottom: 12 }}\n                          name={['rarity_weights', rarity]}\n                          label=\"概率\"\n                          rules={[\n                            { required: true, message: `请输入 ${rarity} 概率` },\n                            {\n                              validator: async (_, value) => {\n                                if (typeof value !== 'number' || !Number.isFinite(value)) {\n                                  throw new Error('概率必须是数字');\n                                }\n\n                                if (value < 0 || value > 1) {\n                                  throw new Error('概率必须在 0 到 1 之间');\n                                }\n                              },\n                            },\n                          ]}\n                        >\n                          <InputNumber\n                            style={{ width: '100%' }}\n                            min={0}\n                            max={1}\n                            step={0.01}\n                            precision={4}\n                            addonAfter=\"%\"\n                          />\n                        </Form.Item>\n                        <Progress\n                          percent={Math.max(0, Math.min(100, liveConfig.rarity_weights[rarity] * 100))}\n                          strokeColor={eligibleCountsByRarity[rarity] > 0 ? '#1677ff' : '#faad14'}\n                          format={() => formatProbability(liveConfig.rarity_weights[rarity])}\n                        />\n                      </div>\n                    </Col>\n                  ))}\n                </Row>\n              </Form>\n            </ProCard>\n          </Col>\n\n          <Col xs={24} xl={8}>\n            <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n              <ProCard title=\"发布前校验\" style={panelStyle} loading={loading}>\n                <Space direction=\"vertical\" size={12} style={{ width: '100%' }}>\n                  {liveIssues.length ? (\n                    <Alert\n                      type=\"warning\"\n                      showIcon\n                      message=\"当前配置存在风险\"\n                      description={\n                        <Space direction=\"vertical\" size={8} style={{ width: '100%' }}>\n                          {liveIssues.map((issue) => (\n                            <Typography.Text key={issue}>{issue}</Typography.Text>\n                          ))}\n                        </Space>\n                      }\n                    />\n                  ) : (\n                    <Alert\n                      type=\"success\"\n                      showIcon\n                      message=\"配置校验通过\"\n                      description=\"概率范围、概率和、可抽取候选检查都已通过。\"\n                    />\n                  )}\n\n                  <div>\n                    <Space direction=\"vertical\" size={10} style={{ width: '100%' }}>\n                      <Space>\n                        {liveIssues.length ? (\n                          <ExclamationCircleOutlined style={{ color: '#faad14' }} />\n                        ) : (\n                          <CheckCircleOutlined style={{ color: '#52c41a' }} />\n                        )}\n                        <Typography.Text strong>保存规则</Typography.Text>\n                      </Space>\n                      <Typography.Text type=\"secondary\">\n                        1. 只允许 C / B / A / S / SS / SSS 六个稀有度。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        2. 每个概率都必须在 0 到 1 之间。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        3. 所有概率累加必须等于 1。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        4. 若某稀有度概率大于 0，则至少要存在 1 只可开蛋获得且启用中的龟种。\n                      </Typography.Text>\n                    </Space>\n                  </div>\n                </Space>\n              </ProCard>\n\n              <ProCard title=\"候选池概览\" style={panelStyle} loading={petListRequest.loading}>\n                <Space direction=\"vertical\" size={12} style={{ width: '100%' }}>\n                  <Typography.Text type=\"secondary\">\n                    统计口径：`enabled = true` 且 `obtainable_by_egg = true`\n                  </Typography.Text>\n                  {petRarityOptions.map((rarity) => (\n                    <div\n                      key={rarity}\n                      style={{\n                        display: 'flex',\n                        alignItems: 'center',\n                        justifyContent: 'space-between',\n                        gap: 12,\n                      }}\n                    >\n                      <Space size={8}>\n                        <Tag color=\"processing\">{rarity}</Tag>\n                        <Typography.Text>\n                          {formatProbability(liveConfig.rarity_weights[rarity])}\n                        </Typography.Text>\n                      </Space>\n                      <Typography.Text strong>{eligibleCountsByRarity[rarity]} 只</Typography.Text>\n                    </div>\n                  ))}\n                  <Alert\n                    type=\"info\"\n                    showIcon\n                    message=\"抽取口径\"\n                    description=\"用户侧应先按稀有度概率抽样，再在对应稀有度的可开蛋龟种中均分抽取。\"\n                  />\n                </Space>\n              </ProCard>\n            </Space>\n          </Col>\n        </Row>\n      </Space>\n    </PageContainer>\n  );\n}\n",
+      "__content": "import {\n  CheckCircleOutlined,\n  ExclamationCircleOutlined,\n  ReloadOutlined,\n  SaveOutlined,\n  SyncOutlined,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport { useAccess } from '@umijs/max';\nimport {\n  Alert,\n  App,\n  Button,\n  Col,\n  Form,\n  InputNumber,\n  Progress,\n  Row,\n  Space,\n  Statistic,\n  Switch,\n  Tag,\n  Typography,\n} from 'antd';\nimport { useEffect, useMemo } from 'react';\nimport { panelStyle } from '@/features/admin/shared';\nimport {\n  useRequestPetDefinitions,\n  useRequestPetGachaConfig,\n  useRequestResetPetGachaConfig,\n  useRequestSavePetGachaConfig,\n} from '@/hooks/usePetAdminRequest';\nimport { PET_RARITY_OPTIONS } from '@/types/pet';\nimport type { GachaPoolConfig, GachaPoolRarityWeights, PetDefinition, PetRarity } from '@/types/pet';\n\nconst petRarityOptions = PET_RARITY_OPTIONS;\nconst probabilityEpsilon = 1e-9;\nconst recommendedGachaPoolConfig: GachaPoolConfig = {\n  enabled: true,\n  base_cost: 500,\n  rarity_weights: {\n    C: 0.4,\n    B: 0.3,\n    A: 0.15,\n    S: 0.1,\n    SS: 0.04,\n    SSS: 0.01,\n  },\n};\n\nfunction formatProbability(value: number) {\n  return `${(value * 100).toFixed(2)}%`;\n}\n\nfunction buildWeights(values: Partial<GachaPoolRarityWeights> | undefined) {\n  return petRarityOptions.reduce((result, rarity) => {\n    result[rarity] = Number(values?.[rarity] ?? 0);\n    return result;\n  }, {} as GachaPoolRarityWeights);\n}\n\nfunction normalizeConfig(values: GachaPoolConfig): GachaPoolConfig {\n  return {\n    enabled: values.enabled === true,\n    base_cost: Number(values.base_cost ?? 0),\n    rarity_weights: buildWeights(values.rarity_weights),\n  };\n}\n\nfunction getProbabilitySum(weights: GachaPoolRarityWeights) {\n  return petRarityOptions.reduce((sum, rarity) => sum + Number(weights[rarity] ?? 0), 0);\n}\n\nfunction getEligibleCountsByRarity(records: PetDefinition[]) {\n  return petRarityOptions.reduce((result, rarity) => {\n    result[rarity] = records.filter(\n      (item) => item.rarity === rarity && item.obtainable_by_egg && item.enabled,\n    ).length;\n    return result;\n  }, {} as Record<PetRarity, number>);\n}\n\nfunction validateGachaConfig(\n  config: GachaPoolConfig,\n  eligibleCountsByRarity: Record<PetRarity, number>,\n) {\n  const issues: string[] = [];\n  const missingCandidateRarities: PetRarity[] = [];\n  const weightKeys = Object.keys(config.rarity_weights ?? {});\n  const invalidKeys = weightKeys.filter(\n    (key) => !petRarityOptions.includes(key as PetRarity),\n  );\n\n  if (invalidKeys.length) {\n    issues.push(`rarity_weights 存在非法 key：${invalidKeys.join(', ')}`);\n  }\n\n  if (!Number.isFinite(config.base_cost) || config.base_cost < 0) {\n    issues.push('base_cost 必须大于等于 0');\n  }\n\n  petRarityOptions.forEach((rarity) => {\n    const value = Number(config.rarity_weights[rarity]);\n\n    if (!Number.isFinite(value)) {\n      issues.push(`${rarity} 概率必须是数字`);\n      return;\n    }\n\n    if (value < 0 || value > 1) {\n      issues.push(`${rarity} 概率必须在 0 到 1 之间`);\n    }\n\n    if (value > 0 && eligibleCountsByRarity[rarity] === 0) {\n      missingCandidateRarities.push(rarity);\n    }\n  });\n\n  if (missingCandidateRarities.length) {\n    issues.push(\n      `以下稀有度已配置概率，但当前没有可开蛋获得的龟种：${missingCandidateRarities.join('、')}。请先补充对应龟种，或将这些稀有度概率设为 0`,\n    );\n  }\n\n  const sum = getProbabilitySum(config.rarity_weights);\n  if (Math.abs(sum - 1) > probabilityEpsilon) {\n    issues.push(`rarity_weights 概率累加必须等于 1，当前 sum=${sum.toFixed(6)}`);\n  }\n\n  return issues;\n}\n\nexport default function PetGachaPage() {\n  const { message } = App.useApp();\n  const access = useAccess() as { canManagePets?: boolean };\n  const canManagePets = access.canManagePets === true;\n  const [form] = Form.useForm<GachaPoolConfig>();\n  const watchedConfig = Form.useWatch([], form);\n\n  const gachaConfigRequest = useRequestPetGachaConfig();\n  const saveGachaConfigRequest = useRequestSavePetGachaConfig();\n  const resetGachaConfigRequest = useRequestResetPetGachaConfig();\n  const petListRequest = useRequestPetDefinitions();\n\n  const applyConfig = (config: GachaPoolConfig) => {\n    form.setFieldsValue(normalizeConfig(config));\n  };\n\n  const loadConfig = async () => {\n    try {\n      const config = await gachaConfigRequest.run(undefined);\n      applyConfig(config);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '开蛋池配置加载失败');\n    }\n  };\n\n  const loadPetCandidates = async () => {\n    try {\n      await petListRequest.run({\n        current: 1,\n        pageSize: 500,\n      });\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '可抽取龟种加载失败');\n    }\n  };\n\n  const refreshAll = async () => {\n    await Promise.all([loadConfig(), loadPetCandidates()]);\n  };\n\n  useEffect(() => {\n    applyConfig(recommendedGachaPoolConfig);\n    void refreshAll();\n    // Initial bootstrap only.\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const eligiblePetRecords = useMemo(\n    () =>\n      (petListRequest.data?.data ?? []).filter(\n        (item) => item.enabled && item.obtainable_by_egg,\n      ),\n    [petListRequest.data?.data],\n  );\n  const eligibleCountsByRarity = useMemo(\n    () => getEligibleCountsByRarity(eligiblePetRecords),\n    [eligiblePetRecords],\n  );\n  const liveConfig = useMemo(\n    () => normalizeConfig(watchedConfig ?? recommendedGachaPoolConfig),\n    [watchedConfig],\n  );\n  const liveIssues = useMemo(\n    () => validateGachaConfig(liveConfig, eligibleCountsByRarity),\n    [eligibleCountsByRarity, liveConfig],\n  );\n  const probabilitySum = useMemo(\n    () => getProbabilitySum(liveConfig.rarity_weights),\n    [liveConfig.rarity_weights],\n  );\n  const sumPercent = Math.max(0, Math.min(100, probabilitySum * 100));\n  const sumIsValid = Math.abs(probabilitySum - 1) <= probabilityEpsilon;\n  const weightedRarityCount = petRarityOptions.filter(\n    (rarity) => liveConfig.rarity_weights[rarity] > 0,\n  ).length;\n  const loading = gachaConfigRequest.loading || petListRequest.loading;\n\n  const handleSave = async () => {\n    try {\n      const values = await form.validateFields();\n      const payload = normalizeConfig(values);\n      const issues = validateGachaConfig(payload, eligibleCountsByRarity);\n\n      if (issues.length) {\n        throw new Error(issues.join('；'));\n      }\n\n      const saved = await saveGachaConfigRequest.run(payload);\n      applyConfig(saved);\n      message.success('开蛋池配置已保存');\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const handleApplyRecommended = () => {\n    applyConfig(recommendedGachaPoolConfig);\n    message.success('已填入推荐默认值');\n  };\n\n  const handleReset = async () => {\n    try {\n      const config = await resetGachaConfigRequest.run(undefined);\n      applyConfig(config);\n      message.success('已重置为后端默认配置');\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '重置默认配置失败');\n    }\n  };\n\n  return (\n    <PageContainer\n      title=\"开蛋池配置\"\n      extra={[\n        <Button key=\"refresh\" icon={<ReloadOutlined />} onClick={() => void refreshAll()}>\n          刷新\n        </Button>,\n        canManagePets ? (\n          <Button key=\"apply-default\" icon={<SyncOutlined />} onClick={handleApplyRecommended}>\n            应用推荐值\n          </Button>\n        ) : null,\n        canManagePets ? (\n          <Button\n            key=\"reset\"\n            onClick={() => void handleReset()}\n            loading={resetGachaConfigRequest.loading}\n          >\n            重置默认\n          </Button>\n        ) : null,\n        canManagePets ? (\n          <Button\n            key=\"save\"\n            type=\"primary\"\n            icon={<SaveOutlined />}\n            loading={saveGachaConfigRequest.loading}\n            onClick={() => void handleSave()}\n          >\n            保存配置\n          </Button>\n        ) : null,\n      ].filter(Boolean)}\n    >\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        {gachaConfigRequest.error instanceof Error ? (\n          <Alert\n            type=\"error\"\n            showIcon\n            message=\"开蛋池配置加载失败\"\n            description={gachaConfigRequest.error.message}\n          />\n        ) : null}\n\n        {petListRequest.error instanceof Error ? (\n          <Alert\n            type=\"warning\"\n            showIcon\n            message=\"候选龟种校验未完成\"\n            description={petListRequest.error.message}\n          />\n        ) : null}\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic\n                title=\"总开关\"\n                value={liveConfig.enabled ? '启用中' : '已关闭'}\n                valueStyle={{ color: liveConfig.enabled ? '#1677ff' : '#98a2b3' }}\n              />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic title=\"基础费用\" value={liveConfig.base_cost} suffix=\"币\" />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic\n                title=\"概率合计\"\n                value={probabilitySum}\n                precision={6}\n                valueStyle={{ color: sumIsValid ? '#1677ff' : '#ff4d4f' }}\n              />\n            </ProCard>\n          </Col>\n          <Col xs={24} md={6}>\n            <ProCard style={panelStyle}>\n              <Statistic title=\"可抽稀有度数\" value={weightedRarityCount} suffix=\"/ 6\" />\n            </ProCard>\n          </Col>\n        </Row>\n\n        <Row gutter={[16, 16]}>\n          <Col xs={24} xl={16}>\n            <ProCard\n              title=\"基础配置\"\n              style={panelStyle}\n              extra={\n                <Space size={8}>\n                  <Tag color={liveConfig.enabled ? 'success' : 'default'}>\n                    {liveConfig.enabled ? '用户侧可用' : '用户侧不可用'}\n                  </Tag>\n                  <Tag color={sumIsValid ? 'processing' : 'error'}>\n                    概率和 {probabilitySum.toFixed(6)}\n                  </Tag>\n                </Space>\n              }\n            >\n              <Form\n                form={form}\n                layout=\"vertical\"\n                initialValues={recommendedGachaPoolConfig}\n                disabled={!canManagePets}\n              >\n                <Row gutter={16}>\n                  <Col xs={24} md={8}>\n                    <Form.Item\n                      name=\"enabled\"\n                      label=\"总开关\"\n                      valuePropName=\"checked\"\n                      extra=\"关闭后，用户侧所有开蛋入口应直接不可用。\"\n                    >\n                      <Switch checkedChildren=\"启用\" unCheckedChildren=\"关闭\" />\n                    </Form.Item>\n                  </Col>\n                  <Col xs={24} md={8}>\n                    <Form.Item\n                      name=\"base_cost\"\n                      label=\"基础费用\"\n                      rules={[\n                        { required: true, message: '请输入基础费用' },\n                        {\n                          validator: async (_, value) => {\n                            if (typeof value !== 'number' || !Number.isFinite(value)) {\n                              throw new Error('基础费用必须是数字');\n                            }\n\n                            if (value < 0) {\n                              throw new Error('基础费用必须大于等于 0');\n                            }\n                          },\n                        },\n                      ]}\n                    >\n                      <InputNumber style={{ width: '100%' }} min={0} precision={0} />\n                    </Form.Item>\n                  </Col>\n                  <Col xs={24} md={8}>\n                    <Typography.Text type=\"secondary\">\n                      推荐值：500，建议与用户侧展示口径保持一致。\n                    </Typography.Text>\n                    <div style={{ marginTop: 16 }}>\n                      <Progress\n                        percent={sumPercent}\n                        status={sumIsValid ? 'normal' : 'exception'}\n                        format={() => `当前 ${(probabilitySum * 100).toFixed(2)}%`}\n                      />\n                    </div>\n                  </Col>\n                </Row>\n\n                <Typography.Title level={5} style={{ marginTop: 8 }}>\n                  稀有度概率\n                </Typography.Title>\n                <Row gutter={[16, 16]}>\n                  {petRarityOptions.map((rarity) => (\n                    <Col key={rarity} xs={24} md={12} xl={8}>\n                      <div\n                        style={{\n                          border: '1px solid #eaecf0',\n                          borderRadius: 14,\n                          padding: 16,\n                          background: '#fafcff',\n                        }}\n                      >\n                        <Space\n                          align=\"center\"\n                          style={{ width: '100%', justifyContent: 'space-between' }}\n                        >\n                          <Typography.Text strong>{rarity}</Typography.Text>\n                          <Tag color={eligibleCountsByRarity[rarity] > 0 ? 'success' : 'warning'}>\n                            候选 {eligibleCountsByRarity[rarity]}\n                          </Tag>\n                        </Space>\n                        <Form.Item\n                          style={{ marginTop: 12, marginBottom: 12 }}\n                          name={['rarity_weights', rarity]}\n                          label=\"概率\"\n                          rules={[\n                            { required: true, message: `请输入 ${rarity} 概率` },\n                            {\n                              validator: async (_, value) => {\n                                if (typeof value !== 'number' || !Number.isFinite(value)) {\n                                  throw new Error('概率必须是数字');\n                                }\n\n                                if (value < 0 || value > 1) {\n                                  throw new Error('概率必须在 0 到 1 之间');\n                                }\n                              },\n                            },\n                          ]}\n                        >\n                          <InputNumber\n                            style={{ width: '100%' }}\n                            min={0}\n                            max={1}\n                            step={0.01}\n                            precision={4}\n                            addonAfter=\"%\"\n                          />\n                        </Form.Item>\n                        <Progress\n                          percent={Math.max(0, Math.min(100, liveConfig.rarity_weights[rarity] * 100))}\n                          strokeColor={eligibleCountsByRarity[rarity] > 0 ? '#1677ff' : '#faad14'}\n                          format={() => formatProbability(liveConfig.rarity_weights[rarity])}\n                        />\n                      </div>\n                    </Col>\n                  ))}\n                </Row>\n              </Form>\n            </ProCard>\n          </Col>\n\n          <Col xs={24} xl={8}>\n            <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n              <ProCard title=\"发布前校验\" style={panelStyle} loading={loading}>\n                <Space direction=\"vertical\" size={12} style={{ width: '100%' }}>\n                  {liveIssues.length ? (\n                    <Alert\n                      type=\"warning\"\n                      showIcon\n                      message=\"当前配置存在风险\"\n                      description={\n                        <Space direction=\"vertical\" size={8} style={{ width: '100%' }}>\n                          {liveIssues.map((issue) => (\n                            <Typography.Text key={issue}>{issue}</Typography.Text>\n                          ))}\n                        </Space>\n                      }\n                    />\n                  ) : (\n                    <Alert\n                      type=\"success\"\n                      showIcon\n                      message=\"配置校验通过\"\n                      description=\"概率范围、概率和、可抽取候选检查都已通过。\"\n                    />\n                  )}\n\n                  <div>\n                    <Space direction=\"vertical\" size={10} style={{ width: '100%' }}>\n                      <Space>\n                        {liveIssues.length ? (\n                          <ExclamationCircleOutlined style={{ color: '#faad14' }} />\n                        ) : (\n                          <CheckCircleOutlined style={{ color: '#52c41a' }} />\n                        )}\n                        <Typography.Text strong>保存规则</Typography.Text>\n                      </Space>\n                      <Typography.Text type=\"secondary\">\n                        1. 只允许 C / B / A / S / SS / SSS 六个稀有度。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        2. 每个概率都必须在 0 到 1 之间。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        3. 所有概率累加必须等于 1。\n                      </Typography.Text>\n                      <Typography.Text type=\"secondary\">\n                        4. 若某稀有度概率大于 0，则至少要存在 1 只可开蛋获得且启用中的龟种。\n                      </Typography.Text>\n                    </Space>\n                  </div>\n                </Space>\n              </ProCard>\n\n              <ProCard title=\"候选池概览\" style={panelStyle} loading={petListRequest.loading}>\n                <Space direction=\"vertical\" size={12} style={{ width: '100%' }}>\n                  <Typography.Text type=\"secondary\">\n                    统计口径：`enabled = true` 且 `obtainable_by_egg = true`\n                  </Typography.Text>\n                  {petRarityOptions.map((rarity) => (\n                    <div\n                      key={rarity}\n                      style={{\n                        display: 'flex',\n                        alignItems: 'center',\n                        justifyContent: 'space-between',\n                        gap: 12,\n                      }}\n                    >\n                      <Space size={8}>\n                        <Tag color=\"processing\">{rarity}</Tag>\n                        <Typography.Text>\n                          {formatProbability(liveConfig.rarity_weights[rarity])}\n                        </Typography.Text>\n                      </Space>\n                      <Typography.Text strong>{eligibleCountsByRarity[rarity]} 只</Typography.Text>\n                    </div>\n                  ))}\n                  <Alert\n                    type=\"info\"\n                    showIcon\n                    message=\"抽取口径\"\n                    description=\"用户侧应先按稀有度概率抽样，再在对应稀有度的可开蛋龟种中均分抽取。\"\n                  />\n                </Space>\n              </ProCard>\n            </Space>\n          </Col>\n        </Row>\n      </Space>\n    </PageContainer>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/PetGacha/index.tsx"
     },
@@ -4269,14 +4097,14 @@
       "id": "admin_api",
       "file": "admin_api.ts",
       "absPath": "/admin_api",
-      "__content": "export const API_ADMIN_DASHBOARD_STATS = '/api/admin/dashboard/stats';\n\nexport const API_ADMIN_PREDICT_STATS = '/api/admin/predict/stats';\nexport const API_ADMIN_PREDICT_TRENDS = '/api/admin/predict/trends';\nexport const API_ADMIN_PREDICT_ACTIVE_USERS = '/api/admin/predict/active_users';\nexport const API_ADMIN_PREDICT_MARKET_STATS = '/api/admin/predict/market/stats';\nexport const API_ADMIN_PREDICT_MARKET_SETTLE = '/api/admin/predict/market/settle';\n\nexport const API_FOOTBALL_MARKETS = '/api/football/markets';\nexport const API_FOOTBALL_PREDICT_CONTEXT_UPDATE = '/api/football/predict_context/update';\n\nexport const API_PREDICT_TAG_LIST = '/api/predict-tag/list';\nexport const API_PREDICT_TAG_REFRESH = '/api/predict-tag/refresh';\n\nexport const API_BATTLE_LIST = '/api/battle/list';\nexport const API_BATTLE_STATS = '/api/battle/stats';\nexport const API_ADMIN_BATTLE_TRENDS = '/api/admin/battle/trends';\nexport const API_ADMIN_BATTLE_ACTIVE_USERS = '/api/admin/battle/active_users';\nexport const API_ADMIN_BATTLE_RESOLVE = '/api/admin/battle/resolve';\n\nexport const API_ADMIN_TOPIC_LIST = '/api/admin/topic/list';\nexport const API_ADMIN_TOPIC_BY = '/api/admin/topic/by';\nexport const API_ADMIN_TOPIC_DELETE = '/api/admin/topic/delete';\nexport const API_ADMIN_TOPIC_UNDELETE = '/api/admin/topic/undelete';\nexport const API_ADMIN_TOPIC_AUDIT = '/api/admin/topic/audit';\nexport const API_ADMIN_TOPIC_RECOMMEND = '/api/admin/topic/recommend';\nexport const API_TOPIC_STICKY = '/api/topic/sticky';\n\nexport const API_ADMIN_COMMENT_LIST = '/api/admin/comment/list';\nexport const API_ADMIN_COMMENT_DELETE = '/api/admin/comment/delete';\n\nexport const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';\nexport const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';\nexport const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';\n\nexport const API_ADMIN_TOPIC_NODE_LIST = '/api/admin/topic-node/list';\nexport const API_ADMIN_TOPIC_NODE_BY = '/api/admin/topic-node/by';\nexport const API_ADMIN_TOPIC_NODE_CREATE = '/api/admin/topic-node/create';\nexport const API_ADMIN_TOPIC_NODE_UPDATE = '/api/admin/topic-node/update';\nexport const API_ADMIN_TOPIC_NODE_NODES = '/api/admin/topic-node/nodes';\nexport const API_ADMIN_TOPIC_NODE_UPDATE_SORT = '/api/admin/topic-node/update_sort';\n\nexport const API_ADMIN_FORBIDDEN_WORD_LIST = '/api/admin/forbidden-word/list';\nexport const API_ADMIN_FORBIDDEN_WORD_BY = '/api/admin/forbidden-word/by';\nexport const API_ADMIN_FORBIDDEN_WORD_CREATE = '/api/admin/forbidden-word/create';\nexport const API_ADMIN_FORBIDDEN_WORD_UPDATE = '/api/admin/forbidden-word/update';\nexport const API_ADMIN_FORBIDDEN_WORD_DELETE = '/api/admin/forbidden-word/delete';\n\nexport const API_ADMIN_USER_REPORT_LIST = '/api/admin/user-report/list';\nexport const API_ADMIN_USER_REPORT_BY = '/api/admin/user-report/by';\nexport const API_ADMIN_USER_REPORT_UPDATE = '/api/admin/user-report/update';\n\nexport const API_ADMIN_USER_LIST = '/api/admin/user/list';\nexport const API_ADMIN_USER_GRANT_ADMIN = '/api/admin/user/grant_admin';\nexport const API_ADMIN_USER_REVOKE_ADMIN = '/api/admin/user/revoke_admin';\n\nexport const API_ADMIN_COIN_MINT = '/api/admin/coin/mint';\nexport const API_USER_FORBIDDEN = '/api/user/forbidden';\n\nexport const API_ADMIN_OPERATE_LOG_LIST = '/api/admin/operate-log/list';\n\nexport function getAdminTopicByPath(id: number | string) {\n  return `${API_ADMIN_TOPIC_BY}/${id}`;\n}\n\nexport function getTopicStickyPath(topicId: number | string) {\n  return `${API_TOPIC_STICKY}/${topicId}`;\n}\n\nexport function getAdminCommentDeletePath(id: number | string) {\n  return `${API_ADMIN_COMMENT_DELETE}/${id}`;\n}\n\nexport function getAdminPetDefinitionPath(petId: string) {\n  return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petId)}`;\n}\n\nexport function getAdminPetAbilitiesPath(petId: string) {\n  return `${getAdminPetDefinitionPath(petId)}/abilities`;\n}\n\nexport function getAdminPetAbilityPath(petId: string, featureKey: string) {\n  return `${getAdminPetAbilitiesPath(petId)}/${encodeURIComponent(featureKey)}`;\n}\n\nexport function getAdminPetFeaturePath(featureKey: string) {\n  return `${API_ADMIN_PET_FEATURES}/${encodeURIComponent(featureKey)}`;\n}\n\nexport function getAdminTopicNodeByPath(id: number | string) {\n  return `${API_ADMIN_TOPIC_NODE_BY}/${id}`;\n}\n\nexport function getAdminForbiddenWordByPath(id: number | string) {\n  return `${API_ADMIN_FORBIDDEN_WORD_BY}/${id}`;\n}\n\nexport function getAdminUserReportByPath(id: number | string) {\n  return `${API_ADMIN_USER_REPORT_BY}/${id}`;\n}\n"
+      "__content": "export const API_ADMIN_DASHBOARD_STATS = '/api/admin/dashboard/stats';\n\nexport const API_ADMIN_PREDICT_STATS = '/api/admin/predict/stats';\nexport const API_ADMIN_PREDICT_TRENDS = '/api/admin/predict/trends';\nexport const API_ADMIN_PREDICT_ACTIVE_USERS = '/api/admin/predict/active_users';\nexport const API_ADMIN_PREDICT_MARKET_STATS = '/api/admin/predict/market/stats';\nexport const API_ADMIN_PREDICT_MARKET_SETTLE = '/api/admin/predict/market/settle';\n\nexport const API_FOOTBALL_MARKETS = '/api/football/markets';\nexport const API_FOOTBALL_PREDICT_CONTEXT_UPDATE = '/api/football/predict_context/update';\n\nexport const API_PREDICT_TAG_LIST = '/api/predict-tag/list';\nexport const API_PREDICT_TAG_REFRESH = '/api/predict-tag/refresh';\n\nexport const API_BATTLE_LIST = '/api/battle/list';\nexport const API_BATTLE_STATS = '/api/battle/stats';\nexport const API_ADMIN_BATTLE_TRENDS = '/api/admin/battle/trends';\nexport const API_ADMIN_BATTLE_ACTIVE_USERS = '/api/admin/battle/active_users';\nexport const API_ADMIN_BATTLE_RESOLVE = '/api/admin/battle/resolve';\n\nexport const API_ADMIN_TOPIC_LIST = '/api/admin/topic/list';\nexport const API_ADMIN_TOPIC_BY = '/api/admin/topic/by';\nexport const API_ADMIN_TOPIC_DELETE = '/api/admin/topic/delete';\nexport const API_ADMIN_TOPIC_UNDELETE = '/api/admin/topic/undelete';\nexport const API_ADMIN_TOPIC_AUDIT = '/api/admin/topic/audit';\nexport const API_ADMIN_TOPIC_RECOMMEND = '/api/admin/topic/recommend';\nexport const API_TOPIC_STICKY = '/api/topic/sticky';\n\nexport const API_ADMIN_COMMENT_LIST = '/api/admin/comment/list';\nexport const API_ADMIN_COMMENT_DELETE = '/api/admin/comment/delete';\n\nexport const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';\nexport const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';\nexport const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';\nexport const API_ADMIN_PET_GACHA_CONFIG = '/api/admin/pet/gacha/config';\nexport const API_ADMIN_PET_GACHA_CONFIG_RESET = '/api/admin/pet/gacha/config/reset';\n\nexport const API_ADMIN_TOPIC_NODE_LIST = '/api/admin/topic-node/list';\nexport const API_ADMIN_TOPIC_NODE_BY = '/api/admin/topic-node/by';\nexport const API_ADMIN_TOPIC_NODE_CREATE = '/api/admin/topic-node/create';\nexport const API_ADMIN_TOPIC_NODE_UPDATE = '/api/admin/topic-node/update';\nexport const API_ADMIN_TOPIC_NODE_NODES = '/api/admin/topic-node/nodes';\nexport const API_ADMIN_TOPIC_NODE_UPDATE_SORT = '/api/admin/topic-node/update_sort';\n\nexport const API_ADMIN_FORBIDDEN_WORD_LIST = '/api/admin/forbidden-word/list';\nexport const API_ADMIN_FORBIDDEN_WORD_BY = '/api/admin/forbidden-word/by';\nexport const API_ADMIN_FORBIDDEN_WORD_CREATE = '/api/admin/forbidden-word/create';\nexport const API_ADMIN_FORBIDDEN_WORD_UPDATE = '/api/admin/forbidden-word/update';\nexport const API_ADMIN_FORBIDDEN_WORD_DELETE = '/api/admin/forbidden-word/delete';\n\nexport const API_ADMIN_USER_REPORT_LIST = '/api/admin/user-report/list';\nexport const API_ADMIN_USER_REPORT_BY = '/api/admin/user-report/by';\nexport const API_ADMIN_USER_REPORT_UPDATE = '/api/admin/user-report/update';\n\nexport const API_ADMIN_USER_LIST = '/api/admin/user/list';\nexport const API_ADMIN_USER_GRANT_ADMIN = '/api/admin/user/grant_admin';\nexport const API_ADMIN_USER_REVOKE_ADMIN = '/api/admin/user/revoke_admin';\n\nexport const API_ADMIN_COIN_MINT = '/api/admin/coin/mint';\nexport const API_USER_FORBIDDEN = '/api/user/forbidden';\n\nexport const API_ADMIN_OPERATE_LOG_LIST = '/api/admin/operate-log/list';\n\nexport function getAdminTopicByPath(id: number | string) {\n  return `${API_ADMIN_TOPIC_BY}/${id}`;\n}\n\nexport function getTopicStickyPath(topicId: number | string) {\n  return `${API_TOPIC_STICKY}/${topicId}`;\n}\n\nexport function getAdminCommentDeletePath(id: number | string) {\n  return `${API_ADMIN_COMMENT_DELETE}/${id}`;\n}\n\nexport function getAdminPetDefinitionPath(petId: string) {\n  return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petId)}`;\n}\n\nexport function getAdminPetAbilitiesPath(petId: string) {\n  return `${getAdminPetDefinitionPath(petId)}/abilities`;\n}\n\nexport function getAdminPetAbilityPath(petId: string, featureKey: string) {\n  return `${getAdminPetAbilitiesPath(petId)}/${encodeURIComponent(featureKey)}`;\n}\n\nexport function getAdminPetFeaturePath(featureKey: string) {\n  return `${API_ADMIN_PET_FEATURES}/${encodeURIComponent(featureKey)}`;\n}\n\nexport function getAdminTopicNodeByPath(id: number | string) {\n  return `${API_ADMIN_TOPIC_NODE_BY}/${id}`;\n}\n\nexport function getAdminForbiddenWordByPath(id: number | string) {\n  return `${API_ADMIN_FORBIDDEN_WORD_BY}/${id}`;\n}\n\nexport function getAdminUserReportByPath(id: number | string) {\n  return `${API_ADMIN_USER_REPORT_BY}/${id}`;\n}\n"
     },
     "axios": {
       "path": "axios",
       "id": "axios",
       "file": "axios.ts",
       "absPath": "/axios",
-      "__content": "import { history, request } from '@umijs/max';\nimport { TURTLE_API_BASE } from './api';\nimport type { TurtleRequestResult } from '@/utils/requestUtils';\nimport { clearAuthStorage, LOGIN_PATH } from '@/utils/auth';\n\ninterface TurtleResponseEnvelope<T> {\n  errorCode?: number;\n  message?: string;\n  data?: T;\n  success?: boolean;\n}\n\ninterface AxiosCustomOptions {\n  cmd: string;\n  method?: 'get' | 'post' | 'delete' | 'put' | 'patch';\n  headers?: Record<string, string | number | boolean>;\n  params?: Record<string, unknown>;\n  data?: Record<string, unknown> | FormData | URLSearchParams | unknown[] | string;\n}\n\nfunction getRequestErrorMessage(error: unknown) {\n  if (error instanceof Error && error.message) {\n    return error.message;\n  }\n\n  if (typeof error === 'object' && error !== null) {\n    const maybeResponse = error as {\n      response?: {\n        data?: {\n          message?: string;\n        };\n        status?: number;\n      };\n      data?: {\n        message?: string;\n      };\n      message?: string;\n    };\n\n    return (\n      maybeResponse.response?.data?.message ||\n      maybeResponse.data?.message ||\n      maybeResponse.message ||\n      '请求失败，请稍后重试'\n    );\n  }\n\n  return '请求失败，请稍后重试';\n}\n\nfunction resolveRequestType(\n  method: AxiosCustomOptions['method'],\n  data: AxiosCustomOptions['data'],\n  headers: AxiosCustomOptions['headers'],\n) {\n  if (method !== 'post' && method !== 'put' && method !== 'patch') {\n    return undefined;\n  }\n\n  if (!data || data instanceof FormData) {\n    return undefined;\n  }\n\n  if (data instanceof URLSearchParams) {\n    return 'form';\n  }\n\n  const contentType = String(headers?.['Content-Type'] ?? headers?.['content-type'] ?? '').toLowerCase();\n\n  if (contentType.includes('application/x-www-form-urlencoded')) {\n    return 'form';\n  }\n\n  if (contentType.includes('application/json')) {\n    return 'json';\n  }\n\n  return undefined;\n}\n\nexport async function axiosCustom<T>({\n  cmd,\n  headers = {},\n  params,\n  method = 'get',\n  data,\n}: AxiosCustomOptions): Promise<TurtleRequestResult<T>> {\n  try {\n    const response = await request(`${TURTLE_API_BASE}${cmd}`, {\n      method: method.toUpperCase(),\n      headers,\n      params,\n      data,\n      withCredentials: true,\n      skipErrorHandler: true,\n      requestType: resolveRequestType(method, data, headers),\n    }) as TurtleResponseEnvelope<T>;\n\n    if (response === undefined || response === null || response === '') {\n      return {\n        code: 0,\n        cmd,\n        method,\n        msg: undefined,\n        message: undefined,\n        data: {} as T,\n        success: true,\n      };\n    }\n\n    return {\n      code: Number(response?.errorCode ?? 0),\n      cmd,\n      method,\n      msg: response?.message,\n      message: response?.message,\n      data: (response?.data ?? {}) as T,\n      success: response?.success === true,\n    };\n  } catch (error) {\n    const maybeResponse = error as {\n      response?: {\n        status?: number;\n      };\n    };\n    const status = maybeResponse?.response?.status;\n\n    if (status === 401) {\n      clearAuthStorage();\n      const redirectPath =\n        history.location.pathname && history.location.pathname !== LOGIN_PATH\n          ? `${history.location.pathname}${history.location.search || ''}`\n          : '';\n      const loginTarget = redirectPath\n        ? `${LOGIN_PATH}?redirect=${encodeURIComponent(redirectPath)}`\n        : LOGIN_PATH;\n\n      history.replace(loginTarget);\n    }\n\n    return {\n      code: 0,\n      cmd,\n      method,\n      msg: getRequestErrorMessage(error),\n      message: getRequestErrorMessage(error),\n      data: {} as T,\n      success: false,\n    };\n  }\n}\n"
+      "__content": "import { history, request } from '@umijs/max';\nimport { TURTLE_API_BASE } from './api';\nimport type { TurtleRequestResult } from '@/utils/requestUtils';\nimport { clearAuthStorage, LOGIN_PATH } from '@/utils/auth';\n\ninterface TurtleResponseEnvelope<T> {\n  errorCode?: number;\n  message?: string;\n  data?: T;\n  success?: boolean;\n}\n\ntype AxiosRequestData = object | FormData | URLSearchParams | unknown[] | string;\n\ntype TurtleResponseResult<T> = TurtleResponseEnvelope<T> | '' | null | undefined;\n\ninterface AxiosCustomOptions {\n  cmd: string;\n  method?: 'get' | 'post' | 'delete' | 'put' | 'patch';\n  headers?: Record<string, string | number | boolean>;\n  params?: Record<string, unknown>;\n  data?: AxiosRequestData;\n}\n\nfunction getRequestErrorMessage(error: unknown) {\n  if (error instanceof Error && error.message) {\n    return error.message;\n  }\n\n  if (typeof error === 'object' && error !== null) {\n    const maybeResponse = error as {\n      response?: {\n        data?: {\n          message?: string;\n        };\n        status?: number;\n      };\n      data?: {\n        message?: string;\n      };\n      message?: string;\n    };\n\n    return (\n      maybeResponse.response?.data?.message ||\n      maybeResponse.data?.message ||\n      maybeResponse.message ||\n      '请求失败，请稍后重试'\n    );\n  }\n\n  return '请求失败，请稍后重试';\n}\n\nfunction resolveRequestType(\n  method: AxiosCustomOptions['method'],\n  data: AxiosCustomOptions['data'],\n  headers: AxiosCustomOptions['headers'],\n) {\n  if (method !== 'post' && method !== 'put' && method !== 'patch') {\n    return undefined;\n  }\n\n  if (!data || data instanceof FormData) {\n    return undefined;\n  }\n\n  if (data instanceof URLSearchParams) {\n    return 'form';\n  }\n\n  const contentType = String(headers?.['Content-Type'] ?? headers?.['content-type'] ?? '').toLowerCase();\n\n  if (contentType.includes('application/x-www-form-urlencoded')) {\n    return 'form';\n  }\n\n  if (contentType.includes('application/json')) {\n    return 'json';\n  }\n\n  return undefined;\n}\n\nexport async function axiosCustom<T>({\n  cmd,\n  headers = {},\n  params,\n  method = 'get',\n  data,\n}: AxiosCustomOptions): Promise<TurtleRequestResult<T>> {\n  try {\n    const response = await request(`${TURTLE_API_BASE}${cmd}`, {\n      method: method.toUpperCase(),\n      headers,\n      params,\n      data,\n      withCredentials: true,\n      skipErrorHandler: true,\n      requestType: resolveRequestType(method, data, headers),\n    }) as TurtleResponseResult<T>;\n\n    if (response === undefined || response === null || response === '') {\n      return {\n        code: 0,\n        cmd,\n        method,\n        msg: undefined,\n        message: undefined,\n        data: {} as T,\n        success: true,\n      };\n    }\n\n    return {\n      code: Number(response?.errorCode ?? 0),\n      cmd,\n      method,\n      msg: response?.message,\n      message: response?.message,\n      data: (response?.data ?? {}) as T,\n      success: response?.success === true,\n    };\n  } catch (error) {\n    const maybeResponse = error as {\n      response?: {\n        status?: number;\n      };\n    };\n    const status = maybeResponse?.response?.status;\n\n    if (status === 401) {\n      clearAuthStorage();\n      const redirectPath =\n        history.location.pathname && history.location.pathname !== LOGIN_PATH\n          ? `${history.location.pathname}${history.location.search || ''}`\n          : '';\n      const loginTarget = redirectPath\n        ? `${LOGIN_PATH}?redirect=${encodeURIComponent(redirectPath)}`\n        : LOGIN_PATH;\n\n      history.replace(loginTarget);\n    }\n\n    return {\n      code: 0,\n      cmd,\n      method,\n      msg: getRequestErrorMessage(error),\n      message: getRequestErrorMessage(error),\n      data: {} as T,\n      success: false,\n    };\n  }\n}\n"
     },
     "api": {
       "path": "api",
@@ -4340,7 +4168,7 @@
   "faviconFiles": [],
   "port": 8000,
   "host": "0.0.0.0",
-  "ip": "192.168.1.21",
+  "ip": "192.168.1.14",
   "antd": {
     "pkgPath": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/antd",
     "version": "5.29.3"
@@ -6268,7 +6096,7 @@
             "format": "esm"
           },
           "src/pages/Login/index.tsx": {
-            "bytes": 6102,
+            "bytes": 6466,
             "imports": [
               {
                 "path": "@ant-design/pro-components",
@@ -6299,6 +6127,11 @@
                 "path": "src/hooks/useRequest.ts",
                 "kind": "import-statement",
                 "original": "@/hooks/useRequest"
+              },
+              {
+                "path": "src/utils/auth.ts",
+                "kind": "import-statement",
+                "original": "@/utils/auth"
               },
               {
                 "path": "src/utils/captcha.ts",
@@ -6340,7 +6173,7 @@
             "format": "esm"
           },
           "src/api/admin_api.ts": {
-            "bytes": 4660,
+            "bytes": 4720,
             "imports": [],
             "format": "esm"
           },
@@ -6673,12 +6506,12 @@
             "format": "esm"
           },
           "src/types/pet.ts": {
-            "bytes": 2284,
+            "bytes": 2391,
             "imports": [],
             "format": "esm"
           },
           "src/utils/petAdminAdapters.ts": {
-            "bytes": 8838,
+            "bytes": 9388,
             "imports": [
               {
                 "path": "src/types/pet.ts",
@@ -6689,7 +6522,7 @@
             "format": "esm"
           },
           "src/hooks/usePetAdminRequest.ts": {
-            "bytes": 11027,
+            "bytes": 11099,
             "imports": [
               {
                 "path": "react-query",
@@ -6730,7 +6563,7 @@
             "format": "esm"
           },
           "src/pages/Pets/index.tsx": {
-            "bytes": 32561,
+            "bytes": 31200,
             "imports": [
               {
                 "path": "@ant-design/icons",
@@ -9178,7 +9011,7 @@
                 "bytesInOutput": 321
               },
               "src/pages/Login/index.tsx": {
-                "bytesInOutput": 6198
+                "bytesInOutput": 6546
               },
               "src/data/admin_mock_data.ts": {
                 "bytesInOutput": 6122
@@ -9187,7 +9020,7 @@
                 "bytesInOutput": 4009
               },
               "src/api/admin_api.ts": {
-                "bytesInOutput": 5375
+                "bytesInOutput": 5435
               },
               "src/utils/adminAdapters.ts": {
                 "bytesInOutput": 13913
@@ -9220,16 +9053,16 @@
                 "bytesInOutput": 158
               },
               "src/utils/petAdminAdapters.ts": {
-                "bytesInOutput": 7872
+                "bytesInOutput": 8403
               },
               "src/hooks/usePetAdminRequest.ts": {
-                "bytesInOutput": 9142
+                "bytesInOutput": 8755
               },
               "src/pages/Pets/index.tsx": {
-                "bytesInOutput": 36059
+                "bytesInOutput": 34630
               },
               "src/pages/PetFeatures/index.tsx": {
-                "bytesInOutput": 17672
+                "bytesInOutput": 17675
               },
               "src/pages/PetGacha/index.tsx": {
                 "bytesInOutput": 22984
@@ -9268,7 +9101,7 @@
                 "bytesInOutput": 2033
               }
             },
-            "bytes": 392597
+            "bytes": 391723
           }
         }
       }
@@ -14316,10 +14149,15 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 662,
+          "end": 688,
           "importKind": "type",
           "source": "@/types/pet",
           "specifiers": [
+            {
+              "imported": "DeletePetAbilityPayload",
+              "local": "DeletePetAbilityPayload",
+              "type": "ImportSpecifier"
+            },
             {
               "imported": "FeatureCatalogItem",
               "local": "FeatureCatalogItem",
@@ -14333,11 +14171,6 @@
             {
               "imported": "GachaPoolConfig",
               "local": "GachaPoolConfig",
-              "type": "ImportSpecifier"
-            },
-            {
-              "imported": "PatchPetAbilityPayload",
-              "local": "PatchPetAbilityPayload",
               "type": "ImportSpecifier"
             },
             {
@@ -14359,13 +14192,18 @@
               "imported": "ReplacePetAbilitiesPayload",
               "local": "ReplacePetAbilitiesPayload",
               "type": "ImportSpecifier"
+            },
+            {
+              "imported": "SavePetAbilityPayload",
+              "local": "SavePetAbilityPayload",
+              "type": "ImportSpecifier"
             }
           ],
           "start": 434,
           "type": "ImportDeclaration"
         },
         {
-          "end": 723,
+          "end": 749,
           "importKind": "value",
           "source": "@/utils/adminAdapters",
           "specifiers": [
@@ -14375,11 +14213,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 663,
+          "start": 689,
           "type": "ImportDeclaration"
         },
         {
-          "end": 834,
+          "end": 860,
           "importKind": "value",
           "source": "@/utils/petAdminAdapters",
           "specifiers": [
@@ -14399,11 +14237,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 724,
+          "start": 750,
           "type": "ImportDeclaration"
         },
         {
-          "end": 913,
+          "end": 939,
           "importKind": "value",
           "source": "@/utils/requestUtils",
           "specifiers": [
@@ -14418,7 +14256,7 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 835,
+          "start": 861,
           "type": "ImportDeclaration"
         }
       ],
@@ -15940,7 +15778,7 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 213,
+          "end": 226,
           "importKind": "value",
           "source": "@umijs/max",
           "specifiers": [
@@ -15955,6 +15793,11 @@
               "type": "ImportSpecifier"
             },
             {
+              "imported": "useLocation",
+              "local": "useLocation",
+              "type": "ImportSpecifier"
+            },
+            {
               "imported": "useModel",
               "local": "useModel",
               "type": "ImportSpecifier"
@@ -15964,7 +15807,7 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 274,
+          "end": 287,
           "importKind": "value",
           "source": "antd",
           "specifiers": [
@@ -15994,11 +15837,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 214,
+          "start": 227,
           "type": "ImportDeclaration"
         },
         {
-          "end": 332,
+          "end": 354,
           "importKind": "value",
           "source": "react",
           "specifiers": [
@@ -16013,16 +15856,21 @@
               "type": "ImportSpecifier"
             },
             {
+              "imported": "useMemo",
+              "local": "useMemo",
+              "type": "ImportSpecifier"
+            },
+            {
               "imported": "useState",
               "local": "useState",
               "type": "ImportSpecifier"
             }
           ],
-          "start": 275,
+          "start": 288,
           "type": "ImportDeclaration"
         },
         {
-          "end": 411,
+          "end": 433,
           "importKind": "value",
           "source": "@/hooks/useRequest",
           "specifiers": [
@@ -16037,11 +15885,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 333,
+          "start": 355,
           "type": "ImportDeclaration"
         },
         {
-          "end": 467,
+          "end": 489,
           "importKind": "type",
           "source": "@/types/runtime",
           "specifiers": [
@@ -16051,11 +15899,25 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 412,
+          "start": 434,
           "type": "ImportDeclaration"
         },
         {
-          "end": 524,
+          "end": 532,
+          "importKind": "value",
+          "source": "@/utils/auth",
+          "specifiers": [
+            {
+              "imported": "LOGIN_PATH",
+              "local": "LOGIN_PATH",
+              "type": "ImportSpecifier"
+            }
+          ],
+          "start": 490,
+          "type": "ImportDeclaration"
+        },
+        {
+          "end": 589,
           "importKind": "value",
           "source": "@/utils/captcha",
           "specifiers": [
@@ -16065,11 +15927,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 468,
+          "start": 533,
           "type": "ImportDeclaration"
         },
         {
-          "end": 566,
+          "end": 631,
           "importKind": "value",
           "source": "./index.module.scss",
           "specifiers": [
@@ -16078,7 +15940,7 @@
               "type": "ImportDefaultSpecifier"
             }
           ],
-          "start": 525,
+          "start": 590,
           "type": "ImportDeclaration"
         }
       ],
@@ -16984,7 +16846,7 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 850,
+          "end": 820,
           "importKind": "value",
           "source": "@/hooks/usePetAdminRequest",
           "specifiers": [
@@ -16996,16 +16858,6 @@
             {
               "imported": "useRequestDeletePetDefinition",
               "local": "useRequestDeletePetDefinition",
-              "type": "ImportSpecifier"
-            },
-            {
-              "imported": "useRequestPatchPetAbility",
-              "local": "useRequestPatchPetAbility",
-              "type": "ImportSpecifier"
-            },
-            {
-              "imported": "useRequestPetDefinitionBy",
-              "local": "useRequestPetDefinitionBy",
               "type": "ImportSpecifier"
             },
             {
@@ -17029,6 +16881,11 @@
               "type": "ImportSpecifier"
             },
             {
+              "imported": "useRequestSavePetAbility",
+              "local": "useRequestSavePetAbility",
+              "type": "ImportSpecifier"
+            },
+            {
               "imported": "useRequestSavePetDefinition",
               "local": "useRequestSavePetDefinition",
               "type": "ImportSpecifier"
@@ -17038,7 +16895,7 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 900,
+          "end": 870,
           "importKind": "value",
           "source": "@/types/pet",
           "specifiers": [
@@ -17048,11 +16905,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 851,
+          "start": 821,
           "type": "ImportDeclaration"
         },
         {
-          "end": 1073,
+          "end": 1043,
           "importKind": "type",
           "source": "@/types/pet",
           "specifiers": [
@@ -17097,11 +16954,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 901,
+          "start": 871,
           "type": "ImportDeclaration"
         },
         {
-          "end": 1135,
+          "end": 1105,
           "importKind": "value",
           "source": "@/utils/petAdminAdapters",
           "specifiers": [
@@ -17111,7 +16968,7 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 1074,
+          "start": 1044,
           "type": "ImportDeclaration"
         }
       ],

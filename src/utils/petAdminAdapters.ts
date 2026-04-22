@@ -306,10 +306,11 @@ export function mapPetDefinition(item: unknown): PetDefinition {
   const display = pickRecord(record, 'display');
   const icon = pickString(record, 'icon');
   const petKey = pickString(record, 'pet_id', 'petId', 'petKey');
-  const id = toString(record.id).trim();
+  const id = pickString(record, 'id') || petKey || 'unknown';
 
   return {
-    pet_id: petKey || id || 'unknown',
+    id,
+    pet_id: petKey || id,
     name: sanitizeLocalizedText(record.name),
     rarity: normalizeRarity(record.rarity),
     enabled: normalizePetEnabled(record),
