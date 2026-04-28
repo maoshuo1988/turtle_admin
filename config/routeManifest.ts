@@ -7,6 +7,7 @@ export interface AppRouteItem {
   access?: string;
   wrappers?: string[];
   hideInMenu?: boolean;
+  routes?: AppRouteItem[];
 }
 
 export const appRouteManifest: AppRouteItem[] = [
@@ -40,15 +41,13 @@ export const appRouteManifest: AppRouteItem[] = [
   },
   {
     path: '/community',
-    name: 'community',
-    component: '@/pages/Community',
-    access: 'canCommunity',
+    redirect: '/user-management/community',
+    hideInMenu: true,
   },
   {
     path: '/comments',
-    name: 'comments',
-    component: '@/pages/Comments',
-    access: 'canComments',
+    redirect: '/user-management/comments',
+    hideInMenu: true,
   },
   {
     path: '/nodes',
@@ -75,6 +74,52 @@ export const appRouteManifest: AppRouteItem[] = [
     access: 'canPets',
   },
   {
+    path: '/user-management',
+    name: 'userManagement',
+    routes: [
+      {
+        path: '/user-management',
+        redirect: '/user-management/users',
+        hideInMenu: true,
+      },
+      {
+        path: '/user-management/users',
+        name: 'users',
+        component: '@/pages/UserManagement/Users',
+        access: 'canRisk',
+      },
+      {
+        path: '/user-management/community',
+        name: 'community',
+        component: '@/pages/UserManagement/Community',
+        access: 'canCommunity',
+      },
+      {
+        path: '/user-management/comments',
+        name: 'comments',
+        component: '@/pages/UserManagement/Comments',
+        access: 'canComments',
+      },
+      {
+        path: '/user-management/audit',
+        name: 'audit',
+        component: '@/pages/UserManagement/Audit',
+        access: 'canAudit',
+      },
+      {
+        path: '/user-management/rules',
+        name: 'rules',
+        component: '@/pages/UserManagement/Rules',
+        access: 'canRules',
+      },
+    ],
+  },
+  {
+    path: '/users',
+    redirect: '/user-management/users',
+    hideInMenu: true,
+  },
+  {
     path: '/risk',
     name: 'risk',
     component: '@/pages/Risk',
@@ -82,15 +127,13 @@ export const appRouteManifest: AppRouteItem[] = [
   },
   {
     path: '/audit',
-    name: 'audit',
-    component: '@/pages/Audit',
-    access: 'canAudit',
+    redirect: '/user-management/audit',
+    hideInMenu: true,
   },
   {
     path: '/rules',
-    name: 'rules',
-    component: '@/pages/Rules',
-    access: 'canRules',
+    redirect: '/user-management/rules',
+    hideInMenu: true,
   },
   {
     path: '/403',
@@ -111,11 +154,17 @@ export const pageTitleMap: Record<string, string> = {
   '/battle': '开战广场',
   '/community': '社区管理',
   '/comments': '评论管理',
+  '/user-management/users': '用户管理',
+  '/users': '用户管理',
+  '/user-management/community': '社区管理',
+  '/user-management/comments': '评论管理',
   '/nodes': '节点管理',
   '/pets': '龟种管理',
   '/pet-features': '特性模板',
   '/pet-gacha': '开蛋池配置',
   '/risk': '风控中心',
+  '/user-management/audit': '审计日志',
+  '/user-management/rules': '处罚规则',
   '/audit': '审计日志',
   '/rules': '处罚规则',
 };

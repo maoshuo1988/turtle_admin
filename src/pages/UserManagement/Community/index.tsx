@@ -22,7 +22,7 @@ import {
   useRequestTopics,
   useRequestUndeleteTopic,
   useRequestUserReports,
-} from '@/hooks/useAdminRequest';
+} from '@/hooks/useUserManagementRequest';
 
 export default function CommunityPage() {
   const { message, modal } = App.useApp();

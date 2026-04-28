@@ -9,6 +9,8 @@ export default {
   'menu.pets': '龟种管理',
   'menu.petFeatures': '特性模板',
   'menu.petGacha': '开蛋池配置',
+  'menu.userManagement': '用户管理',
+  'menu.users': '用户列表',
   'menu.risk': '风控中心',
   'menu.audit': '审计日志',
   'menu.rules': '处罚规则',

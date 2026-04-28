@@ -18,17 +18,6 @@ export const API_ADMIN_BATTLE_TRENDS = '/api/admin/battle/trends';
 export const API_ADMIN_BATTLE_ACTIVE_USERS = '/api/admin/battle/active_users';
 export const API_ADMIN_BATTLE_RESOLVE = '/api/admin/battle/resolve';
 
-export const API_ADMIN_TOPIC_LIST = '/api/admin/topic/list';
-export const API_ADMIN_TOPIC_BY = '/api/admin/topic/by';
-export const API_ADMIN_TOPIC_DELETE = '/api/admin/topic/delete';
-export const API_ADMIN_TOPIC_UNDELETE = '/api/admin/topic/undelete';
-export const API_ADMIN_TOPIC_AUDIT = '/api/admin/topic/audit';
-export const API_ADMIN_TOPIC_RECOMMEND = '/api/admin/topic/recommend';
-export const API_TOPIC_STICKY = '/api/topic/sticky';
-
-export const API_ADMIN_COMMENT_LIST = '/api/admin/comment/list';
-export const API_ADMIN_COMMENT_DELETE = '/api/admin/comment/delete';
-
 export const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';
 export const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';
 export const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';
@@ -47,31 +36,6 @@ export const API_ADMIN_FORBIDDEN_WORD_BY = '/api/admin/forbidden-word/by';
 export const API_ADMIN_FORBIDDEN_WORD_CREATE = '/api/admin/forbidden-word/create';
 export const API_ADMIN_FORBIDDEN_WORD_UPDATE = '/api/admin/forbidden-word/update';
 export const API_ADMIN_FORBIDDEN_WORD_DELETE = '/api/admin/forbidden-word/delete';
-
-export const API_ADMIN_USER_REPORT_LIST = '/api/admin/user-report/list';
-export const API_ADMIN_USER_REPORT_BY = '/api/admin/user-report/by';
-export const API_ADMIN_USER_REPORT_UPDATE = '/api/admin/user-report/update';
-
-export const API_ADMIN_USER_LIST = '/api/admin/user/list';
-export const API_ADMIN_USER_GRANT_ADMIN = '/api/admin/user/grant_admin';
-export const API_ADMIN_USER_REVOKE_ADMIN = '/api/admin/user/revoke_admin';
-
-export const API_ADMIN_COIN_MINT = '/api/admin/coin/mint';
-export const API_USER_FORBIDDEN = '/api/user/forbidden';
-
-export const API_ADMIN_OPERATE_LOG_LIST = '/api/admin/operate-log/list';
-
-export function getAdminTopicByPath(id: number | string) {
-  return `${API_ADMIN_TOPIC_BY}/${id}`;
-}
-
-export function getTopicStickyPath(topicId: number | string) {
-  return `${API_TOPIC_STICKY}/${topicId}`;
-}
-
-export function getAdminCommentDeletePath(id: number | string) {
-  return `${API_ADMIN_COMMENT_DELETE}/${id}`;
-}
 
 export function getAdminPetDefinitionPath(petDefinitionId: string) {
   return `${API_ADMIN_PET_DEFS}/${encodeURIComponent(petDefinitionId)}`;
@@ -95,8 +59,4 @@ export function getAdminTopicNodeByPath(id: number | string) {
 
 export function getAdminForbiddenWordByPath(id: number | string) {
   return `${API_ADMIN_FORBIDDEN_WORD_BY}/${id}`;
-}
-
-export function getAdminUserReportByPath(id: number | string) {
-  return `${API_ADMIN_USER_REPORT_BY}/${id}`;
 }

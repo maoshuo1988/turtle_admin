@@ -1,11 +1,9 @@
 import {
   CheckCircleOutlined,
-  CrownOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   PlusOutlined,
-  StopOutlined,
   UndoOutlined,
 } from '@ant-design/icons';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
@@ -16,7 +14,6 @@ import {
   Col,
   Form,
   Input,
-  InputNumber,
   Modal,
   Row,
   Segmented,
@@ -29,23 +26,20 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   useRequestCreateForbiddenWord,
   useRequestDeleteForbiddenWord,
-  useRequestForbiddenUser,
   useRequestForbiddenWordBy,
   useRequestForbiddenWords,
-  useRequestGrantAdmin,
-  useRequestMintCoins,
-  useRequestRevokeAdmin,
   useRequestRiskOverview,
   useRequestUpdateForbiddenWord,
+} from '@/hooks/useAdminRequest';
+import {
   useRequestUpdateUserReport,
   useRequestUserReportBy,
   useRequestUserReports,
-  useRequestUsers,
-} from '@/hooks/useAdminRequest';
+} from '@/hooks/useUserManagementRequest';
 import { panelStyle } from '@/features/admin/shared';
-import type { AdminForbiddenWordRecord, AdminUserRecord, AdminUserReportRecord } from '@/types/admin';
+import type { AdminForbiddenWordRecord, AdminUserReportRecord } from '@/types/admin';
 
-type RiskTab = 'reports' | 'words' | 'users';
+type RiskTab = 'reports' | 'words';
 
 export default function RiskPage() {
   const { message, modal } = App.useApp();
@@ -53,8 +47,6 @@ export default function RiskPage() {
   const [reportFilter, setReportFilter] = useState<'all' | 'pending' | 'handled'>('all');
   const [wordForm] = Form.useForm<{ word: string }>();
   const [editWordForm] = Form.useForm<{ word: string; status: number }>();
-  const [mintForm] = Form.useForm<{ amount: number; remark?: string }>();
-  const [mintModalUser, setMintModalUser] = useState<AdminUserRecord | null>(null);
   const [editingWord, setEditingWord] = useState<AdminForbiddenWordRecord | null>(null);
   const [activeReport, setActiveReport] = useState<AdminUserReportRecord | null>(null);
 
@@ -67,23 +59,17 @@ export default function RiskPage() {
   const createForbiddenWordRequest = useRequestCreateForbiddenWord();
   const updateForbiddenWordRequest = useRequestUpdateForbiddenWord();
   const deleteForbiddenWordRequest = useRequestDeleteForbiddenWord();
-  const usersRequest = useRequestUsers();
-  const forbiddenUserRequest = useRequestForbiddenUser();
-  const grantAdminRequest = useRequestGrantAdmin();
-  const revokeAdminRequest = useRequestRevokeAdmin();
-  const mintCoinsRequest = useRequestMintCoins();
 
   const loadData = async () => {
     await Promise.all([
       reportsRequest.run({ current: 1, pageSize: 100 }),
       forbiddenWordsRequest.run({ current: 1, pageSize: 100 }),
-      usersRequest.run({ current: 1, pageSize: 100 }),
     ]);
   };
 
   useEffect(() => {
     void loadData();
-    // Initial page hydration loads reports, forbidden words and users together.
+    // Initial page hydration loads reports and forbidden words together.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -166,19 +152,6 @@ export default function RiskPage() {
     }
   };
 
-  const handleMuteUser = async (userId: number, days: number) => {
-    try {
-      await forbiddenUserRequest.run({
-        userId,
-        days,
-      });
-      message.success(days === 0 ? '用户已解禁' : '用户已禁言');
-      await usersRequest.refresh();
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '用户状态更新失败');
-    }
-  };
-
   const openReportDetail = async (record: AdminUserReportRecord) => {
     try {
       const detail = await reportDetailRequest.run(record.id);
@@ -188,44 +161,8 @@ export default function RiskPage() {
     }
   };
 
-  const openMintModal = (user: AdminUserRecord) => {
-    setMintModalUser(user);
-    mintForm.setFieldsValue({
-      amount: 100,
-      remark: '',
-    });
-  };
-
-  const closeMintModal = () => {
-    setMintModalUser(null);
-    mintForm.resetFields();
-  };
-
-  const handleMintCoins = async () => {
-    if (!mintModalUser) {
-      return;
-    }
-
-    try {
-      const values = await mintForm.validateFields();
-      await mintCoinsRequest.run({
-        userId: mintModalUser.id,
-        amount: values.amount,
-        remark: values.remark?.trim() || undefined,
-      });
-      message.success('发币成功');
-      closeMintModal();
-      await usersRequest.refresh();
-    } catch (error) {
-      if (error instanceof Error) {
-        message.error(error.message);
-      }
-    }
-  };
-
   const reportError = reportsRequest.error instanceof Error ? reportsRequest.error : undefined;
   const wordsError = forbiddenWordsRequest.error instanceof Error ? forbiddenWordsRequest.error : undefined;
-  const usersError = usersRequest.error instanceof Error ? usersRequest.error : undefined;
 
   return (
     <PageContainer title="风控中心">
@@ -236,7 +173,6 @@ export default function RiskPage() {
             options={[
               { label: `举报审核 (${reportsRequest.data?.total || 0})`, value: 'reports' },
               { label: `敏感词 (${forbiddenWordsRequest.data?.total || 0})`, value: 'words' },
-              { label: `用户管理 (${usersRequest.data?.total || 0})`, value: 'users' },
             ]}
             value={tab}
             onChange={(value) => setTab(value as RiskTab)}
@@ -443,135 +379,7 @@ export default function RiskPage() {
           </Space>
         ) : null}
 
-        {tab === 'users' ? (
-          <Space direction="vertical" size={16} style={{ width: '100%' }}>
-            <div className="turtle-page-toolbar turtle-page-toolbar-with-tabs">
-              {usersError ? (
-                <Alert type="error" showIcon message="用户列表加载失败" description={usersError.message} />
-              ) : null}
-            </div>
-
-            <ProCard style={panelStyle}>
-              <Table
-                rowKey="id"
-                loading={usersRequest.loading}
-                pagination={false}
-                dataSource={usersRequest.data?.data || []}
-                columns={[
-                  { title: 'ID', dataIndex: 'id', width: 80 },
-                  {
-                    title: '用户',
-                    render: (_, record) => (
-                      <Space direction="vertical" size={2}>
-                        <Typography.Text strong>{record.nickname || record.username || `用户 ${record.id}`}</Typography.Text>
-                        <Typography.Text type="secondary">{record.email || '-'}</Typography.Text>
-                      </Space>
-                    ),
-                  },
-                  {
-                    title: '状态',
-                    width: 140,
-                    render: (_, record) => (
-                      <Space wrap>
-                        {record.forbiddenDays ? <Tag color="error">已禁言</Tag> : <Tag color="success">正常</Tag>}
-                        {String(record.raw.role || '').includes('admin') ? (
-                          <Tag color="processing">管理员</Tag>
-                        ) : null}
-                      </Space>
-                    ),
-                  },
-                  {
-                    title: '操作',
-                    width: 420,
-                    render: (_, record) => (
-                      <Space wrap>
-                        <Button size="small" type="primary" icon={<PlusOutlined />} onClick={() => openMintModal(record)}>
-                          发币
-                        </Button>
-                        <Button
-                          size="small"
-                          icon={<StopOutlined />}
-                          loading={forbiddenUserRequest.loading}
-                          onClick={() => void handleMuteUser(record.id, 7)}
-                        >
-                          禁言 7 天
-                        </Button>
-                        <Button
-                          size="small"
-                          icon={<UndoOutlined />}
-                          loading={forbiddenUserRequest.loading}
-                          onClick={() => void handleMuteUser(record.id, 0)}
-                        >
-                          解禁
-                        </Button>
-                        <Button
-                          size="small"
-                          icon={<CrownOutlined />}
-                          loading={grantAdminRequest.loading}
-                          onClick={async () => {
-                            try {
-                              await grantAdminRequest.run({ userId: record.id });
-                              message.success('管理员授权成功');
-                              await usersRequest.refresh();
-                            } catch (error) {
-                              message.error(error instanceof Error ? error.message : '授权失败');
-                            }
-                          }}
-                        >
-                          授权管理员
-                        </Button>
-                        <Button
-                          size="small"
-                          loading={revokeAdminRequest.loading}
-                          onClick={async () => {
-                            try {
-                              await revokeAdminRequest.run({ userId: record.id });
-                              message.success('管理员权限已取消');
-                              await usersRequest.refresh();
-                            } catch (error) {
-                              message.error(error instanceof Error ? error.message : '取消失败');
-                            }
-                          }}
-                        >
-                          取消管理员
-                        </Button>
-                      </Space>
-                    ),
-                  },
-                ]}
-              />
-            </ProCard>
-          </Space>
-        ) : null}
       </Space>
-
-      <Modal
-        open={Boolean(mintModalUser)}
-        title={mintModalUser ? `给 ${mintModalUser.nickname || mintModalUser.username || `用户 ${mintModalUser.id}`} 发币` : '发币'}
-        okText="确认发币"
-        cancelText="取消"
-        confirmLoading={mintCoinsRequest.loading}
-        onOk={() => void handleMintCoins()}
-        onCancel={closeMintModal}
-        destroyOnHidden
-      >
-        <Form form={mintForm} layout="vertical">
-          <Form.Item
-            label="发放数量"
-            name="amount"
-            rules={[
-              { required: true, message: '请输入发币数量' },
-              { type: 'number', min: 1, message: '发币数量必须大于 0' },
-            ]}
-          >
-            <InputNumber min={1} precision={0} style={{ width: '100%' }} placeholder="请输入整数数量" />
-          </Form.Item>
-
-          <Form.Item label="备注" name="remark">
-            <Input.TextArea rows={3} maxLength={200} placeholder="选填，例如：活动奖励、人工补偿" />
-          </Form.Item>
-        </Form>
-      </Modal>
 
       <Modal
         open={Boolean(editingWord)}

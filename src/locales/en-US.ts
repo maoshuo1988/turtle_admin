@@ -9,6 +9,8 @@ export default {
   'menu.pets': 'Pets',
   'menu.petFeatures': 'Pet Features',
   'menu.petGacha': 'Gacha Pool',
+  'menu.userManagement': 'User Management',
+  'menu.users': 'Users',
   'menu.risk': 'Risk Center',
   'menu.audit': 'Audit Logs',
   'menu.rules': 'Rules',

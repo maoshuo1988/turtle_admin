@@ -7,7 +7,7 @@ import {
   type LogAction,
 } from '@/data/admin_mock_data';
 import { panelStyle } from '@/features/admin/shared';
-import { useRequestFundRecords, useRequestOperationLogs } from '@/hooks/useAdminRequest';
+import { useRequestFundRecords, useRequestOperationLogs } from '@/hooks/useUserManagementRequest';
 
 export default function AuditPage() {
   const [tab, setTab] = useState<'ops' | 'fund'>('ops');

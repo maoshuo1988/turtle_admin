@@ -136,14 +136,18 @@ export interface AdminCommentRecord {
 
 export interface AdminUserRecord {
   id: number;
+  status?: number;
   nickname?: string;
   username?: string;
   email?: string;
   avatar?: string;
   type?: number;
+  points?: number;
+  balance?: number;
   forbiddenDays?: number;
   forbiddenEndTime?: number;
   forbiddenReason?: string;
+  createTime?: number;
   raw: Record<string, unknown>;
 }
 

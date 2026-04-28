@@ -460,14 +460,18 @@ export function mapAdminUser(item: unknown): AdminUserRecord {
   const record = asRecord(item) ?? {};
   return {
     id: pickNumber(record, 'id'),
+    status: pickNumber(record, 'status'),
     nickname: pickString(record, 'nickname'),
     username: pickString(record, 'username'),
     email: pickString(record, 'email'),
     avatar: pickString(record, 'avatar'),
     type: pickNumber(record, 'type'),
+    points: pickNumber(record, 'points', 'point', 'score', 'credit', 'credits'),
+    balance: pickNumber(record, 'balance', 'coinBalance', 'coins', 'coin', 'amount'),
     forbiddenDays: pickNumber(record, 'forbiddenDays', 'muteDays'),
     forbiddenEndTime: pickNumber(record, 'forbiddenEndTime', 'muteEndTime'),
     forbiddenReason: pickString(record, 'forbiddenReason', 'muteReason'),
+    createTime: pickNumber(record, 'createTime', 'createdAt', 'registerTime'),
     raw: record,
   };
 }

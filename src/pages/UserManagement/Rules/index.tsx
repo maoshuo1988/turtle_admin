@@ -1,7 +1,7 @@
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Space, Table, Tag, Typography } from 'antd';
 import { panelStyle } from '@/features/admin/shared';
-import { useRequestPenaltyRules } from '@/hooks/useAdminRequest';
+import { useRequestPenaltyRules } from '@/hooks/useUserManagementRequest';
 
 export default function RulesPage() {
   const penaltyRulesRequest = useRequestPenaltyRules();

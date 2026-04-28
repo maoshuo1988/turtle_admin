@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState } from 'react';
+import { API_UPLOAD_IMAGE } from '@/api/api';
 import {
   API_ADMIN_PET_DEFS,
   API_ADMIN_PET_FEATURES,
@@ -22,6 +23,7 @@ import type {
   PetKillSwitchPayload,
   ReplacePetAbilitiesPayload,
   SavePetAbilityPayload,
+  UploadImageResponse,
 } from '@/types/pet';
 import { normalizePageResult } from '@/utils/adminAdapters';
 import {
@@ -289,6 +291,20 @@ async function requestPetKillSwitch(payload: PetKillSwitchPayload) {
   return assertSuccess(response);
 }
 
+async function requestUploadPetImage(file: File) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await axiosCustom<UploadImageResponse>({
+    method: 'post',
+    cmd: API_UPLOAD_IMAGE,
+    data: formData,
+    headers: getAuthorizationHeaders(),
+  });
+
+  return assertSuccess(response);
+}
+
 async function requestPetGachaConfig() {
   const response = await axiosCustom<unknown>({
     method: 'get',
@@ -384,6 +400,10 @@ export function useRequestDeletePetAbility() {
 
 export function useRequestPetKillSwitch() {
   return useMutationRequest(['requestPetKillSwitch'], requestPetKillSwitch);
+}
+
+export function useRequestUploadPetImage() {
+  return useMutationRequest(['requestUploadPetImage'], requestUploadPetImage);
 }
 
 export function useRequestPetGachaConfig() {

@@ -21,6 +21,12 @@ export interface PetDisplay {
   thumbnail?: string;
 }
 
+export interface UploadImageResponse {
+  url: string;
+  width?: number;
+  height?: number;
+}
+
 export interface PetDiscount {
   type: 'rate' | 'fixed';
   value: number;

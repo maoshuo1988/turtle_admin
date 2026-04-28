@@ -4,48 +4,50 @@ import {
   API_ADMIN_BATTLE_ACTIVE_USERS,
   API_ADMIN_BATTLE_RESOLVE,
   API_ADMIN_BATTLE_TRENDS,
-  API_ADMIN_COIN_MINT,
-  API_ADMIN_COMMENT_LIST,
   API_ADMIN_DASHBOARD_STATS,
   API_ADMIN_FORBIDDEN_WORD_CREATE,
   API_ADMIN_FORBIDDEN_WORD_DELETE,
   API_ADMIN_FORBIDDEN_WORD_LIST,
   API_ADMIN_FORBIDDEN_WORD_UPDATE,
-  API_ADMIN_OPERATE_LOG_LIST,
   API_ADMIN_PREDICT_ACTIVE_USERS,
   API_ADMIN_PREDICT_MARKET_SETTLE,
   API_ADMIN_PREDICT_MARKET_STATS,
   API_ADMIN_PREDICT_STATS,
   API_ADMIN_PREDICT_TRENDS,
-  API_ADMIN_TOPIC_AUDIT,
-  API_ADMIN_TOPIC_DELETE,
-  API_ADMIN_TOPIC_LIST,
   API_ADMIN_TOPIC_NODE_CREATE,
   API_ADMIN_TOPIC_NODE_LIST,
   API_ADMIN_TOPIC_NODE_NODES,
   API_ADMIN_TOPIC_NODE_UPDATE,
   API_ADMIN_TOPIC_NODE_UPDATE_SORT,
-  API_ADMIN_TOPIC_RECOMMEND,
-  API_ADMIN_TOPIC_UNDELETE,
-  API_ADMIN_USER_GRANT_ADMIN,
-  API_ADMIN_USER_LIST,
-  API_ADMIN_USER_REPORT_LIST,
-  API_ADMIN_USER_REPORT_UPDATE,
-  API_ADMIN_USER_REVOKE_ADMIN,
   API_BATTLE_LIST,
   API_BATTLE_STATS,
   API_FOOTBALL_MARKETS,
   API_FOOTBALL_PREDICT_CONTEXT_UPDATE,
   API_PREDICT_TAG_LIST,
   API_PREDICT_TAG_REFRESH,
-  API_USER_FORBIDDEN,
-  getAdminCommentDeletePath,
   getAdminForbiddenWordByPath,
-  getAdminTopicByPath,
   getAdminTopicNodeByPath,
-  getAdminUserReportByPath,
-  getTopicStickyPath,
 } from '@/api/admin_api';
+import {
+  API_USER_MANAGEMENT_COIN_MINT,
+  API_USER_MANAGEMENT_COMMENT_LIST,
+  API_USER_MANAGEMENT_OPERATE_LOG_LIST,
+  API_USER_MANAGEMENT_REPORT_LIST,
+  API_USER_MANAGEMENT_REPORT_UPDATE,
+  API_USER_MANAGEMENT_TOPIC_AUDIT,
+  API_USER_MANAGEMENT_TOPIC_DELETE,
+  API_USER_MANAGEMENT_TOPIC_LIST,
+  API_USER_MANAGEMENT_TOPIC_RECOMMEND,
+  API_USER_MANAGEMENT_TOPIC_UNDELETE,
+  API_USER_MANAGEMENT_USER_FORBIDDEN,
+  API_USER_MANAGEMENT_USER_GRANT_ADMIN,
+  API_USER_MANAGEMENT_USER_LIST,
+  API_USER_MANAGEMENT_USER_REVOKE_ADMIN,
+  getUserManagementCommentDeletePath,
+  getUserManagementReportByPath,
+  getUserManagementTopicByPath,
+  getUserManagementTopicStickyPath,
+} from '@/api/userManagement_api';
 import { axiosCustom } from '@/api/axios';
 import {
   fundRecords,
@@ -554,7 +556,7 @@ async function requestTopics(
 ): Promise<PageResult<AdminTopic>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: API_ADMIN_TOPIC_LIST,
+    cmd: API_USER_MANAGEMENT_TOPIC_LIST,
     params: {
       ...toPageQuery(params),
       title: params.keyword,
@@ -575,7 +577,7 @@ async function requestTopics(
 async function requestTopicBy(id: number) {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: getAdminTopicByPath(id),
+    cmd: getUserManagementTopicByPath(id),
     headers: getAuthorizationHeaders(),
   });
 
@@ -585,7 +587,7 @@ async function requestTopicBy(id: number) {
 async function requestDeleteTopic(payload: TopicAdminActionPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_TOPIC_DELETE,
+    cmd: API_USER_MANAGEMENT_TOPIC_DELETE,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -599,7 +601,7 @@ async function requestDeleteTopic(payload: TopicAdminActionPayload) {
 async function requestUndeleteTopic(payload: TopicAdminActionPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_TOPIC_UNDELETE,
+    cmd: API_USER_MANAGEMENT_TOPIC_UNDELETE,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -613,7 +615,7 @@ async function requestUndeleteTopic(payload: TopicAdminActionPayload) {
 async function requestAuditTopic(payload: TopicAdminActionPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_TOPIC_AUDIT,
+    cmd: API_USER_MANAGEMENT_TOPIC_AUDIT,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -627,7 +629,7 @@ async function requestAuditTopic(payload: TopicAdminActionPayload) {
 async function requestToggleTopicRecommend(params: { id: number; enabled: boolean }) {
   const res = await axiosCustom<unknown>({
     method: params.enabled ? 'post' : 'delete',
-    cmd: API_ADMIN_TOPIC_RECOMMEND,
+    cmd: API_USER_MANAGEMENT_TOPIC_RECOMMEND,
     data: toFormData({ id: params.id }),
     headers: {
       ...getAuthorizationHeaders(),
@@ -641,7 +643,7 @@ async function requestToggleTopicRecommend(params: { id: number; enabled: boolea
 async function requestToggleTopicSticky(payload: TopicStickyPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: getTopicStickyPath(payload.topicId),
+    cmd: getUserManagementTopicStickyPath(payload.topicId),
     data: toFormData({ sticky: payload.sticky }),
     headers: {
       ...getAuthorizationHeaders(),
@@ -663,7 +665,7 @@ async function requestComments(
 ): Promise<PageResult<AdminCommentRecord>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: API_ADMIN_COMMENT_LIST,
+    cmd: API_USER_MANAGEMENT_COMMENT_LIST,
     params: {
       ...toPageQuery(params),
       id: params.id,
@@ -681,7 +683,7 @@ async function requestComments(
 async function requestDeleteComment(id: number) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: getAdminCommentDeletePath(id),
+    cmd: getUserManagementCommentDeletePath(id),
     headers: getAuthorizationHeaders(),
   });
 
@@ -763,7 +765,7 @@ async function requestUserReports(
 ): Promise<PageResult<AdminUserReportRecord>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: API_ADMIN_USER_REPORT_LIST,
+    cmd: API_USER_MANAGEMENT_REPORT_LIST,
     params: toPageQuery(params),
     headers: getAuthorizationHeaders(),
   });
@@ -774,7 +776,7 @@ async function requestUserReports(
 async function requestUserReportBy(id: number) {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: getAdminUserReportByPath(id),
+    cmd: getUserManagementReportByPath(id),
     headers: getAuthorizationHeaders(),
   });
 
@@ -784,7 +786,7 @@ async function requestUserReportBy(id: number) {
 async function requestUpdateUserReport(payload: UserReportUpdatePayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_USER_REPORT_UPDATE,
+    cmd: API_USER_MANAGEMENT_REPORT_UPDATE,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -806,7 +808,7 @@ async function requestUsers(
 ): Promise<PageResult<AdminUserRecord>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: API_ADMIN_USER_LIST,
+    cmd: API_USER_MANAGEMENT_USER_LIST,
     params: {
       ...toPageQuery(params),
       id: params.id,
@@ -824,7 +826,7 @@ async function requestUsers(
 async function requestGrantAdmin(payload: UserGrantAdminPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_USER_GRANT_ADMIN,
+    cmd: API_USER_MANAGEMENT_USER_GRANT_ADMIN,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -838,7 +840,7 @@ async function requestGrantAdmin(payload: UserGrantAdminPayload) {
 async function requestRevokeAdmin(payload: UserGrantAdminPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_USER_REVOKE_ADMIN,
+    cmd: API_USER_MANAGEMENT_USER_REVOKE_ADMIN,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -852,7 +854,7 @@ async function requestRevokeAdmin(payload: UserGrantAdminPayload) {
 async function requestMintCoins(payload: AdminCoinMintPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_ADMIN_COIN_MINT,
+    cmd: API_USER_MANAGEMENT_COIN_MINT,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -866,7 +868,7 @@ async function requestMintCoins(payload: AdminCoinMintPayload) {
 async function requestForbiddenUser(payload: UserForbiddenPayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_USER_FORBIDDEN,
+    cmd: API_USER_MANAGEMENT_USER_FORBIDDEN,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),
@@ -957,7 +959,7 @@ async function requestUpdateTopicNodeSort(ids: number[]) {
 async function requestOperationLogs(params: PageParams): Promise<PageResult<OpLog>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
-    cmd: API_ADMIN_OPERATE_LOG_LIST,
+    cmd: API_USER_MANAGEMENT_OPERATE_LOG_LIST,
     params: toPageQuery(params),
     headers: getAuthorizationHeaders(),
   });

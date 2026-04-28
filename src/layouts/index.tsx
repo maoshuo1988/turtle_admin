@@ -11,11 +11,12 @@ import {
   SafetyOutlined,
   TeamOutlined,
   ThunderboltOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { history, Outlet, useAccess, useIntl, useLocation, useModel } from '@umijs/max';
-import { Layout, Menu, Spin, Typography } from 'antd';
+import { Layout, Menu, Spin, Typography, type MenuProps } from 'antd';
 import { useEffect, useMemo } from 'react';
-import { appRouteManifest } from '../../config/routeManifest';
+import { appRouteManifest, type AppRouteItem } from '../../config/routeManifest';
 import HeaderActions from '@/components/HeaderActions';
 import type { AppInitialState } from '@/types/runtime';
 import { LOGIN_PATH } from '@/utils/auth';
@@ -34,10 +35,41 @@ const menuIconMap: Record<string, JSX.Element> = {
   pets: <GoldOutlined />,
   petFeatures: <ApiOutlined />,
   petGacha: <GiftOutlined />,
+  userManagement: <UserOutlined />,
+  users: <TeamOutlined />,
   risk: <SafetyOutlined />,
   audit: <AuditOutlined />,
   rules: <BookOutlined />,
 };
+
+function createMenuItem(
+  route: AppRouteItem,
+  intl: ReturnType<typeof useIntl>,
+  access: Record<string, unknown>,
+): NonNullable<MenuProps['items']>[number] | undefined {
+  if (!route.name || !route.path || route.hideInMenu || publicPaths.has(route.path)) {
+    return undefined;
+  }
+
+  const children = route.routes
+    ?.map((child) => createMenuItem(child, intl, access))
+    .filter(Boolean) as MenuProps['items'];
+  const canAccessSelf = !route.access || access[route.access] === true;
+
+  if (!canAccessSelf && (!children || children.length === 0)) {
+    return undefined;
+  }
+
+  return {
+    key: route.path,
+    icon: menuIconMap[route.name as keyof typeof menuIconMap],
+    label: intl.formatMessage({
+      id: `menu.${route.name}`,
+      defaultMessage: route.name,
+    }),
+    children: children && children.length > 0 ? children : undefined,
+  };
+}
 
 export default function AppLayout() {
   const intl = useIntl();
@@ -57,22 +89,8 @@ export default function AppLayout() {
   const menuItems = useMemo(
     () =>
       appRouteManifest
-        .filter(
-          (item) =>
-            item.name &&
-            item.path &&
-            !item.hideInMenu &&
-            !publicPaths.has(item.path) &&
-            (!item.access || access[item.access] === true),
-        )
-        .map((item) => ({
-          key: item.path,
-          icon: menuIconMap[item.name as keyof typeof menuIconMap],
-          label: intl.formatMessage({
-            id: `menu.${item.name}`,
-            defaultMessage: item.name,
-          }),
-        })),
+        .map((item) => createMenuItem(item, intl, access))
+        .filter(Boolean) as MenuProps['items'],
     [access, intl],
   );
 
@@ -82,6 +100,14 @@ export default function AppLayout() {
     }
 
     return [location.pathname];
+  }, [location.pathname]);
+
+  const defaultOpenKeys = useMemo(() => {
+    if (location.pathname.startsWith('/user-management/')) {
+      return ['/user-management'];
+    }
+
+    return [];
   }, [location.pathname]);
 
   if (loading && !isPublicPage) {
@@ -149,6 +175,7 @@ export default function AppLayout() {
             <Menu
               mode="inline"
               selectedKeys={selectedKeys}
+              defaultOpenKeys={defaultOpenKeys}
               items={menuItems}
               style={{ borderInlineEnd: 'none', paddingInline: 8 }}
               onClick={({ key }) => {

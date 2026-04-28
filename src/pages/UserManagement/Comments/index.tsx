@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { useState } from 'react';
 import { panelStyle } from '@/features/admin/shared';
-import { useRequestComments, useRequestDeleteComment } from '@/hooks/useAdminRequest';
+import { useRequestComments, useRequestDeleteComment } from '@/hooks/useUserManagementRequest';
 
 interface CommentSearchValues {
   id?: number;

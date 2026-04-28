@@ -25,7 +25,9 @@ import {
   Table,
   Tag,
   Typography,
+  Upload,
 } from 'antd';
+import { TURTLE_API_BASE } from '@/api/api';
 import { useEffect, useMemo, useState } from 'react';
 import { panelStyle } from '@/features/admin/shared';
 import {
@@ -37,6 +39,7 @@ import {
   useRequestReplacePetAbilities,
   useRequestSavePetAbility,
   useRequestSavePetDefinition,
+  useRequestUploadPetImage,
 } from '@/hooks/usePetAdminRequest';
 import { PET_RARITY_OPTIONS } from '@/types/pet';
 import type {
@@ -176,6 +179,18 @@ function toBooleanFilter(value: 'all' | 'true' | 'false') {
   return undefined;
 }
 
+function resolveImageUrl(url: string | undefined) {
+  if (!url) {
+    return '';
+  }
+
+  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
+    return url;
+  }
+
+  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 function buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>) {
   const abilities = normalizeAbilities(
     parseJsonField(values.abilities_json, 'abilities'),
@@ -232,6 +247,10 @@ export default function PetsPage() {
   const saveAbilityRequest = useRequestSavePetAbility();
   const deleteAbilityRequest = useRequestDeletePetAbility();
   const killSwitchRequest = useRequestPetKillSwitch();
+  const uploadPetImageRequest = useRequestUploadPetImage();
+  const displayIcon = Form.useWatch(['display', 'icon'], petForm) as string | undefined;
+  const displayCover = Form.useWatch(['display', 'cover'], petForm) as string | undefined;
+  const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
 
   const loadPets = async () => {
     try {
@@ -499,6 +518,87 @@ export default function PetsPage() {
     }
   };
 
+  const handleUploadDisplayImage = async (field: keyof PetDisplay, file: File) => {
+    if (!file.type.startsWith('image/')) {
+      message.warning('请选择图片文件');
+      return;
+    }
+
+    try {
+      const result = await uploadPetImageRequest.run(file);
+      if (!result.url) {
+        throw new Error('上传结果缺少图片地址');
+      }
+
+      const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
+      petForm.setFieldsValue({
+        display: {
+          ...currentDisplay,
+          [field]: result.url,
+        },
+      });
+      message.success('图片上传成功');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '图片上传失败');
+    }
+  };
+
+  const renderDisplayImageField = (
+    field: keyof PetDisplay,
+    label: string,
+    value: string | undefined,
+  ) => {
+    const imageUrl = resolveImageUrl(value);
+
+    return (
+      <Col span={8}>
+        <Form.Item name={['display', field]} hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item label={label}>
+          <Upload
+            accept="image/*"
+            listType="picture-card"
+            maxCount={1}
+            fileList={
+              value
+                ? [
+                    {
+                      uid: field,
+                      name: label,
+                      status: 'done',
+                      url: imageUrl,
+                      thumbUrl: imageUrl,
+                    },
+                  ]
+                : []
+            }
+            onRemove={() => {
+              const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
+              petForm.setFieldsValue({
+                display: {
+                  ...currentDisplay,
+                  [field]: undefined,
+                },
+              });
+            }}
+            beforeUpload={(file) => {
+              void handleUploadDisplayImage(field, file);
+              return false;
+            }}
+          >
+            {value ? null : (
+              <button type="button" style={{ border: 0, background: 'none' }}>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>上传图片</div>
+              </button>
+            )}
+          </Upload>
+        </Form.Item>
+      </Col>
+    );
+  };
+
   return (
     <PageContainer
       title="龟种管理"
@@ -626,6 +726,28 @@ export default function PetsPage() {
             pagination={false}
             dataSource={petRecords}
             columns={[
+              {
+                title: '图片',
+                width: 76,
+                render: (_, record) => {
+                  const imageUrl = record.display?.thumbnail || record.display?.icon || record.display?.cover;
+                  return imageUrl ? (
+                    <img
+                      src={resolveImageUrl(imageUrl)}
+                      alt={getLocalizedLabel(record.name)}
+                      style={{
+                        width: 44,
+                        height: 44,
+                        objectFit: 'cover',
+                        borderRadius: 10,
+                        border: '1px solid #eaecf0',
+                      }}
+                    />
+                  ) : (
+                    '-'
+                  );
+                },
+              },
               { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },
               {
                 title: '名称',
@@ -710,7 +832,7 @@ export default function PetsPage() {
       </Space>
 
       <Modal
-        width={840}
+        width={960}
         title={editingPetId ? `编辑龟种 ${petForm.getFieldValue('pet_id') || ''}` : '新建龟种'}
         open={editorOpen}
         onCancel={closeEditor}
@@ -720,105 +842,116 @@ export default function PetsPage() {
         destroyOnClose
       >
         <Form form={petForm} layout="vertical">
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="pet_id"
-                label="Pet ID"
-                rules={[
-                  { required: true, message: '请输入 pet_id' },
-                  { pattern: /^[a-z0-9_]+$/, message: '仅支持小写字母、数字和下划线' },
-                ]}
-              >
-                <Input disabled={Boolean(editingPetId)} placeholder="basic / lava / space" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="rarity"
-                label="稀有度"
-                rules={[{ required: true, message: '请选择稀有度' }]}
-              >
-                <Select options={rarityOptions.map((item) => ({ label: item, value: item }))} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name={['name', 'zh-CN']}
-                label="中文名称"
-                rules={[{ required: true, message: '请输入中文名称' }]}
-              >
-                <Input placeholder="火山龟" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name={['name', 'en-US']} label="英文名称">
-                <Input placeholder="Lava Turtle" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="enabled" label="启用展示" valuePropName="checked">
-                <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="obtainable_by_egg" label="可开蛋获得" valuePropName="checked">
-                <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['display', 'icon']} label="图标资源">
-                <Input placeholder="pet:lava:icon_v2" />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['display', 'cover']} label="封面资源">
-                <Input placeholder="pet:lava:cover" />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['display', 'thumbnail']} label="缩略图资源">
-                <Input placeholder="pet:lava:thumb" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name={['description', 'zh-CN']} label="中文描述">
-                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name={['description', 'en-US']} label="英文描述">
-                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['pricing', 'egg_price']} label="开蛋价格">
-                <InputNumber min={0} precision={0} style={{ width: '100%' }} />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['pricing', 'egg_discount', 'type']} label="折扣类型">
-                <Select
-                  allowClear
-                  options={[
-                    { label: 'rate', value: 'rate' },
-                    { label: 'fixed', value: 'fixed' },
-                  ]}
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <ProCard title="基础信息" size="small" style={panelStyle}>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    name="pet_id"
+                    label="Pet ID"
+                    rules={[
+                      { required: true, message: '请输入 pet_id' },
+                      { pattern: /^[a-z0-9_]+$/, message: '仅支持小写字母、数字和下划线' },
+                    ]}
+                  >
+                    <Input disabled={Boolean(editingPetId)} placeholder="basic / lava / space" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="rarity"
+                    label="稀有度"
+                    rules={[{ required: true, message: '请选择稀有度' }]}
+                  >
+                    <Select options={rarityOptions.map((item) => ({ label: item, value: item }))} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name={['name', 'zh-CN']}
+                    label="中文名称"
+                    rules={[{ required: true, message: '请输入中文名称' }]}
+                  >
+                    <Input placeholder="火山龟" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item name={['name', 'en-US']} label="英文名称">
+                    <Input placeholder="Lava Turtle" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item name="enabled" label="启用展示" valuePropName="checked">
+                    <Switch checkedChildren="启用" unCheckedChildren="停用" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item name="obtainable_by_egg" label="可开蛋获得" valuePropName="checked">
+                    <Switch checkedChildren="可获得" unCheckedChildren="不可获得" />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </ProCard>
+
+            <ProCard title="图片资源" size="small" style={panelStyle}>
+              <Row gutter={16}>
+                {renderDisplayImageField('icon', '图标资源', displayIcon)}
+                {renderDisplayImageField('cover', '封面资源', displayCover)}
+                {renderDisplayImageField('thumbnail', '缩略图资源', displayThumbnail)}
+              </Row>
+            </ProCard>
+
+            <ProCard title="描述文案" size="small" style={panelStyle}>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item name={['description', 'zh-CN']} label="中文描述">
+                    <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入中文描述" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item name={['description', 'en-US']} label="英文描述">
+                    <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入英文描述" />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </ProCard>
+
+            <ProCard title="价格配置" size="small" style={panelStyle}>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item name={['pricing', 'egg_price']} label="开蛋价格">
+                    <InputNumber min={0} precision={0} style={{ width: '100%' }} />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item name={['pricing', 'egg_discount', 'type']} label="折扣类型">
+                    <Select
+                      allowClear
+                      placeholder="不配置折扣"
+                      options={[
+                        { label: 'rate', value: 'rate' },
+                        { label: 'fixed', value: 'fixed' },
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item name={['pricing', 'egg_discount', 'value']} label="折扣值">
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </ProCard>
+
+            <ProCard title="Abilities JSON" size="small" style={panelStyle}>
+              <Form.Item name="abilities_json" style={{ marginBottom: 0 }}>
+                <Input.TextArea
+                  autoSize={{ minRows: 8, maxRows: 16 }}
+                  placeholder='{"spark_multiplier":{"base":1.3}}'
                 />
               </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name={['pricing', 'egg_discount', 'value']} label="折扣值">
-                <InputNumber min={0} style={{ width: '100%' }} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item name="abilities_json" label="abilities JSON">
-            <Input.TextArea
-              autoSize={{ minRows: 8, maxRows: 16 }}
-              placeholder='{"spark_multiplier":{"base":1.3}}'
-            />
-          </Form.Item>
+            </ProCard>
+          </Space>
         </Form>
       </Modal>
 
