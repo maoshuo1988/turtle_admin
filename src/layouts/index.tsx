@@ -11,6 +11,7 @@ import {
   SafetyOutlined,
   TeamOutlined,
   ThunderboltOutlined,
+  TrophyOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { history, Outlet, useAccess, useIntl, useLocation, useModel } from '@umijs/max';
@@ -29,6 +30,7 @@ const menuIconMap: Record<string, JSX.Element> = {
   dashboard: <DashboardOutlined />,
   predict: <ThunderboltOutlined />,
   battle: <NotificationOutlined />,
+  pk: <TrophyOutlined />,
   community: <TeamOutlined />,
   comments: <CommentOutlined />,
   nodes: <AppstoreOutlined />,

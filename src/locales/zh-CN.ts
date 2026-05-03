@@ -3,6 +3,7 @@ export default {
   'menu.dashboard': '总览看板',
   'menu.predict': '预测市场',
   'menu.battle': '开战广场',
+  'menu.pk': '对立PK',
   'menu.community': '社区管理',
   'menu.comments': '评论管理',
   'menu.nodes': '节点管理',

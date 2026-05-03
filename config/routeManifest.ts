@@ -40,6 +40,12 @@ export const appRouteManifest: AppRouteItem[] = [
     access: 'canBattle',
   },
   {
+    path: '/pk',
+    name: 'pk',
+    component: '@/pages/Pk',
+    access: 'canPk',
+  },
+  {
     path: '/community',
     redirect: '/user-management/community',
     hideInMenu: true,
@@ -152,6 +158,7 @@ export const pageTitleMap: Record<string, string> = {
   '/dashboard': '总览看板',
   '/predict': '预测市场',
   '/battle': '开战广场',
+  '/pk': '对立PK管理',
   '/community': '社区管理',
   '/comments': '评论管理',
   '/user-management/users': '用户管理',

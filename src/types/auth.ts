@@ -6,6 +6,8 @@ export type PermissionKey =
   | 'predict.manage'
   | 'battle.view'
   | 'battle.manage'
+  | 'pk.view'
+  | 'pk.manage'
   | 'community.view'
   | 'community.manage'
   | 'pet.view'

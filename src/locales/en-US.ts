@@ -3,6 +3,7 @@ export default {
   'menu.dashboard': 'Dashboard',
   'menu.predict': 'Markets',
   'menu.battle': 'Battles',
+  'menu.pk': 'PK',
   'menu.community': 'Community',
   'menu.comments': 'Comments',
   'menu.nodes': 'Nodes',
