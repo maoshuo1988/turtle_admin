@@ -61,6 +61,8 @@ interface PredictContextFormValues {
   imageUrl?: string;
 }
 
+type PredictContextMode = 'create' | 'edit';
+
 function resolveImageUrl(url: string | undefined) {
   if (!url) {
     return '';
@@ -83,6 +85,8 @@ export default function PredictPage() {
   const [settleReason, setSettleReason] = useState('');
   const [statsModal, setStatsModal] = useState<AdminMarket | null>(null);
   const [contextModal, setContextModal] = useState<AdminMarket | null>(null);
+  const [contextEditorOpen, setContextEditorOpen] = useState(false);
+  const [contextMode, setContextMode] = useState<PredictContextMode>('edit');
   const marketsRequest = useRequestMarkets();
   const predictStatsRequest = useRequestPredictStats();
   const marketStatsRequest = useRequestPredictMarketStats();
@@ -177,7 +181,9 @@ export default function PredictPage() {
   };
 
   const openContextModal = (market: AdminMarket) => {
+    setContextMode('edit');
     setContextModal(market);
+    setContextEditorOpen(true);
     contextForm.setFieldsValue({
       eventName: market.title,
       proText: market.proText,
@@ -188,6 +194,18 @@ export default function PredictPage() {
       detail: market.settleReason,
       imageUrl: market.imageUrl,
     });
+  };
+
+  const openCreateContextModal = () => {
+    setContextMode('create');
+    setContextModal(null);
+    contextForm.resetFields();
+    contextForm.setFieldsValue({
+      proText: '',
+      conText: '',
+      tags: '',
+    });
+    setContextEditorOpen(true);
   };
 
   const handleUploadContextImage = async (file: File) => {
@@ -210,14 +228,14 @@ export default function PredictPage() {
   };
 
   const handleUpdateContext = async () => {
-    if (!contextModal) {
+    if (contextMode === 'edit' && !contextModal) {
       return;
     }
 
     try {
       const values = await contextForm.validateFields();
       const payload: PredictContextUpdatePayload = {
-        marketId: contextModal.id,
+        marketId: contextModal?.id ?? 0,
         eventName: values.eventName,
         proText: values.proText,
         conText: values.conText,
@@ -228,8 +246,10 @@ export default function PredictPage() {
         imageUrl: values.imageUrl,
       };
       await updatePredictContextRequest.run(payload);
-      message.success('市场上下文已更新');
+      message.success(contextMode === 'create' ? '预测已新增' : '市场上下文已更新');
+      setContextEditorOpen(false);
       setContextModal(null);
+      setContextMode('edit');
       contextForm.resetFields();
       await loadMarkets();
     } catch (error) {
@@ -271,23 +291,27 @@ export default function PredictPage() {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                 />
-                <Button
-                  type="primary"
-                  icon={<ReloadOutlined />}
-                  loading={refreshTagsRequest.loading || marketsRequest.loading}
-                  onClick={async () => {
-                    try {
-                      await refreshTagsRequest.run();
-                      message.success('标签物化刷新完成');
-                    } catch (error) {
-                      message.error(error instanceof Error ? error.message : '标签刷新失败');
-                    } finally {
-                      await loadMarkets();
-                    }
-                  }}
-                >
-                  刷新标签
-                </Button>
+                <Space wrap>
+                  <Button type="primary" icon={<PlusOutlined />} onClick={openCreateContextModal}>
+                    新增预测
+                  </Button>
+                  <Button
+                    icon={<ReloadOutlined />}
+                    loading={refreshTagsRequest.loading || marketsRequest.loading}
+                    onClick={async () => {
+                      try {
+                        await refreshTagsRequest.run();
+                        message.success('标签物化刷新完成');
+                      } catch (error) {
+                        message.error(error instanceof Error ? error.message : '标签刷新失败');
+                      } finally {
+                        await loadMarkets();
+                      }
+                    }}
+                  >
+                    刷新标签
+                  </Button>
+                </Space>
               </Space>
             </ProCard>
 
@@ -487,14 +511,16 @@ export default function PredictPage() {
       </Modal>
 
       <Modal
-        open={Boolean(contextModal)}
-        title="编辑市场上下文"
+        open={contextEditorOpen}
+        title={contextMode === 'create' ? '新增预测' : '编辑市场上下文'}
         onCancel={() => {
+          setContextEditorOpen(false);
           setContextModal(null);
+          setContextMode('edit');
           contextForm.resetFields();
         }}
         onOk={() => void handleUpdateContext()}
-        okText="保存"
+        okText={contextMode === 'create' ? '新增' : '保存'}
         cancelText="取消"
         confirmLoading={updatePredictContextRequest.loading}
         destroyOnClose
