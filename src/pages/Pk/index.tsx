@@ -15,8 +15,10 @@ import {
   Table,
   Tag,
   Typography,
+  Upload,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
+import { TURTLE_API_BASE } from '@/api/api';
 import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestAdminPkRounds,
@@ -26,6 +28,7 @@ import {
   useRequestSaveAdminPkTopic,
   useRequestUpdateAdminPkTopicStatus,
 } from '@/hooks/useAdminPkRequest';
+import { useRequestUploadPetImage } from '@/hooks/usePetAdminRequest';
 import type {
   AdminPkRecalcHeatPayload,
   AdminPkRoundListParams,
@@ -63,6 +66,18 @@ const seasonStatusOptions = [
   { label: 'finished', value: 'finished' },
 ];
 
+function resolveImageUrl(url: string | undefined) {
+  if (!url) {
+    return '';
+  }
+
+  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
+    return url;
+  }
+
+  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 function getTopicStatusTag(status: AdminPkTopicStatus) {
   return status === 'enabled' ? <Tag color="success">启用</Tag> : <Tag color="default">停用</Tag>;
 }
@@ -83,6 +98,7 @@ export default function PkPage() {
   const [roundFilterForm] = Form.useForm<AdminPkRoundListParams>();
   const [seasonFilterForm] = Form.useForm<AdminPkSeasonListParams>();
   const [recalcForm] = Form.useForm<AdminPkRecalcHeatPayload>();
+  const topicCover = Form.useWatch('cover', topicForm) as string | undefined;
 
   const topicsRequest = useRequestAdminPkTopics();
   const roundsRequest = useRequestAdminPkRounds();
@@ -90,6 +106,7 @@ export default function PkPage() {
   const saveTopicRequest = useRequestSaveAdminPkTopic();
   const updateTopicStatusRequest = useRequestUpdateAdminPkTopicStatus();
   const recalcHeatRequest = useRequestRecalcAdminPkHeat();
+  const uploadImageRequest = useRequestUploadPetImage();
 
   const loadTopics = async (params = topicFilter) => {
     setTopicFilter(params);
@@ -172,6 +189,25 @@ export default function PkPage() {
       await loadTopics();
     } catch (error) {
       message.error(error instanceof Error ? error.message : '状态更新失败');
+    }
+  };
+
+  const handleUploadTopicCover = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      message.warning('请选择图片文件');
+      return;
+    }
+
+    try {
+      const result = await uploadImageRequest.run(file);
+      if (!result.url) {
+        throw new Error('上传结果缺少图片地址');
+      }
+
+      topicForm.setFieldsValue({ cover: result.url });
+      message.success('封面上传成功');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '封面上传失败');
     }
   };
 
@@ -491,8 +527,42 @@ export default function PkPage() {
               <InputNumber min={0} precision={0} style={{ width: '100%' }} />
             </Form.Item>
           </Space>
-          <Form.Item name="cover" label="封面">
-            <Input placeholder="图片 URL，可选" />
+          <Form.Item name="cover" hidden>
+            <Input />
+          </Form.Item>
+          <Form.Item label="封面">
+            <Upload
+              accept="image/*"
+              listType="picture-card"
+              maxCount={1}
+              fileList={
+                topicCover
+                  ? [
+                      {
+                        uid: 'topic-cover',
+                        name: '封面',
+                        status: 'done',
+                        url: resolveImageUrl(topicCover),
+                        thumbUrl: resolveImageUrl(topicCover),
+                      },
+                    ]
+                  : []
+              }
+              onRemove={() => {
+                topicForm.setFieldsValue({ cover: undefined });
+              }}
+              beforeUpload={(file) => {
+                void handleUploadTopicCover(file);
+                return false;
+              }}
+            >
+              {topicCover ? null : (
+                <button type="button" style={{ border: 0, background: 'none' }}>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>上传图片</div>
+                </button>
+              )}
+            </Upload>
           </Form.Item>
         </Form>
       </Modal>

@@ -1,6 +1,7 @@
 import {
   EditOutlined,
   FireOutlined,
+  PlusOutlined,
   ReloadOutlined,
   SearchOutlined,
   StarFilled,
@@ -20,7 +21,9 @@ import {
   Space,
   Tag,
   Typography,
+  Upload,
 } from 'antd';
+import { TURTLE_API_BASE } from '@/api/api';
 import { useEffect, useMemo, useState } from 'react';
 import {
   mktStatusLabel,
@@ -44,6 +47,7 @@ import {
   useRequestSettlePredictMarket,
   useRequestUpdatePredictContext,
 } from '@/hooks/useAdminRequest';
+import { useRequestUploadPetImage } from '@/hooks/usePetAdminRequest';
 import type { PredictContextUpdatePayload } from '@/types/admin';
 
 interface PredictContextFormValues {
@@ -55,6 +59,18 @@ interface PredictContextFormValues {
   tags?: string;
   detail?: string;
   imageUrl?: string;
+}
+
+function resolveImageUrl(url: string | undefined) {
+  if (!url) {
+    return '';
+  }
+
+  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
+    return url;
+  }
+
+  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
 }
 
 export default function PredictPage() {
@@ -74,6 +90,8 @@ export default function PredictPage() {
   const refreshTagsRequest = useRequestRefreshPredictTags();
   const updatePredictContextRequest = useRequestUpdatePredictContext();
   const predictTagsRequest = useRequestPredictTags();
+  const uploadImageRequest = useRequestUploadPetImage();
+  const contextImageUrl = Form.useWatch('imageUrl', contextForm) as string | undefined;
 
   const loadMarkets = async () => {
     await marketsRequest.run({
@@ -168,8 +186,27 @@ export default function PredictPage() {
       participantCount: market.betCount,
       tags: market.tags.join(', '),
       detail: market.settleReason,
-      imageUrl: '',
+      imageUrl: market.imageUrl,
     });
+  };
+
+  const handleUploadContextImage = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      message.warning('请选择图片文件');
+      return;
+    }
+
+    try {
+      const result = await uploadImageRequest.run(file);
+      if (!result.url) {
+        throw new Error('上传结果缺少图片地址');
+      }
+
+      contextForm.setFieldsValue({ imageUrl: result.url });
+      message.success('封面图上传成功');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '封面图上传失败');
+    }
   };
 
   const handleUpdateContext = async () => {
@@ -493,8 +530,42 @@ export default function PredictPage() {
           <Form.Item name="heat" label="热度">
             <Input type="number" />
           </Form.Item>
-          <Form.Item name="imageUrl" label="封面图地址">
+          <Form.Item name="imageUrl" hidden>
             <Input />
+          </Form.Item>
+          <Form.Item label="封面图">
+            <Upload
+              accept="image/*"
+              listType="picture-card"
+              maxCount={1}
+              fileList={
+                contextImageUrl
+                  ? [
+                      {
+                        uid: 'context-cover',
+                        name: '封面图',
+                        status: 'done',
+                        url: resolveImageUrl(contextImageUrl),
+                        thumbUrl: resolveImageUrl(contextImageUrl),
+                      },
+                    ]
+                  : []
+              }
+              onRemove={() => {
+                contextForm.setFieldsValue({ imageUrl: undefined });
+              }}
+              beforeUpload={(file) => {
+                void handleUploadContextImage(file);
+                return false;
+              }}
+            >
+              {contextImageUrl ? null : (
+                <button type="button" style={{ border: 0, background: 'none' }}>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>上传图片</div>
+                </button>
+              )}
+            </Upload>
           </Form.Item>
           <Form.Item name="detail" label="上下文说明">
             <Input.TextArea rows={4} />

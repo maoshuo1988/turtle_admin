@@ -1,13 +1,21 @@
 import {
   DeleteOutlined,
   EditOutlined,
+  EyeOutlined,
   PlusOutlined,
   ReloadOutlined,
   SafetyOutlined,
   SaveOutlined,
-  SettingOutlined,
 } from '@ant-design/icons';
-import { PageContainer, ProCard } from '@ant-design/pro-components';
+import {
+  PageContainer,
+  ProCard,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+  QueryFilter,
+  type ProColumns,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import {
   Alert,
@@ -60,12 +68,15 @@ const killSwitchActions = [
   { label: '禁用单项能力', value: 'disable_feature' },
 ];
 
+type EggSettingMode = 'create' | 'edit' | 'detail';
+
 interface PetFormValues {
   pet_id: string;
   name?: LocalizedText;
   rarity: PetRarity;
   enabled: boolean;
   obtainable_by_egg: boolean;
+  feature_keys?: string[];
   display?: PetDisplay;
   description?: LocalizedText;
   pricing?: PetPricing;
@@ -77,9 +88,25 @@ interface AbilityFormValues {
   params_json: string;
 }
 
+interface EggSettingFormValues {
+  enabled: boolean;
+  obtainable_by_egg: boolean;
+  feature_keys?: string[];
+  display?: PetDisplay;
+  description?: LocalizedText;
+  pricing?: PetPricing;
+  abilities_json?: string;
+}
+
 interface AbilityRow {
   featureKey: string;
   params: Record<string, unknown>;
+}
+
+interface PetFilterValues {
+  keyword?: string;
+  enabled?: 'all' | 'true' | 'false';
+  rarity?: 'all' | PetRarity;
 }
 
 function formatJsonEditor(value: unknown) {
@@ -167,6 +194,10 @@ function normalizeAbilities(
   return Object.keys(next).length ? next : undefined;
 }
 
+function getAbilityFeatureKeys(abilities: PetAbilities | undefined) {
+  return Object.keys(abilities || {});
+}
+
 function toBooleanFilter(value: 'all' | 'true' | 'false') {
   if (value === 'true') {
     return true;
@@ -227,6 +258,7 @@ export default function PetsPage() {
   const access = useAccess() as { canManagePets?: boolean };
   const canManagePets = access.canManagePets === true;
   const [petForm] = Form.useForm<PetFormValues>();
+  const [eggSettingForm] = Form.useForm<EggSettingFormValues>();
   const [killSwitchForm] = Form.useForm<PetKillSwitchPayload>();
   const [replaceAbilitiesForm] = Form.useForm<{ abilities_json?: string }>();
   const [abilityForm] = Form.useForm<AbilityFormValues>();
@@ -238,6 +270,9 @@ export default function PetsPage() {
   const [activePet, setActivePet] = useState<PetDefinition | null>(null);
   const [abilityEditorOpen, setAbilityEditorOpen] = useState(false);
   const [editingAbilityKey, setEditingAbilityKey] = useState<string | null>(null);
+  const [eggSettingOpen, setEggSettingOpen] = useState(false);
+  const [eggSettingPetId, setEggSettingPetId] = useState<string | undefined>();
+  const [eggSettingMode, setEggSettingMode] = useState<EggSettingMode>('create');
 
   const petListRequest = useRequestPetDefinitions();
   const petFeaturesRequest = useRequestPetFeatures();
@@ -251,19 +286,54 @@ export default function PetsPage() {
   const displayIcon = Form.useWatch(['display', 'icon'], petForm) as string | undefined;
   const displayCover = Form.useWatch(['display', 'cover'], petForm) as string | undefined;
   const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
+  const eggSettingDisplayIcon = Form.useWatch(['display', 'icon'], eggSettingForm) as string | undefined;
+  const eggSettingDisplayCover = Form.useWatch(['display', 'cover'], eggSettingForm) as string | undefined;
+  const eggSettingDisplayThumbnail = Form.useWatch(['display', 'thumbnail'], eggSettingForm) as string | undefined;
+  const eggSettingFeatureKeys = Form.useWatch('feature_keys', eggSettingForm) as string[] | undefined;
+  const eggSettingReadonly = eggSettingMode === 'detail';
 
-  const loadPets = async () => {
+  const loadPets = async (filters?: PetFilterValues) => {
+    const nextKeyword = filters?.keyword ?? keyword;
+    const nextEnabledFilter = filters?.enabled ?? enabledFilter;
+    const nextRarityFilter = filters?.rarity ?? rarityFilter;
+
     try {
       await petListRequest.run({
         current: 1,
         pageSize: 200,
-        keyword: keyword.trim() || undefined,
-        enabled: toBooleanFilter(enabledFilter),
-        rarity: rarityFilter === 'all' ? undefined : rarityFilter,
+        keyword: nextKeyword.trim() || undefined,
+        enabled: toBooleanFilter(nextEnabledFilter),
+        rarity: nextRarityFilter === 'all' ? undefined : nextRarityFilter,
       });
     } catch (error) {
       message.error(error instanceof Error ? error.message : '龟种列表加载失败');
     }
+  };
+
+  const handleFilterSubmit = async (values: PetFilterValues) => {
+    const nextFilters: PetFilterValues = {
+      keyword: values.keyword ?? '',
+      enabled: values.enabled ?? 'all',
+      rarity: values.rarity ?? 'all',
+    };
+
+    setKeyword(nextFilters.keyword ?? '');
+    setEnabledFilter(nextFilters.enabled ?? 'all');
+    setRarityFilter(nextFilters.rarity ?? 'all');
+    await loadPets(nextFilters);
+  };
+
+  const handleFilterReset = async () => {
+    const nextFilters: PetFilterValues = {
+      keyword: '',
+      enabled: 'all',
+      rarity: 'all',
+    };
+
+    setKeyword('');
+    setEnabledFilter('all');
+    setRarityFilter('all');
+    await loadPets(nextFilters);
   };
 
   const loadPetFeatureOptions = async () => {
@@ -315,33 +385,82 @@ export default function PetsPage() {
       params,
     }));
   }, [activePet?.abilities]);
+  const eggSettingPet = useMemo(
+    () => petRecords.find((item) => item.id === eggSettingPetId),
+    [eggSettingPetId, petRecords],
+  );
+  const selectedFeatureItems = useMemo(() => {
+    const featureKeySet = new Set(eggSettingFeatureKeys || getAbilityFeatureKeys(eggSettingPet?.abilities));
 
-  const openCreateModal = () => {
-    setEditingPetId(null);
-    petForm.resetFields();
-    petForm.setFieldsValue({
-      rarity: 'C',
-      enabled: true,
-      obtainable_by_egg: true,
-      abilities_json: '',
-    });
-    setEditorOpen(true);
+    return featureOptions.filter((item) => featureKeySet.has(item.feature_key));
+  }, [eggSettingFeatureKeys, eggSettingPet?.abilities, featureOptions]);
+
+  const getFeatureTemplateLabel = (featureKey: string) => {
+    const feature = featureOptions.find((item) => item.feature_key === featureKey);
+
+    if (!feature) {
+      return featureKey;
+    }
+
+    return `${feature.feature_key} · ${getLocalizedLabel(feature.name)}`;
   };
 
-  const openEditModal = (record: PetDefinition) => {
-    setEditingPetId(record.id);
-    petForm.setFieldsValue({
-      pet_id: record.pet_id,
-      name: record.name,
-      rarity: record.rarity,
+  const openEggSettingModal = () => {
+    setEggSettingMode('create');
+    setEggSettingPetId(undefined);
+    eggSettingForm.resetFields();
+    setEggSettingOpen(true);
+  };
+
+  const closeEggSettingModal = () => {
+    setEggSettingOpen(false);
+    setEggSettingPetId(undefined);
+    setEggSettingMode('create');
+    eggSettingForm.resetFields();
+  };
+
+  const fillEggSettingForm = (record: PetDefinition, mode: EggSettingMode) => {
+    setEggSettingMode(mode);
+    setEggSettingPetId(record.id);
+    eggSettingForm.resetFields();
+    eggSettingForm.setFieldsValue({
       enabled: record.enabled,
       obtainable_by_egg: record.obtainable_by_egg,
+      feature_keys: getAbilityFeatureKeys(record.abilities),
       display: record.display,
       description: record.description,
       pricing: record.pricing,
       abilities_json: formatJsonEditor(record.abilities),
     });
-    setEditorOpen(true);
+    setEggSettingOpen(true);
+  };
+
+  const handleEggSettingPetChange = (petDefinitionId: string | undefined) => {
+    setEggSettingPetId(petDefinitionId);
+    const selectedPet = petRecords.find((item) => item.id === petDefinitionId);
+
+    if (!selectedPet) {
+      eggSettingForm.resetFields();
+      return;
+    }
+
+    eggSettingForm.setFieldsValue({
+      enabled: selectedPet.enabled,
+      obtainable_by_egg: selectedPet.obtainable_by_egg,
+      feature_keys: getAbilityFeatureKeys(selectedPet.abilities),
+      display: undefined,
+      description: undefined,
+      pricing: selectedPet.pricing,
+      abilities_json: formatJsonEditor(selectedPet.abilities),
+    });
+  };
+
+  const openEditModal = (record: PetDefinition) => {
+    fillEggSettingForm(record, 'edit');
+  };
+
+  const openDetailModal = (record: PetDefinition) => {
+    fillEggSettingForm(record, 'detail');
   };
 
   const closeEditor = () => {
@@ -365,6 +484,82 @@ export default function PetsPage() {
     }
   };
 
+  const handleSaveEggSetting = async () => {
+    if (!eggSettingPet) {
+      message.warning('请先选择龟');
+      return;
+    }
+
+    try {
+      const values = await eggSettingForm.validateFields();
+      if (!values.display?.icon || !values.display.cover || !values.display.thumbnail) {
+        throw new Error('请上传图标资源、封面资源和缩略图资源');
+      }
+      const abilities = normalizeAbilities(
+        parseJsonField(values.abilities_json, 'abilities'),
+        abilityFeatureKeys,
+      );
+      await savePetRequest.run({
+        pet_id: eggSettingPet.pet_id,
+        name: eggSettingPet.name,
+        rarity: eggSettingPet.rarity,
+        enabled: values.enabled,
+        obtainable_by_egg: values.obtainable_by_egg,
+        display: values.display,
+        description: values.description,
+        pricing: values.pricing,
+        abilities,
+      });
+      message.success(eggSettingMode === 'edit' ? '开蛋设置已更新' : '开蛋设置已新增');
+      closeEggSettingModal();
+      await loadPets();
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error(error.message);
+      }
+    }
+  };
+
+  const handlePetFeatureTemplatesChange = (featureKeys: string[]) => {
+    try {
+      const currentAbilities = parseJsonField(
+        petForm.getFieldValue('abilities_json'),
+        'abilities',
+      ) as PetAbilities | undefined;
+      const nextAbilities = featureKeys.reduce((result, featureKey) => {
+        result[featureKey] = currentAbilities?.[featureKey] ?? {};
+        return result;
+      }, {} as PetAbilities);
+
+      petForm.setFieldsValue({
+        feature_keys: featureKeys,
+        abilities_json: formatJsonEditor(nextAbilities),
+      });
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : 'abilities JSON 解析失败');
+    }
+  };
+
+  const handleEggSettingFeatureTemplatesChange = (featureKeys: string[]) => {
+    try {
+      const currentAbilities = parseJsonField(
+        eggSettingForm.getFieldValue('abilities_json'),
+        'abilities',
+      ) as PetAbilities | undefined;
+      const nextAbilities = featureKeys.reduce((result, featureKey) => {
+        result[featureKey] = currentAbilities?.[featureKey] ?? {};
+        return result;
+      }, {} as PetAbilities);
+
+      eggSettingForm.setFieldsValue({
+        feature_keys: featureKeys,
+        abilities_json: formatJsonEditor(nextAbilities),
+      });
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : 'abilities JSON 解析失败');
+    }
+  };
+
   const handleDeletePet = (record: PetDefinition) => {
     modal.confirm({
       title: `确认下架 ${record.pet_id} 吗？`,
@@ -382,11 +577,28 @@ export default function PetsPage() {
     });
   };
 
-  const openAbilitiesModal = (record: PetDefinition) => {
-    setActivePet(record);
-    replaceAbilitiesForm.setFieldsValue({
-      abilities_json: formatJsonEditor(record.abilities),
-    });
+  const handleTogglePetBoolean = async (
+    record: PetDefinition,
+    field: 'enabled' | 'obtainable_by_egg',
+    checked: boolean,
+  ) => {
+    try {
+      await savePetRequest.run({
+        pet_id: record.pet_id,
+        name: record.name,
+        rarity: record.rarity,
+        enabled: field === 'enabled' ? checked : record.enabled,
+        obtainable_by_egg: field === 'obtainable_by_egg' ? checked : record.obtainable_by_egg,
+        display: record.display,
+        description: record.description,
+        pricing: record.pricing,
+        abilities: record.abilities,
+      });
+      message.success(field === 'enabled' ? '启用状态已更新' : '开蛋获取状态已更新');
+      await loadPets();
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '状态更新失败');
+    }
   };
 
   const closeAbilitiesModal = () => {
@@ -543,6 +755,31 @@ export default function PetsPage() {
     }
   };
 
+  const handleUploadEggSettingDisplayImage = async (field: keyof PetDisplay, file: File) => {
+    if (!file.type.startsWith('image/')) {
+      message.warning('请选择图片文件');
+      return;
+    }
+
+    try {
+      const result = await uploadPetImageRequest.run(file);
+      if (!result.url) {
+        throw new Error('上传结果缺少图片地址');
+      }
+
+      const currentDisplay = eggSettingForm.getFieldValue('display') as PetDisplay | undefined;
+      eggSettingForm.setFieldsValue({
+        display: {
+          ...currentDisplay,
+          [field]: result.url,
+        },
+      });
+      message.success('图片上传成功');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '图片上传失败');
+    }
+  };
+
   const renderDisplayImageField = (
     field: keyof PetDisplay,
     label: string,
@@ -599,20 +836,211 @@ export default function PetsPage() {
     );
   };
 
-  return (
-    <PageContainer
-      title="龟种管理"
-      extra={[
-        <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadPets()}>
-          刷新
-        </Button>,
-        canManagePets ? (
-          <Button key="create" type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
-            新建龟种
+  const renderEggSettingDisplayImageField = (
+    field: keyof PetDisplay,
+    label: string,
+    value: string | undefined,
+  ) => {
+    const imageUrl = resolveImageUrl(value);
+
+    return (
+      <Col span={8}>
+        <Form.Item name={['display', field]} hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label={label}
+          required={!eggSettingReadonly}
+          validateStatus={!eggSettingReadonly && Boolean(eggSettingPet) && !value ? 'error' : undefined}
+          help={!eggSettingReadonly && eggSettingPet && !value ? `请上传${label}` : undefined}
+        >
+          <Upload
+            accept="image/*"
+            listType="picture-card"
+            maxCount={1}
+            disabled={eggSettingReadonly}
+            fileList={
+              value
+                ? [
+                    {
+                      uid: field,
+                      name: label,
+                      status: 'done',
+                      url: imageUrl,
+                      thumbUrl: imageUrl,
+                    },
+                  ]
+                : []
+            }
+            onRemove={() => {
+              const currentDisplay = eggSettingForm.getFieldValue('display') as PetDisplay | undefined;
+              eggSettingForm.setFieldsValue({
+                display: {
+                  ...currentDisplay,
+                  [field]: undefined,
+                },
+              });
+            }}
+            beforeUpload={(file) => {
+              void handleUploadEggSettingDisplayImage(field, file);
+              return false;
+            }}
+          >
+            {value ? null : (
+              <button type="button" style={{ border: 0, background: 'none' }}>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>上传图片</div>
+              </button>
+            )}
+          </Upload>
+        </Form.Item>
+      </Col>
+    );
+  };
+
+  const columns: ProColumns<PetDefinition>[] = [
+    {
+      title: '图片',
+      width: 76,
+      render: (_, record) => {
+        const imageUrl = record.display?.thumbnail || record.display?.icon || record.display?.cover;
+        return imageUrl ? (
+          <img
+            src={resolveImageUrl(imageUrl)}
+            alt={getLocalizedLabel(record.name)}
+            style={{
+              width: 44,
+              height: 44,
+              objectFit: 'cover',
+              borderRadius: 10,
+              border: '1px solid #eaecf0',
+            }}
+          />
+        ) : (
+          '-'
+        );
+      },
+    },
+    { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      render: (value: LocalizedText) => getLocalizedLabel(value),
+    },
+    {
+      title: '稀有度',
+      dataIndex: 'rarity',
+      width: 100,
+      render: (value: PetRarity) => <Tag color="processing">{value}</Tag>,
+    },
+    {
+      title: '启用',
+      dataIndex: 'enabled',
+      width: 110,
+      render: (value, record) => (
+        <Switch
+          disabled={!canManagePets}
+          loading={savePetRequest.loading}
+          checked={Boolean(value)}
+          checkedChildren="启用"
+          unCheckedChildren="关闭"
+          style={{ minWidth: 64 }}
+          onChange={(checked) => void handleTogglePetBoolean(record, 'enabled', checked)}
+        />
+      ),
+    },
+    {
+      title: '开蛋获取',
+      dataIndex: 'obtainable_by_egg',
+      width: 130,
+      render: (value, record) => (
+        <Switch
+          disabled={!canManagePets}
+          loading={savePetRequest.loading}
+          checked={Boolean(value)}
+          checkedChildren="可获得"
+          unCheckedChildren="不可获得"
+          style={{ minWidth: 82 }}
+          onChange={(checked) => void handleTogglePetBoolean(record, 'obtainable_by_egg', checked)}
+        />
+      ),
+    },
+    {
+      title: '默认价格',
+      width: 120,
+      render: (_, record) => record.pricing?.egg_price ?? '-',
+    },
+    {
+      title: '能力',
+      width: 220,
+      render: (_, record) => {
+        const featureKeys = getAbilityFeatureKeys(record.abilities);
+
+        return featureKeys.length ? (
+          <Space size={[0, 6]} wrap>
+            {featureKeys.map((featureKey) => (
+              <Tag key={featureKey}>{featureKey}</Tag>
+            ))}
+          </Space>
+        ) : (
+          '-'
+        );
+      },
+    },
+    {
+      title: '特性模板',
+      width: 260,
+      render: (_, record) => {
+        const featureKeys = getAbilityFeatureKeys(record.abilities);
+
+        return featureKeys.length ? (
+          <Space size={[0, 6]} wrap>
+            {featureKeys.map((featureKey) => (
+              <Tag key={featureKey}>{getFeatureTemplateLabel(featureKey)}</Tag>
+            ))}
+          </Space>
+        ) : (
+          '-'
+        );
+      },
+    },
+    {
+      title: '更新时间',
+      width: 180,
+      render: (_, record) => record.metadata?.updated_at || '-',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: 240,
+      render: (_, record) => (
+        <Space wrap>
+          <Button size="small" icon={<EyeOutlined />} onClick={() => openDetailModal(record)}>
+            详情
           </Button>
-        ) : null,
-      ].filter(Boolean)}
-    >
+          {canManagePets ? (
+            <Button size="small" icon={<EditOutlined />} onClick={() => openEditModal(record)}>
+              编辑
+            </Button>
+          ) : null}
+          {canManagePets ? (
+            <Button
+              size="small"
+              danger
+              icon={<DeleteOutlined />}
+              loading={deletePetRequest.loading}
+              onClick={() => handleDeletePet(record)}
+            >
+              删除
+            </Button>
+          ) : null}
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <PageContainer title="开蛋配置">
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
         {petListRequest.error instanceof Error ? (
           <Alert
@@ -656,40 +1084,6 @@ export default function PetsPage() {
           </Col>
         </Row>
 
-        <ProCard title="筛选" style={panelStyle}>
-          <Space wrap>
-            <Input
-              allowClear
-              style={{ width: 260 }}
-              placeholder="搜索 pet_id / 名称 / 描述"
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-            />
-            <Select
-              style={{ width: 160 }}
-              value={enabledFilter}
-              options={[
-                { label: '全部状态', value: 'all' },
-                { label: '已启用', value: 'true' },
-                { label: '已停用', value: 'false' },
-              ]}
-              onChange={(value) => setEnabledFilter(value)}
-            />
-            <Select
-              style={{ width: 160 }}
-              value={rarityFilter}
-              options={[
-                { label: '全部稀有度', value: 'all' },
-                ...rarityOptions.map((item) => ({ label: item, value: item })),
-              ]}
-              onChange={(value) => setRarityFilter(value)}
-            />
-            <Button type="primary" icon={<ReloadOutlined />} onClick={() => void loadPets()}>
-              应用筛选
-            </Button>
-          </Space>
-        </ProCard>
-
         {canManagePets ? (
           <ProCard title="紧急止血开关" extra={<SafetyOutlined />} style={panelStyle}>
             <Form form={killSwitchForm} layout="inline" onFinish={() => void handleKillSwitch()}>
@@ -719,117 +1113,326 @@ export default function PetsPage() {
           </ProCard>
         ) : null}
 
-        <ProCard title="龟种列表" style={panelStyle}>
-          <Table
-            rowKey="id"
-            loading={petListRequest.loading}
-            pagination={false}
-            dataSource={petRecords}
-            columns={[
-              {
-                title: '图片',
-                width: 76,
-                render: (_, record) => {
-                  const imageUrl = record.display?.thumbnail || record.display?.icon || record.display?.cover;
-                  return imageUrl ? (
-                    <img
-                      src={resolveImageUrl(imageUrl)}
-                      alt={getLocalizedLabel(record.name)}
-                      style={{
-                        width: 44,
-                        height: 44,
-                        objectFit: 'cover',
-                        borderRadius: 10,
-                        border: '1px solid #eaecf0',
-                      }}
-                    />
-                  ) : (
-                    '-'
-                  );
-                },
-              },
-              { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },
-              {
-                title: '名称',
-                dataIndex: 'name',
-                render: (value: LocalizedText) => getLocalizedLabel(value),
-              },
-              {
-                title: '稀有度',
-                dataIndex: 'rarity',
-                width: 100,
-                render: (value: PetRarity) => <Tag color="processing">{value}</Tag>,
-              },
-              {
-                title: '启用',
-                dataIndex: 'enabled',
-                width: 100,
-                render: (value: boolean) => (
-                  <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>
-                ),
-              },
-              {
-                title: '开蛋获取',
-                dataIndex: 'obtainable_by_egg',
-                width: 120,
-                render: (value: boolean) => (
-                  <Tag color={value ? 'gold' : 'default'}>{value ? '可抽取' : '不可抽取'}</Tag>
-                ),
-              },
-              {
-                title: '默认价格',
-                width: 120,
-                render: (_, record) => record.pricing?.egg_price ?? '-',
-              },
-              {
-                title: '能力数',
-                width: 100,
-                render: (_, record) => Object.keys(record.abilities || {}).length,
-              },
-              {
-                title: '更新时间',
-                width: 180,
-                render: (_, record) => record.metadata?.updated_at || '-',
-              },
-              {
-                title: '操作',
-                width: 260,
-                render: (_, record) => (
-                  <Space wrap>
-                    <Button
-                      size="small"
-                      icon={<SettingOutlined />}
-                      onClick={() => openAbilitiesModal(record)}
-                    >
-                      abilities
-                    </Button>
-                    {canManagePets ? (
-                      <Button
-                        size="small"
-                        icon={<EditOutlined />}
-                        onClick={() => openEditModal(record)}
-                      >
-                        编辑
-                      </Button>
-                    ) : null}
-                    {canManagePets ? (
-                      <Button
-                        size="small"
-                        danger
-                        icon={<DeleteOutlined />}
-                        loading={deletePetRequest.loading}
-                        onClick={() => handleDeletePet(record)}
-                      >
-                        删除
-                      </Button>
-                    ) : null}
-                  </Space>
-                ),
-              },
-            ]}
-          />
+        <ProCard style={panelStyle}>
+          <QueryFilter<PetFilterValues>
+            defaultCollapsed={false}
+            initialValues={{ enabled: 'all', rarity: 'all' }}
+            labelWidth="auto"
+            span={6}
+            onFinish={handleFilterSubmit}
+            onReset={handleFilterReset}
+          >
+            <ProFormText
+              name="keyword"
+              label="关键字"
+              placeholder="搜索 pet_id / 名称 / 描述"
+            />
+            <ProFormSelect
+              name="enabled"
+              label="状态"
+              options={[
+                { label: '全部状态', value: 'all' },
+                { label: '已启用', value: 'true' },
+                { label: '已停用', value: 'false' },
+              ]}
+            />
+            <ProFormSelect
+              name="rarity"
+              label="稀有度"
+              options={[
+                { label: '全部稀有度', value: 'all' },
+                ...rarityOptions.map((item) => ({ label: item, value: item })),
+              ]}
+            />
+          </QueryFilter>
         </ProCard>
+
+        <ProTable<PetDefinition>
+          headerTitle="开蛋配置列表"
+          style={panelStyle}
+          search={false}
+          options={false}
+          toolBarRender={() => [
+            <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadPets()}>
+              刷新
+            </Button>,
+            canManagePets ? (
+              <Button
+                key="egg-setting"
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={openEggSettingModal}
+              >
+                新增开蛋设置
+              </Button>
+            ) : null,
+          ].filter(Boolean)}
+          tableAlertRender={false}
+          tableAlertOptionRender={false}
+          rowKey="id"
+          loading={petListRequest.loading}
+          dataSource={petRecords}
+          pagination={{
+            pageSize: 20,
+            showSizeChanger: true,
+          }}
+          columns={columns}
+        />
       </Space>
+
+      <Modal
+        width={980}
+        title={
+          eggSettingMode === 'detail'
+            ? '开蛋设置详情'
+            : eggSettingMode === 'edit'
+              ? '编辑开蛋设置'
+              : '新增开蛋设置'
+        }
+        open={eggSettingOpen}
+        onCancel={closeEggSettingModal}
+        onOk={eggSettingReadonly ? undefined : () => void handleSaveEggSetting()}
+        okText={eggSettingMode === 'edit' ? '保存修改' : '新增'}
+        footer={eggSettingReadonly ? null : undefined}
+        confirmLoading={savePetRequest.loading}
+        destroyOnClose
+      >
+        <Space direction="vertical" size={16} style={{ width: '100%' }}>
+          <ProCard title="基础信息" size="small" style={panelStyle}>
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              <Select
+                showSearch
+                allowClear
+                style={{ width: '100%' }}
+                placeholder="选择龟后自动带出基础信息"
+                value={eggSettingPetId}
+                disabled={eggSettingMode !== 'create'}
+                optionFilterProp="label"
+                options={petRecords.map((item) => ({
+                  label: `${item.pet_id} · ${getLocalizedLabel(item.name)} · ${item.rarity}`,
+                  value: item.id,
+                }))}
+                onChange={handleEggSettingPetChange}
+              />
+
+              {eggSettingPet ? (
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} md={6}>
+                    <Typography.Text type="secondary">图片</Typography.Text>
+                    <div style={{ marginTop: 8 }}>
+                      {eggSettingPet.display?.thumbnail || eggSettingPet.display?.icon || eggSettingPet.display?.cover ? (
+                        <img
+                          src={resolveImageUrl(
+                            eggSettingPet.display?.thumbnail ||
+                              eggSettingPet.display?.icon ||
+                              eggSettingPet.display?.cover,
+                          )}
+                          alt={getLocalizedLabel(eggSettingPet.name)}
+                          style={{
+                            width: 72,
+                            height: 72,
+                            objectFit: 'cover',
+                            borderRadius: 8,
+                            border: '1px solid #eaecf0',
+                          }}
+                        />
+                      ) : (
+                        '-'
+                      )}
+                    </div>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <Typography.Text type="secondary">Pet ID</Typography.Text>
+                    <div>
+                      <Typography.Text strong>{eggSettingPet.pet_id}</Typography.Text>
+                    </div>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <Typography.Text type="secondary">稀有度</Typography.Text>
+                    <div>
+                      <Tag color="processing">{eggSettingPet.rarity}</Tag>
+                    </div>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <Typography.Text type="secondary">中文名称</Typography.Text>
+                    <div>
+                      <Typography.Text strong>{eggSettingPet.name['zh-CN'] || '-'}</Typography.Text>
+                    </div>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <Typography.Text type="secondary">英文名称</Typography.Text>
+                    <div>
+                      <Typography.Text strong>{eggSettingPet.name['en-US'] || '-'}</Typography.Text>
+                    </div>
+                  </Col>
+                  <Col xs={24} md={9}>
+                    <Typography.Text type="secondary">能力</Typography.Text>
+                    <div style={{ marginTop: 6 }}>
+                      {getAbilityFeatureKeys(eggSettingPet.abilities).length ? (
+                        <Space size={[0, 6]} wrap>
+                          {getAbilityFeatureKeys(eggSettingPet.abilities).map((featureKey) => (
+                            <Tag key={featureKey}>{featureKey}</Tag>
+                          ))}
+                        </Space>
+                      ) : (
+                        '-'
+                      )}
+                    </div>
+                  </Col>
+                  <Col xs={24} md={9}>
+                    <Typography.Text type="secondary">特性</Typography.Text>
+                    <div style={{ marginTop: 6 }}>
+                      {selectedFeatureItems.length ? (
+                        <Space size={[0, 6]} wrap>
+                          {selectedFeatureItems.map((feature) => (
+                            <Tag key={feature.feature_key}>
+                              {feature.feature_key} · {getLocalizedLabel(feature.name)}
+                            </Tag>
+                          ))}
+                        </Space>
+                      ) : (
+                        '-'
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+              ) : (
+                <Alert type="info" showIcon message="请选择一个龟种查看基础信息" />
+              )}
+            </Space>
+          </ProCard>
+
+          <Form form={eggSettingForm} layout="vertical" disabled={!eggSettingPet || eggSettingReadonly}>
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              <ProCard title="开蛋设置" size="small" style={panelStyle}>
+                <Row gutter={16}>
+                  <Col xs={24} md={8}>
+                    <Form.Item name="enabled" label="启用展示" valuePropName="checked">
+                      <Switch checkedChildren="启用" unCheckedChildren="关闭" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item name="obtainable_by_egg" label="可开蛋获得" valuePropName="checked">
+                      <Switch checkedChildren="可获得" unCheckedChildren="不可获得" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item name={['pricing', 'egg_price']} label="开蛋价格">
+                      <InputNumber min={0} precision={0} style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Form.Item name={['pricing', 'egg_discount', 'type']} label="折扣类型">
+                      <Select
+                        allowClear
+                        placeholder="不配置折扣"
+                        options={[
+                          { label: 'rate', value: 'rate' },
+                          { label: 'fixed', value: 'fixed' },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Form.Item name={['pricing', 'egg_discount', 'value']} label="折扣值">
+                      <InputNumber min={0} style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </ProCard>
+
+              <ProCard title="图片资源" size="small" style={panelStyle}>
+                <Row gutter={16}>
+                  {renderEggSettingDisplayImageField('icon', '图标资源', eggSettingDisplayIcon)}
+                  {renderEggSettingDisplayImageField('cover', '封面资源', eggSettingDisplayCover)}
+                  {renderEggSettingDisplayImageField('thumbnail', '缩略图资源', eggSettingDisplayThumbnail)}
+                </Row>
+              </ProCard>
+
+              <ProCard title="描述文案" size="small" style={panelStyle}>
+                <Row gutter={16}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={['description', 'zh-CN']}
+                      label="中文描述"
+                      rules={[{ required: true, message: '请输入中文描述' }]}
+                    >
+                      <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入中文描述" />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name={['description', 'en-US']}
+                      label="英文描述"
+                      rules={[{ required: true, message: '请输入英文描述' }]}
+                    >
+                      <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入英文描述" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </ProCard>
+
+              <ProCard title="能力配置" size="small" style={{ ...panelStyle, display: 'none' }}>
+                <Form.Item
+                  name="feature_keys"
+                  label="特性模板"
+                  extra="选择特性模板会同步 abilities 的 featureKey；已有参数会保留。"
+                >
+                  <Select
+                    mode="multiple"
+                    showSearch
+                    allowClear
+                    placeholder="请选择特性模板"
+                    optionFilterProp="label"
+                    loading={petFeaturesRequest.loading}
+                    options={featureOptions.map((item: FeatureCatalogItem) => ({
+                      label: `${item.feature_key} · ${getLocalizedLabel(item.name)}`,
+                      value: item.feature_key,
+                    }))}
+                    onChange={handleEggSettingFeatureTemplatesChange}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="abilities_json"
+                  label="Abilities JSON"
+                  rules={[{ required: true, message: '请输入 abilities JSON' }]}
+                >
+                  <Input.TextArea
+                    autoSize={{ minRows: 8, maxRows: 16 }}
+                    placeholder='{"spark_multiplier":{"base":1.3}}'
+                  />
+                </Form.Item>
+              </ProCard>
+
+              <ProCard title="配置的特性" size="small" style={{ ...panelStyle, display: 'none' }}>
+                <Table
+                  rowKey="feature_key"
+                  pagination={false}
+                  dataSource={selectedFeatureItems}
+                  columns={[
+                    { title: 'featureKey', dataIndex: 'feature_key', width: 220 },
+                    {
+                      title: '特性名称',
+                      dataIndex: 'name',
+                      render: (value: LocalizedText) => getLocalizedLabel(value),
+                    },
+                    { title: '作用域', dataIndex: 'scope', width: 120 },
+                    { title: '生效事件', dataIndex: 'effective_event', width: 160 },
+                    {
+                      title: '状态',
+                      dataIndex: 'enabled',
+                      width: 100,
+                      render: (value: boolean) => (
+                        <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>
+                      ),
+                    },
+                  ]}
+                />
+              </ProCard>
+            </Space>
+          </Form>
+        </Space>
+      </Modal>
 
       <Modal
         width={960}
@@ -944,6 +1547,25 @@ export default function PetsPage() {
             </ProCard>
 
             <ProCard title="Abilities JSON" size="small" style={panelStyle}>
+              <Form.Item
+                name="feature_keys"
+                label="特性模板"
+                extra="从特性模板列表选择后，会自动同步 abilities 的 featureKey；已有参数会保留。"
+              >
+                <Select
+                  mode="multiple"
+                  showSearch
+                  allowClear
+                  placeholder="请选择特性模板"
+                  optionFilterProp="label"
+                  loading={petFeaturesRequest.loading}
+                  options={featureOptions.map((item: FeatureCatalogItem) => ({
+                    label: `${item.feature_key} · ${getLocalizedLabel(item.name)}`,
+                    value: item.feature_key,
+                  }))}
+                  onChange={handlePetFeatureTemplatesChange}
+                />
+              </Form.Item>
               <Form.Item name="abilities_json" style={{ marginBottom: 0 }}>
                 <Input.TextArea
                   autoSize={{ minRows: 8, maxRows: 16 }}

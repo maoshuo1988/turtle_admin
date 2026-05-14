@@ -65,6 +65,7 @@ export interface AdminMarket {
   isRecommended: boolean;
   tags: string[];
   heat: number;
+  imageUrl?: string;
   outcome?: 'A' | 'B' | 'VOID' | null;
   settledBy?: string;
   settleReason?: string;

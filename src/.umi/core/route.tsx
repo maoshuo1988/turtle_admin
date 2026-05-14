@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/login","layout":false,"id":"1"},"2":{"path":"/","name":"dashboard","access":"canDashboard","parentId":"@@/global-layout","id":"2"},"3":{"path":"/dashboard","redirect":"/","hideInMenu":true,"parentId":"@@/global-layout","id":"3"},"4":{"path":"/predict","name":"predict","access":"canPredict","parentId":"@@/global-layout","id":"4"},"5":{"path":"/battle","name":"battle","access":"canBattle","parentId":"@@/global-layout","id":"5"},"6":{"path":"/pk","name":"pk","access":"canPk","parentId":"@@/global-layout","id":"6"},"7":{"path":"/community","redirect":"/user-management/community","hideInMenu":true,"parentId":"@@/global-layout","id":"7"},"8":{"path":"/comments","redirect":"/user-management/comments","hideInMenu":true,"parentId":"@@/global-layout","id":"8"},"9":{"path":"/nodes","name":"nodes","access":"canNodes","parentId":"@@/global-layout","id":"9"},"10":{"path":"/pets","name":"pets","access":"canPets","parentId":"@@/global-layout","id":"10"},"11":{"path":"/pet-features","name":"petFeatures","access":"canPetFeatures","parentId":"@@/global-layout","id":"11"},"12":{"path":"/pet-gacha","name":"petGacha","access":"canPets","parentId":"@@/global-layout","id":"12"},"13":{"path":"/user-management","name":"userManagement","parentId":"@@/global-layout","id":"13"},"14":{"path":"/user-management","redirect":"/user-management/users","hideInMenu":true,"parentId":"13","id":"14"},"15":{"path":"/user-management/users","name":"users","access":"canRisk","parentId":"13","id":"15"},"16":{"path":"/user-management/community","name":"community","access":"canCommunity","parentId":"13","id":"16"},"17":{"path":"/user-management/comments","name":"comments","access":"canComments","parentId":"13","id":"17"},"18":{"path":"/user-management/audit","name":"audit","access":"canAudit","parentId":"13","id":"18"},"19":{"path":"/user-management/rules","name":"rules","access":"canRules","parentId":"13","id":"19"},"20":{"path":"/users","redirect":"/user-management/users","hideInMenu":true,"parentId":"@@/global-layout","id":"20"},"21":{"path":"/risk","name":"risk","access":"canRisk","parentId":"@@/global-layout","id":"21"},"22":{"path":"/audit","redirect":"/user-management/audit","hideInMenu":true,"parentId":"@@/global-layout","id":"22"},"23":{"path":"/rules","redirect":"/user-management/rules","hideInMenu":true,"parentId":"@@/global-layout","id":"23"},"24":{"path":"/403","layout":false,"id":"24"},"25":{"path":"*","layout":false,"id":"25"},"@@/global-layout":{"id":"@@/global-layout","path":"/","isLayout":true}} as const;
+  const routes = {"1":{"path":"/login","layout":false,"id":"1"},"2":{"path":"/","name":"dashboard","access":"canDashboard","parentId":"@@/global-layout","id":"2"},"3":{"path":"/dashboard","redirect":"/","hideInMenu":true,"parentId":"@@/global-layout","id":"3"},"4":{"path":"/predict","name":"predict","access":"canPredict","parentId":"@@/global-layout","id":"4"},"5":{"path":"/battle","name":"battle","access":"canBattle","parentId":"@@/global-layout","id":"5"},"6":{"path":"/pk","name":"pk","access":"canPk","parentId":"@@/global-layout","id":"6"},"7":{"path":"/community","redirect":"/user-management/community","hideInMenu":true,"parentId":"@@/global-layout","id":"7"},"8":{"path":"/comments","redirect":"/user-management/comments","hideInMenu":true,"parentId":"@@/global-layout","id":"8"},"9":{"path":"/nodes","name":"nodes","access":"canNodes","parentId":"@@/global-layout","id":"9"},"10":{"path":"/pets","name":"petEggConfig","access":"canPets","hideInMenu":true,"parentId":"@@/global-layout","id":"10"},"11":{"path":"/pets/types","name":"petTypes","access":"canPets","hideInMenu":true,"parentId":"@@/global-layout","id":"11"},"12":{"path":"/pet-features","name":"petFeatures","access":"canPetFeatures","hideInMenu":true,"parentId":"@@/global-layout","id":"12"},"13":{"path":"/pet-abilities","name":"petAbilities","access":"canPets","hideInMenu":true,"parentId":"@@/global-layout","id":"13"},"14":{"path":"/pet-gacha","name":"petGachaRatio","access":"canPets","hideInMenu":true,"parentId":"@@/global-layout","id":"14"},"15":{"path":"/user-management","name":"userManagement","parentId":"@@/global-layout","id":"15"},"16":{"path":"/user-management","redirect":"/user-management/users","hideInMenu":true,"parentId":"15","id":"16"},"17":{"path":"/user-management/users","name":"users","access":"canRisk","parentId":"15","id":"17"},"18":{"path":"/user-management/community","name":"community","access":"canCommunity","parentId":"15","id":"18"},"19":{"path":"/user-management/comments","name":"comments","access":"canComments","parentId":"15","id":"19"},"20":{"path":"/user-management/audit","name":"audit","access":"canAudit","parentId":"15","id":"20"},"21":{"path":"/user-management/rules","name":"rules","access":"canRules","parentId":"15","id":"21"},"22":{"path":"/users","redirect":"/user-management/users","hideInMenu":true,"parentId":"@@/global-layout","id":"22"},"23":{"path":"/risk","name":"risk","access":"canRisk","parentId":"@@/global-layout","id":"23"},"24":{"path":"/audit","redirect":"/user-management/audit","hideInMenu":true,"parentId":"@@/global-layout","id":"24"},"25":{"path":"/rules","redirect":"/user-management/rules","hideInMenu":true,"parentId":"@@/global-layout","id":"25"},"26":{"path":"/403","layout":false,"id":"26"},"27":{"path":"*","layout":false,"id":"27"},"@@/global-layout":{"id":"@@/global-layout","path":"/","isLayout":true}} as const;
   return {
     routes,
     routeComponents: {
@@ -18,21 +18,23 @@ export async function getRoutes() {
 '8': React.lazy(() => import('./EmptyRoute')),
 '9': React.lazy(() => import(/* webpackChunkName: "p__Nodes__index" */'@/pages/Nodes/index.tsx')),
 '10': React.lazy(() => import(/* webpackChunkName: "p__Pets__index" */'@/pages/Pets/index.tsx')),
-'11': React.lazy(() => import(/* webpackChunkName: "p__PetFeatures__index" */'@/pages/PetFeatures/index.tsx')),
-'12': React.lazy(() => import(/* webpackChunkName: "p__PetGacha__index" */'@/pages/PetGacha/index.tsx')),
-'13': React.lazy(() => import('./EmptyRoute')),
-'14': React.lazy(() => import('./EmptyRoute')),
-'15': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Users__index" */'@/pages/UserManagement/Users/index.tsx')),
-'16': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Community__index" */'@/pages/UserManagement/Community/index.tsx')),
-'17': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Comments__index" */'@/pages/UserManagement/Comments/index.tsx')),
-'18': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Audit__index" */'@/pages/UserManagement/Audit/index.tsx')),
-'19': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Rules__index" */'@/pages/UserManagement/Rules/index.tsx')),
-'20': React.lazy(() => import('./EmptyRoute')),
-'21': React.lazy(() => import(/* webpackChunkName: "p__Risk__index" */'@/pages/Risk/index.tsx')),
+'11': React.lazy(() => import(/* webpackChunkName: "p__PetTypes__index" */'@/pages/PetTypes/index.tsx')),
+'12': React.lazy(() => import(/* webpackChunkName: "p__PetFeatures__index" */'@/pages/PetFeatures/index.tsx')),
+'13': React.lazy(() => import(/* webpackChunkName: "p__PetAbilities__index" */'@/pages/PetAbilities/index.tsx')),
+'14': React.lazy(() => import(/* webpackChunkName: "p__PetGacha__index" */'@/pages/PetGacha/index.tsx')),
+'15': React.lazy(() => import('./EmptyRoute')),
+'16': React.lazy(() => import('./EmptyRoute')),
+'17': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Users__index" */'@/pages/UserManagement/Users/index.tsx')),
+'18': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Community__index" */'@/pages/UserManagement/Community/index.tsx')),
+'19': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Comments__index" */'@/pages/UserManagement/Comments/index.tsx')),
+'20': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Audit__index" */'@/pages/UserManagement/Audit/index.tsx')),
+'21': React.lazy(() => import(/* webpackChunkName: "p__UserManagement__Rules__index" */'@/pages/UserManagement/Rules/index.tsx')),
 '22': React.lazy(() => import('./EmptyRoute')),
-'23': React.lazy(() => import('./EmptyRoute')),
-'24': React.lazy(() => import(/* webpackChunkName: "p__403__index" */'@/pages/403/index.tsx')),
-'25': React.lazy(() => import(/* webpackChunkName: "p__404__index" */'@/pages/404/index.tsx')),
+'23': React.lazy(() => import(/* webpackChunkName: "p__Risk__index" */'@/pages/Risk/index.tsx')),
+'24': React.lazy(() => import('./EmptyRoute')),
+'25': React.lazy(() => import('./EmptyRoute')),
+'26': React.lazy(() => import(/* webpackChunkName: "p__403__index" */'@/pages/403/index.tsx')),
+'27': React.lazy(() => import(/* webpackChunkName: "p__404__index" */'@/pages/404/index.tsx')),
 '@@/global-layout': React.lazy(() => import(/* webpackChunkName: "layouts__index" */'/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/layouts/index.tsx')),
 },
   };

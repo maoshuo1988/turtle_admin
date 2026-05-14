@@ -19,6 +19,7 @@ import {
   Space,
   Statistic,
   Switch,
+  Table,
   Tag,
   Typography,
 } from 'antd';
@@ -151,7 +152,7 @@ export default function PetGachaPage() {
       const config = await gachaConfigRequest.run(undefined);
       applyConfig(config);
     } catch (error) {
-      message.error(error instanceof Error ? error.message : '开蛋池配置加载失败');
+      message.error(error instanceof Error ? error.message : '开蛋比例配置加载失败');
     }
   };
 
@@ -205,6 +206,16 @@ export default function PetGachaPage() {
   const weightedRarityCount = petRarityOptions.filter(
     (rarity) => liveConfig.rarity_weights[rarity] > 0,
   ).length;
+  const eligiblePetCount = eligiblePetRecords.length;
+  const rarityRows = useMemo(
+    () =>
+      petRarityOptions.map((rarity) => ({
+        rarity,
+        probability: liveConfig.rarity_weights[rarity],
+        eligibleCount: eligibleCountsByRarity[rarity],
+      })),
+    [eligibleCountsByRarity, liveConfig.rarity_weights],
+  );
   const loading = gachaConfigRequest.loading || petListRequest.loading;
 
   const handleSave = async () => {
@@ -219,7 +230,7 @@ export default function PetGachaPage() {
 
       const saved = await saveGachaConfigRequest.run(payload);
       applyConfig(saved);
-      message.success('开蛋池配置已保存');
+      message.success('开蛋比例配置已保存');
     } catch (error) {
       if (error instanceof Error) {
         message.error(error.message);
@@ -244,7 +255,7 @@ export default function PetGachaPage() {
 
   return (
     <PageContainer
-      title="开蛋池配置"
+      title="开蛋比例配置"
       extra={[
         <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void refreshAll()}>
           刷新
@@ -281,7 +292,7 @@ export default function PetGachaPage() {
           <Alert
             type="error"
             showIcon
-            message="开蛋池配置加载失败"
+            message="开蛋比例配置加载失败"
             description={gachaConfigRequest.error.message}
           />
         ) : null}
@@ -295,37 +306,31 @@ export default function PetGachaPage() {
           />
         ) : null}
 
-        <Row gutter={[16, 16]}>
-          <Col xs={24} md={6}>
-            <ProCard style={panelStyle}>
+        <ProCard style={panelStyle}>
+          <Row gutter={[16, 16]}>
+            <Col xs={12} md={6}>
               <Statistic
                 title="总开关"
                 value={liveConfig.enabled ? '启用中' : '已关闭'}
                 valueStyle={{ color: liveConfig.enabled ? '#1677ff' : '#98a2b3' }}
               />
-            </ProCard>
-          </Col>
-          <Col xs={24} md={6}>
-            <ProCard style={panelStyle}>
+            </Col>
+            <Col xs={12} md={6}>
               <Statistic title="基础费用" value={liveConfig.base_cost} suffix="币" />
-            </ProCard>
-          </Col>
-          <Col xs={24} md={6}>
-            <ProCard style={panelStyle}>
+            </Col>
+            <Col xs={12} md={6}>
               <Statistic
                 title="概率合计"
                 value={probabilitySum}
                 precision={6}
                 valueStyle={{ color: sumIsValid ? '#1677ff' : '#ff4d4f' }}
               />
-            </ProCard>
-          </Col>
-          <Col xs={24} md={6}>
-            <ProCard style={panelStyle}>
-              <Statistic title="可抽稀有度数" value={weightedRarityCount} suffix="/ 6" />
-            </ProCard>
-          </Col>
-        </Row>
+            </Col>
+            <Col xs={12} md={6}>
+              <Statistic title="可抽龟种" value={eligiblePetCount} suffix={`只 / ${weightedRarityCount} 个稀有度`} />
+            </Col>
+          </Row>
+        </ProCard>
 
         <Row gutter={[16, 16]}>
           <Col xs={24} xl={16}>
@@ -396,35 +401,46 @@ export default function PetGachaPage() {
                   </Col>
                 </Row>
 
-                <Typography.Title level={5} style={{ marginTop: 8 }}>
-                  稀有度概率
-                </Typography.Title>
-                <Row gutter={[16, 16]}>
-                  {petRarityOptions.map((rarity) => (
-                    <Col key={rarity} xs={24} md={12} xl={8}>
-                      <div
-                        style={{
-                          border: '1px solid #eaecf0',
-                          borderRadius: 14,
-                          padding: 16,
-                          background: '#fafcff',
-                        }}
-                      >
-                        <Space
-                          align="center"
-                          style={{ width: '100%', justifyContent: 'space-between' }}
-                        >
-                          <Typography.Text strong>{rarity}</Typography.Text>
-                          <Tag color={eligibleCountsByRarity[rarity] > 0 ? 'success' : 'warning'}>
-                            候选 {eligibleCountsByRarity[rarity]}
-                          </Tag>
-                        </Space>
+                <Space
+                  align="center"
+                  style={{ width: '100%', justifyContent: 'space-between', margin: '4px 0 12px' }}
+                >
+                  <Typography.Title level={5} style={{ margin: 0 }}>
+                    稀有度概率
+                  </Typography.Title>
+                  <Typography.Text type={sumIsValid ? 'secondary' : 'danger'}>
+                    当前合计 {(probabilitySum * 100).toFixed(2)}%
+                  </Typography.Text>
+                </Space>
+                <Table
+                  rowKey="rarity"
+                  pagination={false}
+                  dataSource={rarityRows}
+                  size="middle"
+                  columns={[
+                    {
+                      title: '稀有度',
+                      dataIndex: 'rarity',
+                      width: 90,
+                      render: (rarity: PetRarity) => <Tag color="processing">{rarity}</Tag>,
+                    },
+                    {
+                      title: '候选龟种',
+                      dataIndex: 'eligibleCount',
+                      width: 110,
+                      render: (count: number) => (
+                        <Tag color={count > 0 ? 'success' : 'warning'}>{count} 只</Tag>
+                      ),
+                    },
+                    {
+                      title: '概率',
+                      width: 180,
+                      render: (_, row) => (
                         <Form.Item
-                          style={{ marginTop: 12, marginBottom: 12 }}
-                          name={['rarity_weights', rarity]}
-                          label="概率"
+                          name={['rarity_weights', row.rarity]}
+                          style={{ marginBottom: 0 }}
                           rules={[
-                            { required: true, message: `请输入 ${rarity} 概率` },
+                            { required: true, message: `请输入 ${row.rarity} 概率` },
                             {
                               validator: async (_, value) => {
                                 if (typeof value !== 'number' || !Number.isFinite(value)) {
@@ -444,18 +460,38 @@ export default function PetGachaPage() {
                             max={1}
                             step={0.01}
                             precision={4}
-                            addonAfter="%"
                           />
                         </Form.Item>
+                      ),
+                    },
+                    {
+                      title: '占比',
+                      dataIndex: 'probability',
+                      render: (probability: number, row) => (
                         <Progress
-                          percent={Math.max(0, Math.min(100, liveConfig.rarity_weights[rarity] * 100))}
-                          strokeColor={eligibleCountsByRarity[rarity] > 0 ? '#1677ff' : '#faad14'}
-                          format={() => formatProbability(liveConfig.rarity_weights[rarity])}
+                          percent={Math.max(0, Math.min(100, probability * 100))}
+                          strokeColor={row.eligibleCount > 0 ? '#1677ff' : '#faad14'}
+                          format={() => formatProbability(probability)}
                         />
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
+                      ),
+                    },
+                    {
+                      title: '状态',
+                      width: 120,
+                      render: (_, row) => {
+                        if (row.probability <= 0) {
+                          return <Tag>未配置</Tag>;
+                        }
+
+                        return row.eligibleCount > 0 ? (
+                          <Tag color="success">可保存</Tag>
+                        ) : (
+                          <Tag color="error">缺候选</Tag>
+                        );
+                      },
+                    },
+                  ]}
+                />
               </Form>
             </ProCard>
           </Col>
@@ -497,16 +533,16 @@ export default function PetGachaPage() {
                         <Typography.Text strong>保存规则</Typography.Text>
                       </Space>
                       <Typography.Text type="secondary">
-                        1. 只允许 C / B / A / S / SS / SSS 六个稀有度。
+                        1. 稀有度仅支持 C / B / A / S / SS / SSS。
                       </Typography.Text>
                       <Typography.Text type="secondary">
-                        2. 每个概率都必须在 0 到 1 之间。
+                        2. 每个概率必须在 0 到 1 之间。
                       </Typography.Text>
                       <Typography.Text type="secondary">
-                        3. 所有概率累加必须等于 1。
+                        3. 概率合计必须等于 1。
                       </Typography.Text>
                       <Typography.Text type="secondary">
-                        4. 若某稀有度概率大于 0，则至少要存在 1 只可开蛋获得且启用中的龟种。
+                        4. 概率大于 0 的稀有度必须有可开蛋龟种。
                       </Typography.Text>
                     </Space>
                   </div>
@@ -515,9 +551,7 @@ export default function PetGachaPage() {
 
               <ProCard title="候选池概览" style={panelStyle} loading={petListRequest.loading}>
                 <Space direction="vertical" size={12} style={{ width: '100%' }}>
-                  <Typography.Text type="secondary">
-                    统计口径：`enabled = true` 且 `obtainable_by_egg = true`
-                  </Typography.Text>
+                  <Typography.Text type="secondary">已启用且可开蛋获得的龟种会进入候选池。</Typography.Text>
                   {petRarityOptions.map((rarity) => (
                     <div
                       key={rarity}
@@ -540,7 +574,7 @@ export default function PetGachaPage() {
                   <Alert
                     type="info"
                     showIcon
-                    message="抽取口径"
+                    message="抽取方式"
                     description="用户侧应先按稀有度概率抽样，再在对应稀有度的可开蛋龟种中均分抽取。"
                   />
                 </Space>

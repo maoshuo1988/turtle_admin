@@ -4,7 +4,15 @@ import {
   PlusOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
-import { PageContainer, ProCard } from '@ant-design/pro-components';
+import {
+  PageContainer,
+  ProCard,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+  QueryFilter,
+  type ProColumns,
+} from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';
 import {
   Alert,
@@ -18,7 +26,6 @@ import {
   Select,
   Space,
   Switch,
-  Table,
   Tag,
   Typography,
 } from 'antd';
@@ -54,6 +61,12 @@ interface FeatureFormValues {
   effective_event: FeatureEffectiveEvent;
   enabled: boolean;
   params_schema_json: string;
+}
+
+interface FeatureFilterValues {
+  keyword?: string;
+  enabled?: 'all' | 'true' | 'false';
+  scope?: 'all' | FeatureScope;
 }
 
 function parseJsonObject(text: string | undefined, fieldLabel: string) {
@@ -125,9 +138,10 @@ export default function PetFeaturesPage() {
   const access = useAccess() as { canManagePetFeatures?: boolean };
   const canManagePetFeatures = access.canManagePetFeatures === true;
   const [featureForm] = Form.useForm<FeatureFormValues>();
-  const [keyword, setKeyword] = useState('');
-  const [enabledFilter, setEnabledFilter] = useState<'all' | 'true' | 'false'>('all');
-  const [scopeFilter, setScopeFilter] = useState<'all' | FeatureScope>('all');
+  const [filters, setFilters] = useState<FeatureFilterValues>({
+    enabled: 'all',
+    scope: 'all',
+  });
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingFeatureKey, setEditingFeatureKey] = useState<string | null>(null);
 
@@ -136,14 +150,14 @@ export default function PetFeaturesPage() {
   const saveFeatureRequest = useRequestSavePetFeature();
   const deleteFeatureRequest = useRequestDeletePetFeature();
 
-  const loadFeatures = async () => {
+  const loadFeatures = async (nextFilters = filters) => {
     try {
       await featureListRequest.run({
         current: 1,
         pageSize: 200,
-        q: keyword.trim() || undefined,
-        enabled: toBooleanFilter(enabledFilter),
-        scope: scopeFilter === 'all' ? undefined : scopeFilter,
+        q: nextFilters.keyword?.trim() || undefined,
+        enabled: toBooleanFilter(nextFilters.enabled ?? 'all'),
+        scope: nextFilters.scope === 'all' ? undefined : nextFilters.scope,
       });
     } catch (error) {
       message.error(error instanceof Error ? error.message : '特性模板加载失败');
@@ -168,6 +182,22 @@ export default function PetFeaturesPage() {
       globalScoped: featureRecords.filter((item) => item.scope === 'GLOBAL').length,
     };
   }, [featureRecords]);
+
+  const handleFilterSubmit = async (values: FeatureFilterValues) => {
+    const nextFilters: FeatureFilterValues = {
+      keyword: values.keyword,
+      enabled: values.enabled ?? 'all',
+      scope: values.scope ?? 'all',
+    };
+    setFilters(nextFilters);
+    await loadFeatures(nextFilters);
+  };
+
+  const handleFilterReset = () => {
+    const nextFilters: FeatureFilterValues = { enabled: 'all', scope: 'all' };
+    setFilters(nextFilters);
+    void loadFeatures(nextFilters);
+  };
 
   const openCreateModal = () => {
     setEditingFeatureKey(null);
@@ -252,20 +282,70 @@ export default function PetFeaturesPage() {
     });
   };
 
+  const columns: ProColumns<FeatureCatalogItem>[] = [
+    { title: 'feature_key', dataIndex: 'feature_key', width: 180 },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      render: (_, record) => getLocalizedLabel(record.name),
+    },
+    {
+      title: '作用域',
+      dataIndex: 'scope',
+      width: 120,
+      render: (_, record) => <Tag color="processing">{record.scope}</Tag>,
+    },
+    {
+      title: '生效时机',
+      dataIndex: 'effective_event',
+      width: 160,
+      render: (_, record) => <Tag>{record.effective_event}</Tag>,
+    },
+    {
+      title: '启用',
+      dataIndex: 'enabled',
+      width: 100,
+      render: (_, record) => (
+        <Tag color={record.enabled ? 'success' : 'default'}>{record.enabled ? '启用' : '停用'}</Tag>
+      ),
+    },
+    {
+      title: '更新时间',
+      width: 180,
+      render: (_, record) => record.metadata?.updated_at || '-',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: 180,
+      render: (_, record) => (
+        <Space wrap>
+          {canManagePetFeatures ? (
+            <Button
+              size="small"
+              icon={<EditOutlined />}
+              onClick={() => void openEditModal(record.feature_key)}
+            >
+              编辑
+            </Button>
+          ) : null}
+          {canManagePetFeatures ? (
+            <Button
+              size="small"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => handleDeleteFeature(record)}
+            >
+              删除
+            </Button>
+          ) : null}
+        </Space>
+      ),
+    },
+  ];
+
   return (
-    <PageContainer
-      title="特性模板"
-      extra={[
-        <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadFeatures()}>
-          刷新
-        </Button>,
-        canManagePetFeatures ? (
-          <Button key="create" type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
-            新建模板
-          </Button>
-        ) : null,
-      ].filter(Boolean)}
-    >
+    <PageContainer title={false}>
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
         {featureListRequest.error instanceof Error ? (
           <Alert
@@ -309,109 +389,66 @@ export default function PetFeaturesPage() {
           </Col>
         </Row>
 
-        <ProCard title="筛选" style={panelStyle}>
-          <Space wrap>
-            <Input
-              allowClear
-              style={{ width: 260 }}
+        <ProCard style={panelStyle}>
+          <QueryFilter<FeatureFilterValues>
+            defaultCollapsed={false}
+            span={6}
+            initialValues={{ enabled: 'all', scope: 'all' }}
+            onFinish={handleFilterSubmit}
+            onReset={handleFilterReset}
+          >
+            <ProFormText
+              name="keyword"
+              label="关键字"
               placeholder="搜索 feature_key / 名称"
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
             />
-            <Select
-              style={{ width: 160 }}
-              value={enabledFilter}
+            <ProFormSelect
+              name="enabled"
+              label="状态"
               options={[
                 { label: '全部状态', value: 'all' },
                 { label: '启用', value: 'true' },
                 { label: '停用', value: 'false' },
               ]}
-              onChange={(value) => setEnabledFilter(value)}
             />
-            <Select
-              style={{ width: 160 }}
-              value={scopeFilter}
+            <ProFormSelect
+              name="scope"
+              label="作用域"
               options={[
                 { label: '全部作用域', value: 'all' },
                 { label: 'PET', value: 'PET' },
                 { label: 'GLOBAL', value: 'GLOBAL' },
               ]}
-              onChange={(value) => setScopeFilter(value)}
             />
-            <Button type="primary" icon={<ReloadOutlined />} onClick={() => void loadFeatures()}>
-              应用筛选
-            </Button>
-          </Space>
+          </QueryFilter>
         </ProCard>
 
-        <ProCard title="特性模板列表" style={panelStyle}>
-          <Table
-            rowKey="feature_key"
-            loading={featureListRequest.loading}
-            pagination={false}
-            dataSource={featureRecords}
-            columns={[
-              { title: 'feature_key', dataIndex: 'feature_key', width: 180 },
-              {
-                title: '名称',
-                dataIndex: 'name',
-                render: (value: LocalizedText) => getLocalizedLabel(value),
-              },
-              {
-                title: '作用域',
-                dataIndex: 'scope',
-                width: 120,
-                render: (value: FeatureScope) => <Tag color="processing">{value}</Tag>,
-              },
-              {
-                title: '生效时机',
-                dataIndex: 'effective_event',
-                width: 160,
-                render: (value: FeatureEffectiveEvent) => <Tag>{value}</Tag>,
-              },
-              {
-                title: '启用',
-                dataIndex: 'enabled',
-                width: 100,
-                render: (value: boolean) => (
-                  <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>
-                ),
-              },
-              {
-                title: '更新时间',
-                width: 180,
-                render: (_, record) => record.metadata?.updated_at || '-',
-              },
-              {
-                title: '操作',
-                width: 180,
-                render: (_, record) => (
-                  <Space wrap>
-                    {canManagePetFeatures ? (
-                      <Button
-                        size="small"
-                        icon={<EditOutlined />}
-                        onClick={() => void openEditModal(record.feature_key)}
-                      >
-                        编辑
-                      </Button>
-                    ) : null}
-                    {canManagePetFeatures ? (
-                      <Button
-                        size="small"
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDeleteFeature(record)}
-                      >
-                        删除
-                      </Button>
-                    ) : null}
-                  </Space>
-                ),
-              },
-            ]}
-          />
-        </ProCard>
+        <ProTable<FeatureCatalogItem>
+          headerTitle="特性模板列表"
+          style={panelStyle}
+          search={false}
+          options={false}
+          toolBarRender={() => [
+            <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadFeatures()}>
+              刷新
+            </Button>,
+            canManagePetFeatures ? (
+              <Button key="create" type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
+                新建模板
+              </Button>
+            ) : null,
+          ].filter(Boolean)}
+          tableAlertRender={false}
+          tableAlertOptionRender={false}
+          rowKey="feature_key"
+          loading={featureListRequest.loading}
+          pagination={{
+            pageSize: 20,
+            showSizeChanger: true,
+          }}
+          dataSource={featureRecords}
+          columns={columns}
+        />
       </Space>
 
       <Modal

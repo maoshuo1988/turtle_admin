@@ -231,6 +231,7 @@ export function mapMarket(item: unknown): AdminMarket {
     isRecommended: pickBoolean(context, 'recommend', 'isRecommended'),
     tags,
     heat: pickNumber(context, 'heat'),
+    imageUrl: pickString(context, 'imageUrl', 'image_url', 'cover', 'coverUrl', 'cover_url'),
     outcome: result === 'A' || result === 'B' ? result : result === 'VOID' ? 'VOID' : null,
     settledBy: pickString(market, 'resolvedBy', 'settledBy'),
     settleReason: pickString(market, 'remark', 'settleReason'),
