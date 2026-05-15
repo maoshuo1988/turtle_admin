@@ -46,6 +46,30 @@ export const appRouteManifest: AppRouteItem[] = [
     access: 'canPk',
   },
   {
+    path: '/tags',
+    name: 'tags',
+    access: 'canCommunity',
+    routes: [
+      {
+        path: '/tags',
+        redirect: '/tags/list',
+        hideInMenu: true,
+      },
+      {
+        path: '/tags/list',
+        name: 'tagList',
+        component: '@/pages/Tags',
+        access: 'canCommunity',
+      },
+      {
+        path: '/tags/comment-stats',
+        name: 'tagCommentStats',
+        component: '@/pages/Tags',
+        access: 'canCommunity',
+      },
+    ],
+  },
+  {
     path: '/community',
     redirect: '/user-management/community',
     hideInMenu: true,
@@ -53,6 +77,11 @@ export const appRouteManifest: AppRouteItem[] = [
   {
     path: '/comments',
     redirect: '/user-management/comments',
+    hideInMenu: true,
+  },
+  {
+    path: '/user-management/tags',
+    redirect: '/tags/list',
     hideInMenu: true,
   },
   {
@@ -176,12 +205,16 @@ export const pageTitleMap: Record<string, string> = {
   '/predict': '预测市场',
   '/battle': '开战广场',
   '/pk': '对立PK管理',
+  '/tags': '标签管理',
+  '/tags/list': '标签列表',
+  '/tags/comment-stats': '评论统计',
   '/community': '社区管理',
   '/comments': '评论管理',
   '/user-management/users': '用户管理',
   '/users': '用户管理',
   '/user-management/community': '社区管理',
   '/user-management/comments': '评论管理',
+  '/user-management/tags': '标签列表',
   '/nodes': '节点管理',
   '/pets': '开蛋配置',
   '/pets/types': '龟种列表',

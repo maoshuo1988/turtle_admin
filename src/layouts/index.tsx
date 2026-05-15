@@ -10,6 +10,7 @@ import {
   NotificationOutlined,
   PictureOutlined,
   SafetyOutlined,
+  TagOutlined,
   TeamOutlined,
   ThunderboltOutlined,
   TrophyOutlined,
@@ -34,6 +35,9 @@ const menuIconMap: Record<string, JSX.Element> = {
   pk: <TrophyOutlined />,
   community: <TeamOutlined />,
   comments: <CommentOutlined />,
+  tags: <TagOutlined />,
+  tagList: <TagOutlined />,
+  tagCommentStats: <CommentOutlined />,
   nodes: <AppstoreOutlined />,
   pets: <GoldOutlined />,
   petFeatures: <ApiOutlined />,
@@ -96,6 +100,8 @@ const breadcrumbGroupMap: Record<string, { title: string; path?: string }> = {
   '/pet-abilities': { title: '龟种管理', path: '/pets/types' },
   '/pets': { title: '开蛋池配置', path: '/pets' },
   '/pet-gacha': { title: '开蛋池配置', path: '/pets' },
+  '/tags/list': { title: '标签管理', path: '/tags/list' },
+  '/tags/comment-stats': { title: '标签管理', path: '/tags/list' },
   '/user-management/users': { title: '用户管理', path: '/user-management/users' },
   '/user-management/community': { title: '用户管理', path: '/user-management/users' },
   '/user-management/comments': { title: '用户管理', path: '/user-management/users' },
@@ -206,6 +212,10 @@ export default function AppLayout() {
   const defaultOpenKeys = useMemo(() => {
     if (location.pathname.startsWith('/user-management/')) {
       return ['/user-management'];
+    }
+
+    if (location.pathname.startsWith('/tags/')) {
+      return ['/tags'];
     }
 
     if (location.pathname.startsWith('/pets/types')) {
