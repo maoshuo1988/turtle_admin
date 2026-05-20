@@ -1,6 +1,6 @@
 /** 开发环境配合 config 里 `/api` 代理走同源请求，避免 localhost 调用远程 API 触发 CORS */
 export const TURTLE_API_BASE =
-  process.env.NODE_ENV === 'development' ? '' : 'https://turtle.cloud-ip.cc';
+  process.env.NODE_ENV === 'development' ? '' : process.env.UMI_APP_SERVER_API || 'https://turtle.cloud-ip.cc';
 
 export const API_CONFIG_CONFIGS = '/api/config/configs';
 export const API_USER_CURRENT = '/api/user/current';
