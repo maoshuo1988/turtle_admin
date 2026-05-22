@@ -1,10 +1,15 @@
+import { resolveBuiltTurtleApiBase } from '../../config/serverHosts';
+
 /**
- * 开发环境配合 config 里 `/api` 代理走同源请求，避免 localhost 调用远程 API 触发 CORS。
- * 生产环境优先使用显式注入的 `UMI_APP_SERVER_API`，未注入时回退到同源，
- * 避免页面挂在某个域名/IP 下时却把请求发到另一台入口。
+ * 开发环境：`''` + config 里 `/api` proxy（目标由 `UMI_APP_API_ENV` 映射）。
+ *
+ * 生产构建：
+ * - 优先 `UMI_APP_SERVER_API`（完整 Origin，可选带路径）。
+ * - 否则若设置了 `UMI_APP_API_ENV=staging|test|production`，使用对应后端 IP。
+ * - 否则 `''`，请求走静态页同源（需网关反代 `/api`）。
  */
 export const TURTLE_API_BASE =
-  process.env.NODE_ENV === 'development' ? '' : (process.env.UMI_APP_SERVER_API || '').trim();
+  process.env.NODE_ENV === 'development' ? '' : resolveBuiltTurtleApiBase();
 
 export const API_CONFIG_CONFIGS = '/api/config/configs';
 export const API_USER_CURRENT = '/api/user/current';

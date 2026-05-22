@@ -4,7 +4,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "max dev",
+    "dev:staging": "UMI_APP_API_ENV=staging max dev",
+    "dev:test": "UMI_APP_API_ENV=test max dev",
+    "dev:prod": "UMI_APP_API_ENV=production max dev",
     "build": "max build",
+    "build:staging": "UMI_APP_API_ENV=staging max build",
+    "build:test": "UMI_APP_API_ENV=test max build",
+    "build:prod": "UMI_APP_API_ENV=production max build",
     "lint": "eslint . --ext .ts,.tsx,.js"
   },
   "dependencies": {
