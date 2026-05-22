@@ -33,7 +33,7 @@ import {
   Table,
   Tag,
   Typography,
-  Upload,
+  Image,
 } from 'antd';
 import { TURTLE_API_BASE } from '@/api/api';
 import { useEffect, useMemo, useState } from 'react';
@@ -47,7 +47,6 @@ import {
   useRequestReplacePetAbilities,
   useRequestSavePetAbility,
   useRequestSavePetDefinition,
-  useRequestUploadPetImage,
 } from '@/hooks/usePetAdminRequest';
 import { PET_RARITY_OPTIONS } from '@/types/pet';
 import type {
@@ -282,7 +281,6 @@ export default function PetsPage() {
   const saveAbilityRequest = useRequestSavePetAbility();
   const deleteAbilityRequest = useRequestDeletePetAbility();
   const killSwitchRequest = useRequestPetKillSwitch();
-  const uploadPetImageRequest = useRequestUploadPetImage();
   const displayIcon = Form.useWatch(['display', 'icon'], petForm) as string | undefined;
   const displayCover = Form.useWatch(['display', 'cover'], petForm) as string | undefined;
   const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
@@ -730,108 +728,32 @@ export default function PetsPage() {
     }
   };
 
-  const handleUploadDisplayImage = async (field: keyof PetDisplay, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      message.warning('请选择图片文件');
-      return;
-    }
-
-    try {
-      const result = await uploadPetImageRequest.run(file);
-      if (!result.url) {
-        throw new Error('上传结果缺少图片地址');
-      }
-
-      const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
-      petForm.setFieldsValue({
-        display: {
-          ...currentDisplay,
-          [field]: result.url,
-        },
-      });
-      message.success('图片上传成功');
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '图片上传失败');
-    }
-  };
-
-  const handleUploadEggSettingDisplayImage = async (field: keyof PetDisplay, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      message.warning('请选择图片文件');
-      return;
-    }
-
-    try {
-      const result = await uploadPetImageRequest.run(file);
-      if (!result.url) {
-        throw new Error('上传结果缺少图片地址');
-      }
-
-      const currentDisplay = eggSettingForm.getFieldValue('display') as PetDisplay | undefined;
-      eggSettingForm.setFieldsValue({
-        display: {
-          ...currentDisplay,
-          [field]: result.url,
-        },
-      });
-      message.success('图片上传成功');
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '图片上传失败');
-    }
-  };
-
   const renderDisplayImageField = (
     field: keyof PetDisplay,
     label: string,
     value: string | undefined,
   ) => {
-    const imageUrl = resolveImageUrl(value);
+    const trimmed = typeof value === 'string' ? value.trim() : '';
+    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
 
     return (
       <Col span={8}>
-        <Form.Item name={['display', field]} hidden>
-          <Input />
+        <Form.Item name={['display', field]} label={label}>
+          <Input placeholder="相对路径或完整 URL（如 /uploads/a.png 或 https://…）" allowClear />
         </Form.Item>
-        <Form.Item label={label}>
-          <Upload
-            accept="image/*"
-            listType="picture-card"
-            maxCount={1}
-            fileList={
-              value
-                ? [
-                    {
-                      uid: field,
-                      name: label,
-                      status: 'done',
-                      url: imageUrl,
-                      thumbUrl: imageUrl,
-                    },
-                  ]
-                : []
-            }
-            onRemove={() => {
-              const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
-              petForm.setFieldsValue({
-                display: {
-                  ...currentDisplay,
-                  [field]: undefined,
-                },
-              });
-            }}
-            beforeUpload={(file) => {
-              void handleUploadDisplayImage(field, file);
-              return false;
-            }}
-          >
-            {value ? null : (
-              <button type="button" style={{ border: 0, background: 'none' }}>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>上传图片</div>
-              </button>
-            )}
-          </Upload>
-        </Form.Item>
+        <div style={{ marginTop: -8 }}>
+          {previewSrc ? (
+            <Image
+              src={previewSrc}
+              alt={label}
+              width={104}
+              height={104}
+              style={{ objectFit: 'cover', borderRadius: 8 }}
+            />
+          ) : (
+            <Typography.Text type="secondary">暂无预览</Typography.Text>
+          )}
+        </div>
       </Col>
     );
   };
@@ -841,59 +763,39 @@ export default function PetsPage() {
     label: string,
     value: string | undefined,
   ) => {
-    const imageUrl = resolveImageUrl(value);
+    const trimmed = typeof value === 'string' ? value.trim() : '';
+    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
 
     return (
       <Col span={8}>
-        <Form.Item name={['display', field]} hidden>
-          <Input />
-        </Form.Item>
         <Form.Item
+          name={['display', field]}
           label={label}
           required={!eggSettingReadonly}
-          validateStatus={!eggSettingReadonly && Boolean(eggSettingPet) && !value ? 'error' : undefined}
-          help={!eggSettingReadonly && eggSettingPet && !value ? `请上传${label}` : undefined}
+          validateStatus={!eggSettingReadonly && Boolean(eggSettingPet) && !trimmed ? 'error' : undefined}
+          help={!eggSettingReadonly && eggSettingPet && !trimmed ? `请填写${label}链接` : undefined}
         >
-          <Upload
-            accept="image/*"
-            listType="picture-card"
-            maxCount={1}
+          <Input
+            placeholder="相对路径或完整 URL"
+            allowClear
             disabled={eggSettingReadonly}
-            fileList={
-              value
-                ? [
-                    {
-                      uid: field,
-                      name: label,
-                      status: 'done',
-                      url: imageUrl,
-                      thumbUrl: imageUrl,
-                    },
-                  ]
-                : []
-            }
-            onRemove={() => {
-              const currentDisplay = eggSettingForm.getFieldValue('display') as PetDisplay | undefined;
-              eggSettingForm.setFieldsValue({
-                display: {
-                  ...currentDisplay,
-                  [field]: undefined,
-                },
-              });
-            }}
-            beforeUpload={(file) => {
-              void handleUploadEggSettingDisplayImage(field, file);
-              return false;
-            }}
-          >
-            {value ? null : (
-              <button type="button" style={{ border: 0, background: 'none' }}>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>上传图片</div>
-              </button>
-            )}
-          </Upload>
+          />
         </Form.Item>
+        <div style={{ marginTop: -8 }}>
+          {previewSrc ? (
+            <Image
+              src={previewSrc}
+              alt={label}
+              width={104}
+              height={104}
+              style={{ objectFit: 'cover', borderRadius: 8 }}
+            />
+          ) : eggSettingReadonly ? (
+            <Typography.Text type="secondary">暂无图片</Typography.Text>
+          ) : (
+            <Typography.Text type="secondary">暂无预览</Typography.Text>
+          )}
+        </div>
       </Col>
     );
   };

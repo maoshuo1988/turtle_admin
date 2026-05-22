@@ -12,9 +12,10 @@ export default defineConfig({
     process.env.NODE_ENV === 'development'
       ? {
           '/api': {
-            target: 'https://turtle.cloud-ip.cc',
+            target: 'https://52.220.192.18',
             changeOrigin: true,
-            secure: true,
+            // 目标服务当前使用自签名证书，本地 dev proxy 校验证书会直接返回 500。
+            secure: false,
           },
         }
       : undefined,

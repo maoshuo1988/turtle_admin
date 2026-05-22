@@ -6,6 +6,7 @@ import {
   App,
   Button,
   Form,
+  Image,
   Input,
   InputNumber,
   Modal,
@@ -15,7 +16,6 @@ import {
   Table,
   Tag,
   Typography,
-  Upload,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { TURTLE_API_BASE } from '@/api/api';
@@ -28,7 +28,6 @@ import {
   useRequestSaveAdminPkTopic,
   useRequestUpdateAdminPkTopicStatus,
 } from '@/hooks/useAdminPkRequest';
-import { useRequestUploadPetImage } from '@/hooks/usePetAdminRequest';
 import type {
   AdminPkRecalcHeatPayload,
   AdminPkRoundListParams,
@@ -106,7 +105,6 @@ export default function PkPage() {
   const saveTopicRequest = useRequestSaveAdminPkTopic();
   const updateTopicStatusRequest = useRequestUpdateAdminPkTopicStatus();
   const recalcHeatRequest = useRequestRecalcAdminPkHeat();
-  const uploadImageRequest = useRequestUploadPetImage();
 
   const loadTopics = async (params = topicFilter) => {
     setTopicFilter(params);
@@ -189,25 +187,6 @@ export default function PkPage() {
       await loadTopics();
     } catch (error) {
       message.error(error instanceof Error ? error.message : '状态更新失败');
-    }
-  };
-
-  const handleUploadTopicCover = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      message.warning('请选择图片文件');
-      return;
-    }
-
-    try {
-      const result = await uploadImageRequest.run(file);
-      if (!result.url) {
-        throw new Error('上传结果缺少图片地址');
-      }
-
-      topicForm.setFieldsValue({ cover: result.url });
-      message.success('封面上传成功');
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '封面上传失败');
     }
   };
 
@@ -303,6 +282,24 @@ export default function PkPage() {
                   },
                   { title: '阵营A', width: 140, render: (_, row) => row.topic.sideAName || '-' },
                   { title: '阵营B', width: 140, render: (_, row) => row.topic.sideBName || '-' },
+                  {
+                    title: '封面',
+                    width: 88,
+                    render: (_, row) => {
+                      const src = resolveImageUrl(row.topic.cover);
+                      return src ? (
+                        <Image
+                          src={src}
+                          alt=""
+                          width={56}
+                          height={56}
+                          style={{ objectFit: 'cover', borderRadius: 6 }}
+                        />
+                      ) : (
+                        '-'
+                      );
+                    },
+                  },
                   { title: '状态', width: 100, render: (_, row) => getTopicStatusTag(row.topic.status) },
                   { title: '当前回合', width: 120, render: (_, row) => row.round?.id || '-' },
                   { title: '当前赛季', width: 120, render: (_, row) => row.season?.id || '-' },
@@ -527,43 +524,22 @@ export default function PkPage() {
               <InputNumber min={0} precision={0} style={{ width: '100%' }} />
             </Form.Item>
           </Space>
-          <Form.Item name="cover" hidden>
-            <Input />
+          <Form.Item name="cover" label="封面链接">
+            <Input placeholder="相对路径或完整 URL" allowClear />
           </Form.Item>
-          <Form.Item label="封面">
-            <Upload
-              accept="image/*"
-              listType="picture-card"
-              maxCount={1}
-              fileList={
-                topicCover
-                  ? [
-                      {
-                        uid: 'topic-cover',
-                        name: '封面',
-                        status: 'done',
-                        url: resolveImageUrl(topicCover),
-                        thumbUrl: resolveImageUrl(topicCover),
-                      },
-                    ]
-                  : []
-              }
-              onRemove={() => {
-                topicForm.setFieldsValue({ cover: undefined });
-              }}
-              beforeUpload={(file) => {
-                void handleUploadTopicCover(file);
-                return false;
-              }}
-            >
-              {topicCover ? null : (
-                <button type="button" style={{ border: 0, background: 'none' }}>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>上传图片</div>
-                </button>
-              )}
-            </Upload>
-          </Form.Item>
+          <div style={{ marginTop: -12, marginBottom: 8 }}>
+            {topicCover?.trim() && resolveImageUrl(topicCover.trim()) ? (
+              <Image
+                src={resolveImageUrl(topicCover.trim())}
+                alt="封面预览"
+                width={104}
+                height={104}
+                style={{ objectFit: 'cover', borderRadius: 8 }}
+              />
+            ) : (
+              <Typography.Text type="secondary">暂无预览</Typography.Text>
+            )}
+          </div>
         </Form>
       </Modal>
 

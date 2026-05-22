@@ -28,7 +28,7 @@ import {
   Select,
   Space,
   Tag,
-  Upload,
+  Typography,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { TURTLE_API_BASE } from '@/api/api';
@@ -38,7 +38,6 @@ import {
   useRequestPetDefinitions,
   useRequestPetFeatures,
   useRequestSavePetDefinition,
-  useRequestUploadPetImage,
 } from '@/hooks/usePetAdminRequest';
 import { PET_RARITY_OPTIONS } from '@/types/pet';
 import type {
@@ -180,7 +179,7 @@ export default function PetTypesPage() {
   const petFeaturesRequest = useRequestPetFeatures();
   const savePetRequest = useRequestSavePetDefinition();
   const deletePetRequest = useRequestDeletePetDefinition();
-  const uploadPetImageRequest = useRequestUploadPetImage();
+
   const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
 
   const loadPets = async (nextFilters = filters) => {
@@ -450,87 +449,32 @@ export default function PetTypesPage() {
     });
   };
 
-  const handleUploadDisplayImage = async (field: keyof PetDisplay, file: File) => {
-    if (!file.type.startsWith('image/')) {
-      message.warning('请选择图片文件');
-      return;
-    }
-
-    try {
-      const result = await uploadPetImageRequest.run(file);
-      if (!result.url) {
-        throw new Error('上传结果缺少图片地址');
-      }
-
-      const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
-      petForm.setFieldsValue({
-        display: {
-          ...currentDisplay,
-          [field]: result.url,
-        },
-      });
-      message.success('图片上传成功');
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : '图片上传失败');
-    }
-  };
-
   const renderImageUpload = () => {
-    const value = displayThumbnail;
-    const imageUrl = resolveImageUrl(value);
+    const trimmed = displayThumbnail?.trim() ?? '';
+    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
 
     return (
-      <Form.Item
-        label="图片"
-        required
-      >
-        <Form.Item
-          name={['display', 'thumbnail']}
-          rules={[{ required: true, message: '请上传图片' }]}
-          noStyle
-        >
-          <Input type="hidden" />
-        </Form.Item>
-        <div>
-          <Upload
-            accept="image/*"
-            listType="picture-card"
-            maxCount={1}
-            fileList={
-              value
-                ? [
-                    {
-                      uid: 'thumbnail',
-                      name: '图片',
-                      status: 'done',
-                      url: imageUrl,
-                      thumbUrl: imageUrl,
-                    },
-                  ]
-                : []
-            }
-            onRemove={() => {
-              const currentDisplay = petForm.getFieldValue('display') as PetDisplay | undefined;
-              petForm.setFieldsValue({
-                display: {
-                  ...currentDisplay,
-                  thumbnail: undefined,
-                },
-              });
-            }}
-            beforeUpload={(file) => {
-              void handleUploadDisplayImage('thumbnail', file);
-              return false;
-            }}
+      <Form.Item label="图片" required>
+        <Space direction="vertical" size={8} style={{ width: '100%' }}>
+          <Form.Item
+            name={['display', 'thumbnail']}
+            rules={[{ required: true, message: '请输入图片链接' }]}
+            noStyle
           >
-            {value ? null : (
-              <button type="button" style={{ border: 0, background: 'none' }}>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>上传图片</div>
-              </button>
-            )}
-          </Upload>
-        </div>
+            <Input placeholder="相对路径或完整 URL" allowClear />
+          </Form.Item>
+          {previewSrc ? (
+            <Image
+              src={previewSrc}
+              alt="预览"
+              width={104}
+              height={104}
+              style={{ objectFit: 'cover', borderRadius: 8 }}
+            />
+          ) : (
+            <Typography.Text type="secondary">暂无预览</Typography.Text>
+          )}
+        </Space>
       </Form.Item>
     );
   };
