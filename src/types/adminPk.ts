@@ -14,6 +14,11 @@ export interface AdminPkTopic {
   status: AdminPkTopicStatus;
   sort?: number;
   cover?: string;
+  listImage?: string;
+  sideABgImage?: string;
+  sideBBgImage?: string;
+  sideABgColor?: string;
+  sideBBgColor?: string;
   raw: Record<string, unknown>;
 }
 
@@ -96,6 +101,11 @@ export interface AdminPkTopicSavePayload {
   status: AdminPkTopicStatus;
   sort?: number;
   cover?: string;
+  listImage?: string;
+  sideABgImage?: string;
+  sideBBgImage?: string;
+  sideABgColor?: string;
+  sideBBgColor?: string;
 }
 
 export interface AdminPkTopicStatusPayload {

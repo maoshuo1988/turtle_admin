@@ -5,6 +5,7 @@ import {
   Alert,
   App,
   Button,
+  ColorPicker,
   Form,
   Image,
   Input,
@@ -81,6 +82,40 @@ function getTopicStatusTag(status: AdminPkTopicStatus) {
   return status === 'enabled' ? <Tag color="success">启用</Tag> : <Tag color="default">停用</Tag>;
 }
 
+function TopicImageField({
+  label,
+  name,
+  value,
+}: {
+  label: string;
+  name: keyof AdminPkTopicSavePayload;
+  value: string | undefined;
+}) {
+  const trimmed = value?.trim() ?? '';
+  const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
+
+  return (
+    <Form.Item label={label}>
+      <Space direction="vertical" size={8} style={{ width: '100%' }}>
+        <Form.Item name={name} noStyle>
+          <Input placeholder="相对路径或完整 URL" allowClear />
+        </Form.Item>
+        {previewSrc ? (
+          <Image
+            src={previewSrc}
+            alt={`${label}预览`}
+            width={104}
+            height={104}
+            style={{ objectFit: 'cover', borderRadius: 8 }}
+          />
+        ) : (
+          <Typography.Text type="secondary">暂无预览</Typography.Text>
+        )}
+      </Space>
+    </Form.Item>
+  );
+}
+
 export default function PkPage() {
   const { message } = App.useApp();
   const access = useAccess() as { canManagePk?: boolean };
@@ -98,6 +133,9 @@ export default function PkPage() {
   const [seasonFilterForm] = Form.useForm<AdminPkSeasonListParams>();
   const [recalcForm] = Form.useForm<AdminPkRecalcHeatPayload>();
   const topicCover = Form.useWatch('cover', topicForm) as string | undefined;
+  const topicListImage = Form.useWatch('listImage', topicForm) as string | undefined;
+  const topicSideABgImage = Form.useWatch('sideABgImage', topicForm) as string | undefined;
+  const topicSideBBgImage = Form.useWatch('sideBBgImage', topicForm) as string | undefined;
 
   const topicsRequest = useRequestAdminPkTopics();
   const roundsRequest = useRequestAdminPkRounds();
@@ -141,6 +179,8 @@ export default function PkPage() {
     topicForm.setFieldsValue({
       status: 'enabled',
       sort: 100,
+      sideABgColor: '#E23D3D',
+      sideBBgColor: '#276EF1',
     } as AdminPkTopicSavePayload);
     setTopicEditorOpen(true);
   };
@@ -156,6 +196,11 @@ export default function PkPage() {
       status: row.topic.status,
       sort: row.topic.sort,
       cover: row.topic.cover,
+      listImage: row.topic.listImage,
+      sideABgImage: row.topic.sideABgImage,
+      sideBBgImage: row.topic.sideBBgImage,
+      sideABgColor: row.topic.sideABgColor,
+      sideBBgColor: row.topic.sideBBgColor,
     });
     setTopicEditorOpen(true);
   };
@@ -192,7 +237,7 @@ export default function PkPage() {
 
   const openRecalc = (payload?: Partial<AdminPkRecalcHeatPayload>) => {
     recalcForm.resetFields();
-    recalcForm.setFieldsValue(payload);
+    recalcForm.setFieldsValue(payload ?? {});
     setRecalcOpen(true);
   };
 
@@ -269,10 +314,12 @@ export default function PkPage() {
                 loading={topicsRequest.loading}
                 pagination={false}
                 dataSource={topicRows}
+                scroll={{ x: 'max-content' }}
                 columns={[
                   { title: 'ID', width: 72, render: (_, row) => row.topic.id },
                   {
                     title: '话题',
+                    minWidth: 220,
                     render: (_, row) => (
                       <Space direction="vertical" size={2}>
                         <Typography.Text strong>{row.topic.title || '-'}</Typography.Text>
@@ -467,7 +514,7 @@ export default function PkPage() {
       </Space>
 
       <Modal
-        width={720}
+        width={760}
         title={editingTopic ? '编辑PK话题' : '新建PK话题'}
         open={topicEditorOpen}
         onCancel={() => {
@@ -524,22 +571,34 @@ export default function PkPage() {
               <InputNumber min={0} precision={0} style={{ width: '100%' }} />
             </Form.Item>
           </Space>
-          <Form.Item name="cover" label="封面链接">
-            <Input placeholder="相对路径或完整 URL" allowClear />
-          </Form.Item>
-          <div style={{ marginTop: -12, marginBottom: 8 }}>
-            {topicCover?.trim() && resolveImageUrl(topicCover.trim()) ? (
-              <Image
-                src={resolveImageUrl(topicCover.trim())}
-                alt="封面预览"
-                width={104}
-                height={104}
-                style={{ objectFit: 'cover', borderRadius: 8 }}
-              />
-            ) : (
-              <Typography.Text type="secondary">暂无预览</Typography.Text>
-            )}
-          </div>
+          <TopicImageField name="cover" label="封面链接" value={topicCover} />
+          <TopicImageField name="listImage" label="列表图片" value={topicListImage} />
+          <Space size={16} align="start" style={{ width: '100%' }}>
+            <div style={{ flex: 1 }}>
+              <TopicImageField name="sideABgImage" label="阵营A背景图" value={topicSideABgImage} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <TopicImageField name="sideBBgImage" label="阵营B背景图" value={topicSideBBgImage} />
+            </div>
+          </Space>
+          <Space size={16} style={{ width: '100%' }}>
+            <Form.Item
+              name="sideABgColor"
+              label="阵营A背景色"
+              getValueFromEvent={(color) => color.toHexString().toUpperCase()}
+              style={{ flex: 1 }}
+            >
+              <ColorPicker format="hex" disabledAlpha showText />
+            </Form.Item>
+            <Form.Item
+              name="sideBBgColor"
+              label="阵营B背景色"
+              getValueFromEvent={(color) => color.toHexString().toUpperCase()}
+              style={{ flex: 1 }}
+            >
+              <ColorPicker format="hex" disabledAlpha showText />
+            </Form.Item>
+          </Space>
         </Form>
       </Modal>
 

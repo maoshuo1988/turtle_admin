@@ -87,6 +87,11 @@ export function mapAdminPkTopic(raw: unknown): AdminPkTopic {
     status: pickString(record, 'status') === 'disabled' ? 'disabled' : 'enabled',
     sort: pickNumber(record, 'sort', 'sortNo', 'sort_no'),
     cover: pickString(record, 'cover', 'coverUrl', 'cover_url'),
+    listImage: pickString(record, 'listImage', 'list_image'),
+    sideABgImage: pickString(record, 'sideABgImage', 'side_a_bg_image'),
+    sideBBgImage: pickString(record, 'sideBBgImage', 'side_b_bg_image'),
+    sideABgColor: pickString(record, 'sideABgColor', 'side_a_bg_color'),
+    sideBBgColor: pickString(record, 'sideBBgColor', 'side_b_bg_color'),
     raw: record,
   };
 }
