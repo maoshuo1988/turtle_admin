@@ -55,6 +55,11 @@ export interface PredictContextUpdatePayload {
   marketId: number;
   eventName: string;
   imageUrl?: string;
+  listImage?: string;
+  sideABgImage?: string;
+  sideBBgImage?: string;
+  sideABgColor?: string;
+  sideBBgColor?: string;
   participantCount?: number;
   proText?: string;
   conText?: string;

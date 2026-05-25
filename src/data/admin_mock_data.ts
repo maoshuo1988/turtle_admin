@@ -66,6 +66,12 @@ export interface AdminMarket {
   tags: string[];
   heat: number;
   imageUrl?: string;
+  listImage?: string;
+  sideABgImage?: string;
+  sideBBgImage?: string;
+  sideABgColor?: string;
+  sideBBgColor?: string;
+  detail?: string;
   outcome?: 'A' | 'B' | 'VOID' | null;
   settledBy?: string;
   settleReason?: string;

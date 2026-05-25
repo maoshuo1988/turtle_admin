@@ -12,10 +12,12 @@ import {
   Alert,
   App,
   Button,
+  ColorPicker,
   Empty,
   Form,
   Image,
   Input,
+  InputNumber,
   Modal,
   Progress,
   Segmented,
@@ -50,6 +52,7 @@ import {
 import type { PredictContextUpdatePayload } from '@/types/admin';
 
 interface PredictContextFormValues {
+  marketId: number;
   eventName: string;
   proText: string;
   conText: string;
@@ -58,6 +61,11 @@ interface PredictContextFormValues {
   tags?: string;
   detail?: string;
   imageUrl?: string;
+  listImage?: string;
+  sideABgImage?: string;
+  sideBBgImage?: string;
+  sideABgColor?: string;
+  sideBBgColor?: string;
 }
 
 type PredictContextMode = 'create' | 'edit';
@@ -72,6 +80,39 @@ function resolveImageUrl(url: string | undefined) {
   }
 
   return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
+function ContextImageField({
+  label,
+  name,
+  value,
+}: {
+  label: string;
+  name: keyof PredictContextFormValues;
+  value: string | undefined;
+}) {
+  const previewSrc = value?.trim() ? resolveImageUrl(value.trim()) : '';
+
+  return (
+    <Form.Item label={label}>
+      <Space direction="vertical" size={8} style={{ width: '100%' }}>
+        <Form.Item name={name} noStyle>
+          <Input placeholder="相对路径或完整 URL" allowClear />
+        </Form.Item>
+        {previewSrc ? (
+          <Image
+            src={previewSrc}
+            alt={`${label}预览`}
+            width={104}
+            height={104}
+            style={{ objectFit: 'cover', borderRadius: 8 }}
+          />
+        ) : (
+          <Typography.Text type="secondary">暂无预览</Typography.Text>
+        )}
+      </Space>
+    </Form.Item>
+  );
 }
 
 export default function PredictPage() {
@@ -94,6 +135,9 @@ export default function PredictPage() {
   const updatePredictContextRequest = useRequestUpdatePredictContext();
   const predictTagsRequest = useRequestPredictTags();
   const contextImageUrl = Form.useWatch('imageUrl', contextForm) as string | undefined;
+  const contextListImage = Form.useWatch('listImage', contextForm) as string | undefined;
+  const contextSideABgImage = Form.useWatch('sideABgImage', contextForm) as string | undefined;
+  const contextSideBBgImage = Form.useWatch('sideBBgImage', contextForm) as string | undefined;
 
   const loadMarkets = async () => {
     await marketsRequest.run({
@@ -183,14 +227,20 @@ export default function PredictPage() {
     setContextModal(market);
     setContextEditorOpen(true);
     contextForm.setFieldsValue({
+      marketId: market.id,
       eventName: market.title,
       proText: market.proText,
       conText: market.conText,
       heat: market.heat,
       participantCount: market.betCount,
       tags: market.tags.join(', '),
-      detail: market.settleReason,
+      detail: market.detail,
       imageUrl: market.imageUrl,
+      listImage: market.listImage,
+      sideABgImage: market.sideABgImage,
+      sideBBgImage: market.sideBBgImage,
+      sideABgColor: market.sideABgColor,
+      sideBBgColor: market.sideBBgColor,
     });
   };
 
@@ -202,6 +252,8 @@ export default function PredictPage() {
       proText: '',
       conText: '',
       tags: '',
+      sideABgColor: '#E23D3D',
+      sideBBgColor: '#276EF1',
     });
     setContextEditorOpen(true);
   };
@@ -214,7 +266,7 @@ export default function PredictPage() {
     try {
       const values = await contextForm.validateFields();
       const payload: PredictContextUpdatePayload = {
-        marketId: contextModal?.id ?? 0,
+        marketId: contextModal?.id ?? values.marketId,
         eventName: values.eventName,
         proText: values.proText,
         conText: values.conText,
@@ -223,6 +275,11 @@ export default function PredictPage() {
         tags: values.tags,
         detail: values.detail,
         imageUrl: values.imageUrl,
+        listImage: values.listImage,
+        sideABgImage: values.sideABgImage,
+        sideBBgImage: values.sideBBgImage,
+        sideABgColor: values.sideABgColor,
+        sideBBgColor: values.sideBBgColor,
       };
       await updatePredictContextRequest.run(payload);
       message.success(contextMode === 'create' ? '预测已新增' : '市场上下文已更新');
@@ -502,6 +559,7 @@ export default function PredictPage() {
       </Modal>
 
       <Modal
+        width={760}
         open={contextEditorOpen}
         title={contextMode === 'create' ? '新增预测' : '编辑市场上下文'}
         onCancel={() => {
@@ -517,6 +575,13 @@ export default function PredictPage() {
         destroyOnClose
       >
         <Form form={contextForm} layout="vertical">
+          <Form.Item
+            name="marketId"
+            label="市场 ID"
+            rules={[{ required: true, message: '请输入市场 ID' }]}
+          >
+            <InputNumber min={1} precision={0} disabled={contextMode === 'edit'} style={{ width: '100%' }} />
+          </Form.Item>
           <Form.Item
             name="eventName"
             label="事件标题"
@@ -542,27 +607,39 @@ export default function PredictPage() {
             <Input placeholder="多个标签用逗号分隔" />
           </Form.Item>
           <Form.Item name="participantCount" label="参与人数">
-            <Input type="number" />
+            <InputNumber min={0} precision={0} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="heat" label="热度">
-            <Input type="number" />
+            <InputNumber min={0} precision={0} style={{ width: '100%' }} />
           </Form.Item>
-          <Form.Item name="imageUrl" label="封面图链接">
-            <Input placeholder="相对路径或完整 URL" allowClear />
-          </Form.Item>
-          <div style={{ marginTop: -12, marginBottom: 8 }}>
-            {contextImageUrl?.trim() && resolveImageUrl(contextImageUrl.trim()) ? (
-              <Image
-                src={resolveImageUrl(contextImageUrl.trim())}
-                alt="封面预览"
-                width={104}
-                height={104}
-                style={{ objectFit: 'cover', borderRadius: 8 }}
-              />
-            ) : (
-              <Typography.Text type="secondary">暂无预览</Typography.Text>
-            )}
-          </div>
+          <ContextImageField name="imageUrl" label="封面图链接" value={contextImageUrl} />
+          <ContextImageField name="listImage" label="列表图片" value={contextListImage} />
+          <Space size={16} align="start" style={{ width: '100%' }}>
+            <div style={{ flex: 1 }}>
+              <ContextImageField name="sideABgImage" label="正方背景图" value={contextSideABgImage} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <ContextImageField name="sideBBgImage" label="反方背景图" value={contextSideBBgImage} />
+            </div>
+          </Space>
+          <Space size={16} style={{ width: '100%' }}>
+            <Form.Item
+              name="sideABgColor"
+              label="正方背景色"
+              getValueFromEvent={(color) => color.toHexString().toUpperCase()}
+              style={{ flex: 1 }}
+            >
+              <ColorPicker format="hex" disabledAlpha showText />
+            </Form.Item>
+            <Form.Item
+              name="sideBBgColor"
+              label="反方背景色"
+              getValueFromEvent={(color) => color.toHexString().toUpperCase()}
+              style={{ flex: 1 }}
+            >
+              <ColorPicker format="hex" disabledAlpha showText />
+            </Form.Item>
+          </Space>
           <Form.Item name="detail" label="上下文说明">
             <Input.TextArea rows={4} />
           </Form.Item>

@@ -22,7 +22,7 @@ import {
   API_BATTLE_LIST,
   API_BATTLE_STATS,
   API_FOOTBALL_MARKETS,
-  API_FOOTBALL_PREDICT_CONTEXT_UPDATE,
+  API_ADMIN_PREDICT_CONTEXT_UPDATE,
   API_PREDICT_TAG_LIST,
   API_PREDICT_TAG_REFRESH,
   getAdminForbiddenWordByPath,
@@ -474,7 +474,7 @@ async function requestRefreshPredictTags() {
 async function requestUpdatePredictContext(payload: PredictContextUpdatePayload) {
   const res = await axiosCustom<unknown>({
     method: 'post',
-    cmd: API_FOOTBALL_PREDICT_CONTEXT_UPDATE,
+    cmd: API_ADMIN_PREDICT_CONTEXT_UPDATE,
     data: toFormData(payload),
     headers: {
       ...getAuthorizationHeaders(),

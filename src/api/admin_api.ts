@@ -5,9 +5,11 @@ export const API_ADMIN_PREDICT_TRENDS = '/api/admin/predict/trends';
 export const API_ADMIN_PREDICT_ACTIVE_USERS = '/api/admin/predict/active_users';
 export const API_ADMIN_PREDICT_MARKET_STATS = '/api/admin/predict/market/stats';
 export const API_ADMIN_PREDICT_MARKET_SETTLE = '/api/admin/predict/market/settle';
+// export const API_ADMIN_PREDICT_CONTEXT_UPDATE = '/api/admin/predict/context/update';
 
 export const API_FOOTBALL_MARKETS = '/api/football/markets';
-export const API_FOOTBALL_PREDICT_CONTEXT_UPDATE = '/api/football/predict_context/update';
+export const API_ADMIN_PREDICT_CONTEXT_UPDATE = '/api/football/predict_context/update';
+
 
 export const API_PREDICT_TAG_LIST = '/api/predict-tag/list';
 export const API_PREDICT_TAG_REFRESH = '/api/predict-tag/refresh';
