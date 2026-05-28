@@ -181,6 +181,7 @@ export default function BattlePage() {
                   <Space>
                     <UserAvatar
                       userId={battle.creator.id ?? `${battle.id}-banker`}
+                      idEncode={battle.creator.idEncode}
                       avatar={battle.creator.avatar}
                       alt={battle.creator.name}
                       size={40}
@@ -213,6 +214,7 @@ export default function BattlePage() {
                         </div>
                         <UserAvatar
                           userId={battle.challenger.id ?? `${battle.id}-challenger`}
+                          idEncode={battle.challenger.idEncode}
                           avatar={battle.challenger.avatar}
                           alt={battle.challenger.name}
                           size={40}

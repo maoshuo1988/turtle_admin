@@ -21,6 +21,7 @@ export type PermissionKey =
 
 export interface CurrentUser {
   id: string;
+  idEncode?: string;
   name: string;
   avatar?: string;
   email?: string;
@@ -53,6 +54,8 @@ export interface ImageCaptchaPayload {
 
 export interface RemoteAuthUser {
   id?: string | number;
+  idEncode?: string;
+  id_encode?: string;
   username?: string;
   nickname?: string;
   avatar?: string;

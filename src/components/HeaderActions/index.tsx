@@ -86,6 +86,7 @@ export default function HeaderActions() {
         <Space style={{ cursor: 'pointer' }}>
           <UserAvatar
             userId={appState?.currentUser?.id}
+            idEncode={appState?.currentUser?.idEncode}
             avatar={appState?.currentUser?.avatar}
             alt={appState?.currentUser?.name}
             size={30}

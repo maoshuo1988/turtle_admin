@@ -122,8 +122,8 @@ export interface AdminBattle {
   topic: string;
   optionA: string;
   optionB: string;
-  creator: { id?: number; name: string; avatar: string; side: 'A' | 'B' };
-  challenger: { id?: number; name: string; avatar: string; side: 'A' | 'B' } | null;
+  creator: { id?: number; idEncode?: string; name: string; avatar: string; side: 'A' | 'B' };
+  challenger: { id?: number; idEncode?: string; name: string; avatar: string; side: 'A' | 'B' } | null;
   wager: number;
   status: BtlStatus;
   winner: 'A' | 'B' | null;
@@ -149,7 +149,7 @@ export interface AdminTopic {
   id: string;
   title: string;
   content: string;
-  user: { id?: number; nickname: string; username: string; avatar: string };
+  user: { id?: number; idEncode?: string; nickname: string; username: string; avatar: string };
   node: { id: number; name: string };
   tags: string[];
   viewCount: number;

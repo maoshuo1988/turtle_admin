@@ -300,6 +300,7 @@ export function mapBattle(item: unknown): AdminBattle {
     optionB: pickString(battle, 'challengerSide') || '挑战者观点',
     creator: {
       id: bankerId || undefined,
+      idEncode: pickString(record, 'bankerIdEncode', 'banker_id_encode'),
       name: pickString(record, 'bankerNickname') || '庄家',
       avatar: pickString(record, 'bankerAvatar', 'banker_avatar') || '',
       side: 'A',
@@ -307,6 +308,7 @@ export function mapBattle(item: unknown): AdminBattle {
     challenger: challengerName
       ? {
           id: challengerId || undefined,
+          idEncode: pickString(record, 'challengerIdEncode', 'challenger_id_encode'),
           name: challengerName,
           avatar: pickString(record, 'challengerAvatar', 'challenger_avatar') || '',
           side: 'B',
@@ -342,6 +344,7 @@ export function mapTopic(item: unknown): AdminTopic {
     content: pickString(record, 'summary', 'content'),
     user: {
       id: pickNumber(user, 'id') || undefined,
+      idEncode: pickString(user, 'idEncode', 'id_encode'),
       nickname: pickString(user, 'nickname', 'username') || '匿名用户',
       username: pickString(user, 'username'),
       avatar: pickString(user, 'avatar') || '',
@@ -504,6 +507,7 @@ export function mapAdminUser(item: unknown): AdminUserRecord {
   const record = asRecord(item) ?? {};
   return {
     id: pickNumber(record, 'id'),
+    idEncode: pickString(record, 'idEncode', 'id_encode'),
     status: pickNumber(record, 'status'),
     nickname: pickString(record, 'nickname'),
     username: pickString(record, 'username'),

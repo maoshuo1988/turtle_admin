@@ -274,6 +274,7 @@ export default function UsersPage() {
       render: (_, record) => (
         <UserAvatar
           userId={record.id}
+          idEncode={record.idEncode}
           avatar={record.avatar}
           alt={record.nickname || record.username || `用户 ${record.id}`}
           size={36}

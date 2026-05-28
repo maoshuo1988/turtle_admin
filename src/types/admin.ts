@@ -144,6 +144,7 @@ export interface AdminCommentRecord {
 
 export interface AdminUserRecord {
   id: number;
+  idEncode?: string;
   status?: number;
   nickname?: string;
   username?: string;

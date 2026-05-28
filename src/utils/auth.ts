@@ -42,6 +42,7 @@ export function normalizeCurrentUser(user: RemoteAuthUser | CurrentUser | undefi
 
   return {
     id: String(user.id ?? user.username ?? user.email ?? '0'),
+    idEncode: toText(user.idEncode) || toText((user as RemoteAuthUser).id_encode),
     name: resolveUserName(user),
     avatar: toText(user.avatar),
     email: toText(user.email),

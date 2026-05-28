@@ -1,19 +1,19 @@
 import { createAvatar } from '@dicebear/core';
-import { lorelei } from '@dicebear/collection';
+import { pixelArt } from '@dicebear/collection';
 import { isAvatarImage } from '@/utils/auth';
 
 const avatarCache = new Map<string, string>();
 
-export function getUserAvatarSeed(userId: string | number | undefined | null) {
-  if (userId === undefined || userId === null || userId === '') {
+export function getUserAvatarSeed(seedValue: string | number | undefined | null) {
+  if (seedValue === undefined || seedValue === null || seedValue === '') {
     return 'anonymous';
   }
 
-  return String(userId);
+  return String(seedValue);
 }
 
-export function createUserAvatarDataUri(userId: string | number | undefined | null, size = 128) {
-  const seed = getUserAvatarSeed(userId);
+export function createUserAvatarDataUri(seedValue: string | number | undefined | null, size = 128) {
+  const seed = getUserAvatarSeed(seedValue);
   const cacheKey = `${seed}:${size}`;
   const cached = avatarCache.get(cacheKey);
 
@@ -21,7 +21,7 @@ export function createUserAvatarDataUri(userId: string | number | undefined | nu
     return cached;
   }
 
-  const dataUri = createAvatar(lorelei, {
+  const dataUri = createAvatar(pixelArt, {
     seed,
     size,
   }).toDataUri();
@@ -32,14 +32,15 @@ export function createUserAvatarDataUri(userId: string | number | undefined | nu
 
 export function resolveUserAvatarSrc(options: {
   userId?: string | number | null;
+  idEncode?: string | number | null;
   avatar?: string | null;
   size?: number;
 }) {
-  const { userId, avatar, size = 128 } = options;
+  const { userId, idEncode, avatar, size = 128 } = options;
 
   if (avatar && isAvatarImage(avatar)) {
     return avatar;
   }
 
-  return createUserAvatarDataUri(userId, size);
+  return createUserAvatarDataUri(idEncode || userId, size);
 }

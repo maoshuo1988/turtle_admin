@@ -174,6 +174,7 @@ export default function CommunityPage() {
                   <Space>
                     <UserAvatar
                       userId={record.user.id ?? record.id}
+                      idEncode={record.user.idEncode}
                       avatar={record.user.avatar}
                       alt={record.user.nickname}
                       size={32}
