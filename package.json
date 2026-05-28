@@ -16,6 +16,8 @@
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
     "@ant-design/pro-components": "^2.8.10",
+    "@dicebear/collection": "^9.4.2",
+    "@dicebear/core": "^9.4.2",
     "@esotericsoftware/spine-canvas": "^4.3.5",
     "@esotericsoftware/spine-pixi-v8": "^4.3.5",
     "@umijs/max": "^4.6.2",

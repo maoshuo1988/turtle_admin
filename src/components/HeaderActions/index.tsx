@@ -7,7 +7,8 @@ import { App, Dropdown, Space, Typography } from 'antd';
 import { history, setLocale, useIntl, useModel } from '@umijs/max';
 import { useRequestSignout } from '@/hooks/useRequest';
 import type { AppInitialState } from '@/types/runtime';
-import { getUserAvatarText, isAvatarImage, LOGIN_PATH } from '@/utils/auth';
+import UserAvatar from '@/components/UserAvatar';
+import { LOGIN_PATH } from '@/utils/auth';
 
 const languageOptions = [
   { key: 'zh-CN', label: '中文' },
@@ -83,29 +84,12 @@ export default function HeaderActions() {
 
       <Dropdown menu={{ items: userMenuItems }}>
         <Space style={{ cursor: 'pointer' }}>
-          <div
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: '50%',
-              background: '#1677ff',
-              color: '#fff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 600,
-            }}
-          >
-            {appState?.currentUser?.avatar && isAvatarImage(appState.currentUser.avatar) ? (
-              <img
-                alt={appState.currentUser.name}
-                src={appState.currentUser.avatar}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-              />
-            ) : (
-              getUserAvatarText(appState?.currentUser)
-            )}
-          </div>
+          <UserAvatar
+            userId={appState?.currentUser?.id}
+            avatar={appState?.currentUser?.avatar}
+            alt={appState?.currentUser?.name}
+            size={30}
+          />
           <Typography.Text>{appState?.currentUser?.name}</Typography.Text>
         </Space>
       </Dropdown>

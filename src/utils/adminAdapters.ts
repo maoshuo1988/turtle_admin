@@ -286,20 +286,29 @@ export function mapBattle(item: unknown): AdminBattle {
   if (status === 'disputed') mappedStatus = 'disputed';
   if (status === 'settled') mappedStatus = result === 'void' ? 'voided' : 'resolved';
 
+  const bankerId =
+    pickNumber(record, 'bankerId', 'bankerUserId') ||
+    pickNumber(battle, 'bankerId', 'bankerUserId', 'userId');
+  const challengerId =
+    pickNumber(record, 'challengerId', 'challengerUserId') ||
+    pickNumber(battle, 'challengerId', 'challengerUserId');
+
   return {
     id: String(pickNumber(battle, 'id')),
     topic: pickString(battle, 'title') || '未命名对局',
     optionA: pickString(battle, 'bankerSide') || '庄家观点',
     optionB: pickString(battle, 'challengerSide') || '挑战者观点',
     creator: {
+      id: bankerId || undefined,
       name: pickString(record, 'bankerNickname') || '庄家',
-      avatar: '⚔️',
+      avatar: pickString(record, 'bankerAvatar', 'banker_avatar') || '',
       side: 'A',
     },
     challenger: challengerName
       ? {
+          id: challengerId || undefined,
           name: challengerName,
-          avatar: '🛡️',
+          avatar: pickString(record, 'challengerAvatar', 'challenger_avatar') || '',
           side: 'B',
         }
       : null,
@@ -332,9 +341,10 @@ export function mapTopic(item: unknown): AdminTopic {
     title: pickString(record, 'title') || '未命名帖子',
     content: pickString(record, 'summary', 'content'),
     user: {
+      id: pickNumber(user, 'id') || undefined,
       nickname: pickString(user, 'nickname', 'username') || '匿名用户',
       username: pickString(user, 'username'),
-      avatar: pickString(user, 'avatar') || '📝',
+      avatar: pickString(user, 'avatar') || '',
     },
     node: {
       id: pickNumber(node, 'id'),
@@ -423,7 +433,7 @@ export function mapUserToBannedUser(item: unknown): BannedUser {
   return {
     userId: String(user.id),
     name: user.nickname || user.username || '未知用户',
-    avatar: user.avatar || '🚫',
+    avatar: user.avatar || '',
     reason: user.forbiddenReason || '已禁言用户',
     bannedAt: formatTimestamp(endTime),
     bannedBy: '管理员',

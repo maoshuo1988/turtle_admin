@@ -12,6 +12,7 @@ import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Alert, App, Button, Input, Modal, Segmented, Space, Table, Tag, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import type { AdminTopic } from '@/data/admin_mock_data';
+import UserAvatar from '@/components/UserAvatar';
 import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestAuditTopic,
@@ -171,7 +172,12 @@ export default function CommunityPage() {
                 width: 140,
                 render: (_, record) => (
                   <Space>
-                    <span style={{ fontSize: 24 }}>{record.user.avatar}</span>
+                    <UserAvatar
+                      userId={record.user.id ?? record.id}
+                      avatar={record.user.avatar}
+                      alt={record.user.nickname}
+                      size={32}
+                    />
                     <Typography.Text strong>{record.user.nickname}</Typography.Text>
                   </Space>
                 ),

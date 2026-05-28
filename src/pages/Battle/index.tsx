@@ -14,6 +14,7 @@ import {
   Typography,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
+import UserAvatar from '@/components/UserAvatar';
 import {
   btlStatusLabel,
   type BtlStatus,
@@ -178,7 +179,12 @@ export default function BattlePage() {
                   }}
                 >
                   <Space>
-                    <span style={{ fontSize: 28 }}>{battle.creator.avatar}</span>
+                    <UserAvatar
+                      userId={battle.creator.id ?? `${battle.id}-banker`}
+                      avatar={battle.creator.avatar}
+                      alt={battle.creator.name}
+                      size={40}
+                    />
                     <div>
                       <Typography.Text strong>{battle.creator.name}</Typography.Text>
                       <div>
@@ -205,7 +211,12 @@ export default function BattlePage() {
                             <Typography.Text type="secondary">{battle.optionB}</Typography.Text>
                           </div>
                         </div>
-                        <span style={{ fontSize: 28 }}>{battle.challenger.avatar}</span>
+                        <UserAvatar
+                          userId={battle.challenger.id ?? `${battle.id}-challenger`}
+                          avatar={battle.challenger.avatar}
+                          alt={battle.challenger.name}
+                          size={40}
+                        />
                       </>
                     ) : (
                       <Typography.Text type="secondary">等待挑战者...</Typography.Text>

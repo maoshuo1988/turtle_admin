@@ -29,6 +29,7 @@ import {
   type MenuProps,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
+import UserAvatar from '@/components/UserAvatar';
 import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestForbiddenUser,
@@ -267,6 +268,18 @@ export default function UsersPage() {
   };
 
   const columns: ProColumns<AdminUserRecord>[] = [
+    {
+      title: '头像',
+      width: 72,
+      render: (_, record) => (
+        <UserAvatar
+          userId={record.id}
+          avatar={record.avatar}
+          alt={record.nickname || record.username || `用户 ${record.id}`}
+          size={36}
+        />
+      ),
+    },
     { title: 'ID', dataIndex: 'id', width: 80 },
     {
       title: '用户名',
