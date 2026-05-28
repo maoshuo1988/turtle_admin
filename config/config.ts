@@ -8,6 +8,10 @@ export default defineConfig({
   model: {},
   request: {},
   initialState: {},
+  // spine-canvas 为 ESM，MFSU 预构建容器无法正确暴露，需排除后由应用直接打包
+  mfsu: {
+    exclude: ['@esotericsoftware/spine-canvas', '@esotericsoftware/spine-core'],
+  },
   /**
    * 本地开发：`/api` 代理目标由 `UMI_APP_API_ENV` 决定：
    * - staging → https://52.220.192.18（默认）

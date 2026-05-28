@@ -1,5 +1,7 @@
 import { PET_RARITY_OPTIONS } from '@/types/pet';
 import type {
+  AbilityOption,
+  AbilityOptionSourcePet,
   FeatureCatalogItem,
   FeatureEffectiveEvent,
   FeatureScope,
@@ -7,6 +9,7 @@ import type {
   GachaPoolRarityWeights,
   LocalizedText,
   PetAbilities,
+  PetAbilityParams,
   PetDefinition,
   PetMetadata,
   PetPricing,
@@ -357,4 +360,99 @@ export function mapGachaPoolConfig(item: unknown): GachaPoolConfig {
     base_cost: toNumber(record.base_cost ?? record.baseCost) ?? 0,
     rarity_weights: sanitizeRarityWeights(rarityWeights),
   };
+}
+
+function sanitizeStringArray(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [] as string[];
+  }
+
+  return value
+    .map((item) => toString(item).trim())
+    .filter(Boolean);
+}
+
+function sanitizeEffectiveEvents(value: unknown): FeatureEffectiveEvent[] {
+  const events = sanitizeStringArray(value);
+  return events.map((event) => normalizeEffectiveEvent(event));
+}
+
+function mapAbilityOptionSourcePet(value: unknown): AbilityOptionSourcePet {
+  const record = isRecord(value) ? value : {};
+
+  return {
+    petKey: pickString(record, 'petKey', 'pet_key', 'pet_id', 'petId'),
+    name: pickString(record, 'name'),
+    rarity: pickString(record, 'rarity'),
+  };
+}
+
+export function mapAbilityOption(item: unknown): AbilityOption {
+  const record = isRecord(item) ? item : {};
+
+  return {
+    optionKey: pickString(record, 'optionKey', 'option_key', 'id'),
+    name: pickString(record, 'name'),
+    description: pickString(record, 'description'),
+    sourcePet: mapAbilityOptionSourcePet(record.sourcePet ?? record.source_pet),
+    featureKeys: sanitizeStringArray(record.featureKeys ?? record.feature_keys),
+    effectiveEvents: sanitizeEffectiveEvents(record.effectiveEvents ?? record.effective_events),
+    abilities: sanitizeAbilities(record.abilities) ?? {},
+    selectable: 'selectable' in record ? pickBoolean(record, 'selectable') : true,
+    disabledReason: pickString(record, 'disabledReason', 'disabled_reason'),
+    raw: record,
+  };
+}
+
+function isSameAbilityParams(a: PetAbilityParams, b: PetAbilityParams) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+export function abilityOptionMatchesPet(option: AbilityOption, petAbilities?: PetAbilities) {
+  if (!petAbilities) {
+    return false;
+  }
+
+  const entries = Object.entries(option.abilities);
+  if (!entries.length) {
+    return false;
+  }
+
+  return entries.every(([key, params]) => {
+    const petParams = petAbilities[key];
+    return petParams && isSameAbilityParams(petParams, params);
+  });
+}
+
+export function matchAbilityOptionKeys(
+  petAbilities: PetAbilities | undefined,
+  options: AbilityOption[],
+) {
+  if (!petAbilities) {
+    return [];
+  }
+
+  return options
+    .filter((option) => abilityOptionMatchesPet(option, petAbilities))
+    .map((option) => option.optionKey);
+}
+
+export function buildAbilitiesFromOptionKeys(
+  optionKeys: string[] | undefined,
+  optionMap: Map<string, AbilityOption>,
+): PetAbilities | undefined {
+  if (!optionKeys?.length) {
+    return undefined;
+  }
+
+  const abilities: PetAbilities = {};
+  optionKeys.forEach((optionKey) => {
+    const option = optionMap.get(optionKey);
+    if (!option) {
+      return;
+    }
+    Object.assign(abilities, option.abilities);
+  });
+
+  return Object.keys(abilities).length ? abilities : undefined;
 }

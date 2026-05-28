@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { EyeOutlined, ReloadOutlined } from '@ant-design/icons';
 import {
   PageContainer,
   ProCard,
@@ -7,122 +7,50 @@ import {
   QueryFilter,
   type ProColumns,
 } from '@ant-design/pro-components';
-import { useAccess } from '@umijs/max';
-import { Alert, App, Button, Form, Input, Modal, Space, Typography } from 'antd';
+import { Alert, App, Button, Descriptions, Modal, Space, Tag, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { panelStyle } from '@/features/admin/shared';
-import {
-  useRequestDeletePetAbility,
-  useRequestPetDefinitions,
-  useRequestPetFeatures,
-  useRequestSavePetAbility,
-} from '@/hooks/usePetAdminRequest';
-import type { PetAbilityParams } from '@/types/pet';
-import { getLocalizedLabel } from '@/utils/petAdminAdapters';
-
-interface AbilityRow {
-  rowKey: string;
-  petDefinitionId: string;
-  petId: string;
-  petName: string;
-  featureKey: string;
-  ability: string;
-  params: PetAbilityParams;
-}
-
-interface AbilityFormValues {
-  feature_key: string;
-  ability_name?: string;
-  params_json: string;
-}
+import { useRequestPetAbilityOptions } from '@/hooks/usePetAdminRequest';
+import type { AbilityOption } from '@/types/pet';
 
 interface AbilityFilterValues {
   keyword?: string;
+  featureKey?: string;
+  rarity?: AbilityOption['sourcePet']['rarity'] | 'all';
+  selectableOnly?: 'true' | 'false';
 }
 
-function formatJsonEditor(value: unknown) {
+function formatJson(value: unknown) {
   if (!value || (typeof value === 'object' && !Object.keys(value as Record<string, unknown>).length)) {
-    return '';
+    return '{}';
   }
 
   return JSON.stringify(value, null, 2);
 }
 
-function parseJsonField(text: string | undefined, fieldLabel: string) {
-  if (!text?.trim()) {
-    return undefined;
-  }
-
-  try {
-    const parsed = JSON.parse(text);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-      throw new Error();
-    }
-    return parsed as Record<string, unknown>;
-  } catch {
-    throw new Error(`${fieldLabel} 需要是合法的 JSON 对象`);
-  }
-}
-
-function pickStringValue(source: Record<string, unknown>, keys: string[]) {
-  for (const key of keys) {
-    const value = source[key];
-    if (typeof value === 'string' && value.trim()) {
-      return value.trim();
-    }
-  }
-
-  return '';
-}
-
-function getAbilityLabel(params: PetAbilityParams) {
-  const directLabel = pickStringValue(params, ['ability', 'ability_name', 'abilityName', 'name', 'title', 'label']);
-  if (directLabel) {
-    return directLabel;
-  }
-
-  const display = params.display;
-  if (display && typeof display === 'object' && !Array.isArray(display)) {
-    return pickStringValue(display as Record<string, unknown>, ['ability', 'name', 'title', 'label']);
-  }
-
-  return '';
-}
-
-function mergeAbilityNameIntoParams(params: Record<string, unknown>, abilityName: string | undefined) {
-  const normalizedAbilityName = abilityName?.trim();
-  if (!normalizedAbilityName) {
-    return params;
-  }
-
-  return {
-    ...params,
-    ability: normalizedAbilityName,
-  };
-}
-
 export default function PetAbilitiesPage() {
-  const { message, modal } = App.useApp();
-  const access = useAccess() as { canManagePets?: boolean };
-  const canManagePets = access.canManagePets === true;
-  const [abilityForm] = Form.useForm<AbilityFormValues>();
-  const [filters, setFilters] = useState<AbilityFilterValues>({});
-  const [editorOpen, setEditorOpen] = useState(false);
-  const [editingRow, setEditingRow] = useState<AbilityRow | null>(null);
+  const { message } = App.useApp();
+  const [filters, setFilters] = useState<AbilityFilterValues>({
+    rarity: 'all',
+    selectableOnly: 'true',
+  });
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailRecord, setDetailRecord] = useState<AbilityOption | null>(null);
 
-  const petListRequest = useRequestPetDefinitions();
-  const featureListRequest = useRequestPetFeatures();
-  const saveAbilityRequest = useRequestSavePetAbility();
-  const deleteAbilityRequest = useRequestDeletePetAbility();
+  const abilityOptionsRequest = useRequestPetAbilityOptions();
 
-  const loadData = async () => {
+  const buildQueryParams = (nextFilters: AbilityFilterValues) => ({
+    keyword: nextFilters.keyword?.trim() || undefined,
+    featureKey: nextFilters.featureKey?.trim() || undefined,
+    rarity: nextFilters.rarity ?? 'all',
+    selectableOnly: nextFilters.selectableOnly !== 'false',
+  });
+
+  const loadData = async (nextFilters = filters) => {
     try {
-      await Promise.all([
-        petListRequest.run({ current: 1, pageSize: 500 }),
-        featureListRequest.run({ current: 1, pageSize: 200, scope: 'PET', enabled: true }),
-      ]);
+      await abilityOptionsRequest.run(buildQueryParams(nextFilters));
     } catch (error) {
-      message.error(error instanceof Error ? error.message : '能力列表加载失败');
+      message.error(error instanceof Error ? error.message : '能力预设列表加载失败');
     }
   };
 
@@ -132,200 +60,178 @@ export default function PetAbilitiesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);
-  const abilityRows = useMemo(() => {
-    const rowMap = new Map<string, AbilityRow>();
-
-    petRecords.forEach((pet) => {
-      if (!pet.abilities) {
-        return;
-      }
-
-      Object.entries(pet.abilities).forEach(([featureKey, params]) => {
-        if (rowMap.has(featureKey)) {
-          return;
-        }
-
-        rowMap.set(featureKey, {
-          rowKey: featureKey,
-          petDefinitionId: pet.id,
-          petId: pet.pet_id,
-          petName: getLocalizedLabel(pet.name),
-          featureKey,
-          ability: getAbilityLabel(params),
-          params,
-        });
-      });
-    });
-
-    const rows = [...rowMap.values()];
-    const normalizedKeyword = filters.keyword?.trim().toLowerCase();
-    if (!normalizedKeyword) {
-      return rows;
-    }
-
-    return rows.filter((row) =>
-      [row.featureKey, row.ability, formatJsonEditor(row.params)]
-        .join(' ')
-        .toLowerCase()
-        .includes(normalizedKeyword),
-    );
-  }, [filters.keyword, petRecords]);
+  const abilityRows = useMemo(
+    () => abilityOptionsRequest.data?.data || [],
+    [abilityOptionsRequest.data?.data],
+  );
 
   const handleFilterSubmit = async (values: AbilityFilterValues) => {
-    setFilters({ keyword: values.keyword });
+    const nextFilters: AbilityFilterValues = {
+      keyword: values.keyword,
+      featureKey: values.featureKey,
+      rarity: values.rarity ?? 'all',
+      selectableOnly: values.selectableOnly ?? 'true',
+    };
+    setFilters(nextFilters);
+    await loadData(nextFilters);
   };
 
   const handleFilterReset = () => {
-    setFilters({});
+    const nextFilters: AbilityFilterValues = {
+      rarity: 'all',
+      selectableOnly: 'true',
+    };
+    setFilters(nextFilters);
+    void loadData(nextFilters);
   };
 
-  const columns: ProColumns<AbilityRow>[] = [
+  const openDetailModal = (record: AbilityOption) => {
+    setDetailRecord(record);
+    setDetailOpen(true);
+  };
+
+  const columns: ProColumns<AbilityOption>[] = [
     {
-      title: 'featureKey',
-      dataIndex: 'featureKey',
+      title: 'optionKey',
+      dataIndex: 'optionKey',
       width: 180,
-      render: (_, record) => <Typography.Text code>{record.featureKey}</Typography.Text>,
+      render: (_, record) => <Typography.Text code>{record.optionKey}</Typography.Text>,
     },
     {
-      title: '能力',
-      dataIndex: 'ability',
+      title: '名称',
+      dataIndex: 'name',
       width: 180,
-      render: (_, record) => record.ability || null,
     },
     {
-      title: '参数',
-      dataIndex: 'params',
+      title: '描述',
+      dataIndex: 'description',
+      ellipsis: true,
+    },
+    {
+      title: '来源龟种',
+      dataIndex: 'sourcePet',
+      width: 160,
       render: (_, record) => (
-        <Typography.Text code>{formatJsonEditor(record.params) || '{}'}</Typography.Text>
+        <Space direction="vertical" size={2}>
+          <Typography.Text>{record.sourcePet.name || '-'}</Typography.Text>
+          {/* <Typography.Text type="secondary" code>
+            {record.sourcePet.petKey || '-'}
+          </Typography.Text> */}
+        </Space>
       ),
+    },
+    // {
+    //   title: '稀有度',
+    //   dataIndex: ['sourcePet', 'rarity'],
+    //   width: 90,
+    //   render: (_, record) =>
+    //     record.sourcePet.rarity ? (
+    //       <Tag color="processing">{record.sourcePet.rarity}</Tag>
+    //     ) : (
+    //       '-'
+    //     ),
+    // },
+    {
+      title: 'featureKeys',
+      dataIndex: 'featureKeys',
+      width: 160,
+      render: (_, record) =>
+        record.featureKeys.length ? (
+          <Space wrap size={[4, 4]}>
+            {record.featureKeys.map((featureKey) => (
+              <Tag key={featureKey}>{featureKey}</Tag>
+            ))}
+          </Space>
+        ) : (
+          '-'
+        ),
+    },
+    {
+      title: '生效事件',
+      dataIndex: 'effectiveEvents',
+      width: 160,
+      render: (_, record) =>
+        record.effectiveEvents.length ? (
+          <Space wrap size={[4, 4]}>
+            {record.effectiveEvents.map((event) => (
+              <Tag key={event}>{event}</Tag>
+            ))}
+          </Space>
+        ) : (
+          '-'
+        ),
+    },
+    {
+      title: '可选',
+      dataIndex: 'selectable',
+      width: 100,
+      render: (_, record) =>
+        record.selectable ? (
+          <Tag color="success">可选</Tag>
+        ) : (
+          <Tag color="default" title={record.disabledReason || undefined}>
+            不可选
+          </Tag>
+        ),
     },
     {
       title: '操作',
       valueType: 'option',
-      width: 180,
+      width: 100,
       render: (_, record) => (
-        <Space wrap>
-          {canManagePets ? (
-            <Button size="small" icon={<EditOutlined />} onClick={() => openEditModal(record)}>
-              编辑
-            </Button>
-          ) : null}
-          {canManagePets ? (
-            <Button
-              size="small"
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => handleDeleteAbility(record)}
-            >
-              删除
-            </Button>
-          ) : null}
-        </Space>
+        <Button size="small" icon={<EyeOutlined />} onClick={() => openDetailModal(record)}>
+          详情
+        </Button>
       ),
     },
   ];
 
-  const openCreateModal = () => {
-    setEditingRow(null);
-    abilityForm.resetFields();
-    abilityForm.setFieldsValue({
-      params_json: '{}',
-    });
-    setEditorOpen(true);
-  };
-
-  const openEditModal = (row: AbilityRow) => {
-    setEditingRow(row);
-    abilityForm.setFieldsValue({
-      feature_key: row.featureKey,
-      ability_name: row.ability || undefined,
-      params_json: formatJsonEditor(row.params),
-    });
-    setEditorOpen(true);
-  };
-
-  const closeEditor = () => {
-    setEditorOpen(false);
-    setEditingRow(null);
-    abilityForm.resetFields();
-  };
-
-  const handleSaveAbility = async () => {
-    try {
-      const values = await abilityForm.validateFields();
-      const params = parseJsonField(values.params_json, '能力参数');
-      if (!params) {
-        throw new Error('请提供能力参数');
-      }
-
-      const petDefinitionId = editingRow?.petDefinitionId ?? petRecords[0]?.id;
-      if (!petDefinitionId) {
-        throw new Error('暂无可挂载能力的龟种，请先添加龟种');
-      }
-
-      await saveAbilityRequest.run({
-        petDefinitionId,
-        featureKey: values.feature_key,
-        params: mergeAbilityNameIntoParams(params, values.ability_name),
-      });
-      message.success(editingRow ? '能力已更新' : '能力已添加');
-      closeEditor();
-      await loadData();
-    } catch (error) {
-      if (error instanceof Error) {
-        message.error(error.message);
-      }
-    }
-  };
-
-  const handleDeleteAbility = (row: AbilityRow) => {
-    modal.confirm({
-      title: `确认删除 ${row.petId} 的 ${row.featureKey} 吗？`,
-      okButtonProps: { danger: true },
-      onOk: async () => {
-        try {
-          await deleteAbilityRequest.run({
-            petDefinitionId: row.petDefinitionId,
-            featureKey: row.featureKey,
-          });
-          message.success('能力已删除');
-          await loadData();
-        } catch (error) {
-          message.error(error instanceof Error ? error.message : '能力删除失败');
-        }
-      },
-    });
-  };
-
   return (
     <PageContainer>
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
-        {petListRequest.error instanceof Error || featureListRequest.error instanceof Error ? (
+        {abilityOptionsRequest.error instanceof Error ? (
           <Alert
             type="error"
             showIcon
-            message="能力列表加载失败"
-            description={petListRequest.error?.message || featureListRequest.error?.message}
+            message="能力预设列表加载失败"
+            description={abilityOptionsRequest.error.message}
           />
         ) : null}
 
         <ProCard style={panelStyle}>
           <QueryFilter<AbilityFilterValues>
             defaultCollapsed={false}
+            initialValues={{ rarity: 'all', selectableOnly: 'true' }}
             onFinish={handleFilterSubmit}
             onReset={handleFilterReset}
           >
-            <ProFormText
-              name="keyword"
+            <ProFormText name="keyword" label="关键字" placeholder="搜索 optionKey / 名称 / 描述" />
+            {/* <ProFormText
+              name="featureKey"
               label="featureKey"
-              placeholder="搜索 featureKey / 参数"
+              placeholder="例如 signin_bonus"
+            /> */}
+            {/* <ProFormSelect
+              name="rarity"
+              label="来源稀有度"
+              options={[
+                { label: '全部稀有度', value: 'all' },
+                ...PET_RARITY_OPTIONS.map((item) => ({ label: item, value: item })),
+              ]}
             />
+            <ProFormSelect
+              name="selectableOnly"
+              label="可选状态"
+              options={[
+                { label: '仅当前可选', value: 'true' },
+                { label: '包含不可选', value: 'false' },
+              ]}
+            /> */}
           </QueryFilter>
         </ProCard>
 
-        <ProTable<AbilityRow>
-          headerTitle="能力列表"
+        <ProTable<AbilityOption>
+          headerTitle="能力预设列表"
           style={panelStyle}
           search={false}
           options={false}
@@ -333,21 +239,11 @@ export default function PetAbilitiesPage() {
             <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadData()}>
               刷新
             </Button>,
-            canManagePets ? (
-              <Button key="create" type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
-                添加能力
-              </Button>
-            ) : null,
-          ].filter(Boolean)}
+          ]}
           tableAlertRender={false}
           tableAlertOptionRender={false}
-          rowKey="rowKey"
-          loading={
-            petListRequest.loading ||
-            featureListRequest.loading ||
-            saveAbilityRequest.loading ||
-            deleteAbilityRequest.loading
-          }
+          rowKey="optionKey"
+          loading={abilityOptionsRequest.loading}
           dataSource={abilityRows}
           pagination={{ pageSize: 20, showSizeChanger: true }}
           columns={columns}
@@ -355,35 +251,61 @@ export default function PetAbilitiesPage() {
       </Space>
 
       <Modal
-        width={720}
-        title={editingRow ? `编辑能力 ${editingRow.featureKey}` : '添加能力'}
-        open={editorOpen}
-        onCancel={closeEditor}
-        onOk={() => void handleSaveAbility()}
-        okText="保存"
-        confirmLoading={saveAbilityRequest.loading}
-        destroyOnClose
+        width={760}
+        title={detailRecord ? `能力预设 ${detailRecord.optionKey}` : '能力预设详情'}
+        open={detailOpen}
+        onCancel={() => {
+          setDetailOpen(false);
+          setDetailRecord(null);
+        }}
+        footer={null}
+        destroyOnHidden
       >
-        <Form form={abilityForm} layout="vertical">
-          <Form.Item
-            name="feature_key"
-            label="featureKey"
-            rules={[{ required: true, message: '请输入 featureKey' }]}
-          >
-            <Input disabled={Boolean(editingRow)} placeholder="spark_multiplier" />
-          </Form.Item>
-          <Form.Item name="ability_name" label="能力名称">
-            <Input placeholder="加速收益" />
-          </Form.Item>
-          <Form.Item
-            name="params_json"
-            label="能力参数 JSON"
-            extra="这里对应开蛋配置里龟种 abilities 的单项 params。"
-            rules={[{ required: true, message: '请输入能力参数 JSON' }]}
-          >
-            <Input.TextArea autoSize={{ minRows: 8, maxRows: 16 }} />
-          </Form.Item>
-        </Form>
+        {detailRecord ? (
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Descriptions bordered size="small" column={1}>
+              <Descriptions.Item label="optionKey">{detailRecord.optionKey}</Descriptions.Item>
+              <Descriptions.Item label="名称">{detailRecord.name || '-'}</Descriptions.Item>
+              <Descriptions.Item label="描述">{detailRecord.description || '-'}</Descriptions.Item>
+              <Descriptions.Item label="来源龟种">
+                {detailRecord.sourcePet.name || '-'} / {detailRecord.sourcePet.petKey || '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="稀有度">
+                {detailRecord.sourcePet.rarity || '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="featureKeys">
+                {detailRecord.featureKeys.length ? detailRecord.featureKeys.join(', ') : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="生效事件">
+                {detailRecord.effectiveEvents.length ? detailRecord.effectiveEvents.join(', ') : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="可选">
+                {detailRecord.selectable ? '是' : '否'}
+                {!detailRecord.selectable && detailRecord.disabledReason
+                  ? `（${detailRecord.disabledReason}）`
+                  : null}
+              </Descriptions.Item>
+            </Descriptions>
+            <div>
+              <Typography.Text type="secondary">abilities（可直接合并到 PetDefinition.abilities）</Typography.Text>
+              <Typography.Paragraph>
+                <pre
+                  style={{
+                    margin: '8px 0 0',
+                    padding: 12,
+                    borderRadius: 8,
+                    background: '#fafafa',
+                    border: '1px solid #eaecf0',
+                    overflow: 'auto',
+                    maxHeight: 320,
+                  }}
+                >
+                  {formatJson(detailRecord.abilities)}
+                </pre>
+              </Typography.Paragraph>
+            </div>
+          </Space>
+        ) : null}
       </Modal>
     </PageContainer>
   );

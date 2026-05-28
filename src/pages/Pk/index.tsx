@@ -526,7 +526,7 @@ export default function PkPage() {
         okText="保存"
         cancelText="取消"
         confirmLoading={saveTopicRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={topicForm} layout="vertical">
           <Form.Item name="id" hidden>
@@ -614,7 +614,7 @@ export default function PkPage() {
         okText="提交"
         cancelText="取消"
         confirmLoading={recalcHeatRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={recalcForm} layout="vertical">
           <Form.Item

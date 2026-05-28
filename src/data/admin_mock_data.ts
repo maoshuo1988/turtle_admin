@@ -55,6 +55,8 @@ export interface AdminMarket {
   status: MktStatus;
   poolA: number;
   poolB: number;
+  /** 平局侧池规模；未下发该字段时为传统二元盘口 */
+  poolDraw?: number;
   baseA: number;
   baseB: number;
   betCount: number;
@@ -72,7 +74,9 @@ export interface AdminMarket {
   sideABgColor?: string;
   sideBBgColor?: string;
   detail?: string;
-  outcome?: 'A' | 'B' | 'VOID' | null;
+  /** 平局选项展示文案，缺省可显示为「平局」 */
+  drawText?: string;
+  outcome?: 'A' | 'B' | 'DRAW' | 'VOID' | null;
   settledBy?: string;
   settleReason?: string;
 }
@@ -80,6 +84,30 @@ export interface AdminMarket {
 export const adminMarkets: AdminMarket[] = [
   { id: 1001, title: '2026世界杯决赛：巴西 vs 德国，谁将夺冠？', proText: '巴西夺冠', conText: '德国夺冠', status: 'OPEN', poolA: 280920, poolB: 187280, baseA: 1000, baseB: 1000, betCount: 2341, closeTime: Date.parse('2026-07-19T22:00'), createTime: Date.parse('2026-03-01'), source: 'sync_worldcup', isPinned: true, isRecommended: true, tags: ['世界杯', '足球', '热门'], heat: 9800 },
   { id: 1002, title: 'GPT-5 是否会在 2026 Q2 发布？', proText: '会发布', conText: '不会', status: 'OPEN', poolA: 222720, poolB: 148480, baseA: 1000, baseB: 1000, betCount: 1856, closeTime: Date.parse('2026-06-30T23:59'), createTime: Date.parse('2026-02-15'), source: 'sync_polymarket', isPinned: false, isRecommended: true, tags: ['AI', '科技'], heat: 8200 },
+  {
+    id: 10027,
+    title: '亚洲杯决赛：加时前是否战平？（演示三元盘口）',
+    proText: 'A 队常规时间赢',
+    conText: 'B 队常规时间赢',
+    drawText: '常规时间平局',
+    status: 'SETTLED',
+    poolA: 40000,
+    poolB: 35000,
+    poolDraw: 25000,
+    baseA: 1000,
+    baseB: 1000,
+    betCount: 512,
+    closeTime: Date.parse('2026-02-01'),
+    createTime: Date.parse('2025-12-01'),
+    source: 'manual',
+    isPinned: false,
+    isRecommended: false,
+    tags: ['足球', '演示'],
+    heat: 900,
+    outcome: 'DRAW',
+    settledBy: '运营',
+    settleReason: '常规时间 1:1 战平',
+  },
   { id: 1003, title: '特斯拉 Q2 交付量超 50 万辆？', proText: '超过50万', conText: '不到50万', status: 'CLOSED', poolA: 118440, poolB: 78960, baseA: 1000, baseB: 1000, betCount: 987, closeTime: Date.parse('2026-04-01'), createTime: Date.parse('2026-01-20'), source: 'manual', isPinned: false, isRecommended: false, tags: ['特斯拉', '财报'], heat: 3100 },
   { id: 1004, title: '奥斯卡最佳影片由流媒体出品？', proText: '流媒体', conText: '传统片厂', status: 'SETTLED', poolA: 52320, poolB: 78480, baseA: 1000, baseB: 1000, betCount: 654, closeTime: Date.parse('2026-03-15'), createTime: Date.parse('2026-01-05'), source: 'sync_polymarket', isPinned: false, isRecommended: false, tags: ['奥斯卡'], heat: 1200, outcome: 'B', settledBy: '系统自动', settleReason: 'Polymarket 数据同步' },
   { id: 1005, title: '美联储 4 月会议加息？', proText: '加息', conText: '不加息', status: 'OPEN', poolA: 100240, poolB: 186160, baseA: 1000, baseB: 1000, betCount: 1432, closeTime: Date.parse('2026-04-30'), createTime: Date.parse('2026-03-10'), source: 'sync_polymarket', isPinned: true, isRecommended: true, tags: ['美联储', '经济'], heat: 7600 },

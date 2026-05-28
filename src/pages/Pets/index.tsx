@@ -33,14 +33,16 @@ import {
   Table,
   Tag,
   Typography,
-  Image,
 } from 'antd';
-import { TURTLE_API_BASE } from '@/api/api';
 import { useEffect, useMemo, useState } from 'react';
+import { PetDisplayAssetPreview } from '@/components/PetDisplayAssetPreview';
 import { panelStyle } from '@/features/admin/shared';
+import PetEggSettingModal, {
+  type EggSettingFormValues,
+  type EggSettingMode,
+} from './components/PetEggSettingModal';
 import {
   useRequestDeletePetAbility,
-  useRequestDeletePetDefinition,
   useRequestPetDefinitions,
   useRequestPetFeatures,
   useRequestPetKillSwitch,
@@ -60,14 +62,13 @@ import type {
   PetRarity,
 } from '@/types/pet';
 import { getLocalizedLabel } from '@/utils/petAdminAdapters';
+import { getPetDisplayPreviewUrl } from '@/utils/petAssetUrl';
 
 const rarityOptions = PET_RARITY_OPTIONS;
 const killSwitchActions = [
   { label: '关闭开蛋池', value: 'disable_pool' },
   { label: '禁用单项能力', value: 'disable_feature' },
 ];
-
-type EggSettingMode = 'create' | 'edit' | 'detail';
 
 interface PetFormValues {
   pet_id: string;
@@ -85,16 +86,6 @@ interface PetFormValues {
 interface AbilityFormValues {
   feature_key: string;
   params_json: string;
-}
-
-interface EggSettingFormValues {
-  enabled: boolean;
-  obtainable_by_egg: boolean;
-  feature_keys?: string[];
-  display?: PetDisplay;
-  description?: LocalizedText;
-  pricing?: PetPricing;
-  abilities_json?: string;
 }
 
 interface AbilityRow {
@@ -209,18 +200,6 @@ function toBooleanFilter(value: 'all' | 'true' | 'false') {
   return undefined;
 }
 
-function resolveImageUrl(url: string | undefined) {
-  if (!url) {
-    return '';
-  }
-
-  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
-    return url;
-  }
-
-  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
-}
-
 function buildPetPayload(values: PetFormValues, allowedFeatureKeys?: Set<string>) {
   const abilities = normalizeAbilities(
     parseJsonField(values.abilities_json, 'abilities'),
@@ -276,7 +255,6 @@ export default function PetsPage() {
   const petListRequest = useRequestPetDefinitions();
   const petFeaturesRequest = useRequestPetFeatures();
   const savePetRequest = useRequestSavePetDefinition();
-  const deletePetRequest = useRequestDeletePetDefinition();
   const replaceAbilitiesRequest = useRequestReplacePetAbilities();
   const saveAbilityRequest = useRequestSavePetAbility();
   const deleteAbilityRequest = useRequestDeletePetAbility();
@@ -284,11 +262,6 @@ export default function PetsPage() {
   const displayIcon = Form.useWatch(['display', 'icon'], petForm) as string | undefined;
   const displayCover = Form.useWatch(['display', 'cover'], petForm) as string | undefined;
   const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
-  const eggSettingDisplayIcon = Form.useWatch(['display', 'icon'], eggSettingForm) as string | undefined;
-  const eggSettingDisplayCover = Form.useWatch(['display', 'cover'], eggSettingForm) as string | undefined;
-  const eggSettingDisplayThumbnail = Form.useWatch(['display', 'thumbnail'], eggSettingForm) as string | undefined;
-  const eggSettingFeatureKeys = Form.useWatch('feature_keys', eggSettingForm) as string[] | undefined;
-  const eggSettingReadonly = eggSettingMode === 'detail';
 
   const loadPets = async (filters?: PetFilterValues) => {
     const nextKeyword = filters?.keyword ?? keyword;
@@ -387,28 +360,6 @@ export default function PetsPage() {
     () => petRecords.find((item) => item.id === eggSettingPetId),
     [eggSettingPetId, petRecords],
   );
-  const selectedFeatureItems = useMemo(() => {
-    const featureKeySet = new Set(eggSettingFeatureKeys || getAbilityFeatureKeys(eggSettingPet?.abilities));
-
-    return featureOptions.filter((item) => featureKeySet.has(item.feature_key));
-  }, [eggSettingFeatureKeys, eggSettingPet?.abilities, featureOptions]);
-
-  const getFeatureTemplateLabel = (featureKey: string) => {
-    const feature = featureOptions.find((item) => item.feature_key === featureKey);
-
-    if (!feature) {
-      return featureKey;
-    }
-
-    return `${feature.feature_key} · ${getLocalizedLabel(feature.name)}`;
-  };
-
-  const openEggSettingModal = () => {
-    setEggSettingMode('create');
-    setEggSettingPetId(undefined);
-    eggSettingForm.resetFields();
-    setEggSettingOpen(true);
-  };
 
   const closeEggSettingModal = () => {
     setEggSettingOpen(false);
@@ -424,11 +375,6 @@ export default function PetsPage() {
     eggSettingForm.setFieldsValue({
       enabled: record.enabled,
       obtainable_by_egg: record.obtainable_by_egg,
-      feature_keys: getAbilityFeatureKeys(record.abilities),
-      display: record.display,
-      description: record.description,
-      pricing: record.pricing,
-      abilities_json: formatJsonEditor(record.abilities),
     });
     setEggSettingOpen(true);
   };
@@ -445,11 +391,6 @@ export default function PetsPage() {
     eggSettingForm.setFieldsValue({
       enabled: selectedPet.enabled,
       obtainable_by_egg: selectedPet.obtainable_by_egg,
-      feature_keys: getAbilityFeatureKeys(selectedPet.abilities),
-      display: undefined,
-      description: undefined,
-      pricing: selectedPet.pricing,
-      abilities_json: formatJsonEditor(selectedPet.abilities),
     });
   };
 
@@ -489,24 +430,17 @@ export default function PetsPage() {
     }
 
     try {
-      const values = await eggSettingForm.validateFields();
-      if (!values.display?.icon || !values.display.cover || !values.display.thumbnail) {
-        throw new Error('请上传图标资源、封面资源和缩略图资源');
-      }
-      const abilities = normalizeAbilities(
-        parseJsonField(values.abilities_json, 'abilities'),
-        abilityFeatureKeys,
-      );
+      const values = await eggSettingForm.validateFields(['enabled', 'obtainable_by_egg']);
       await savePetRequest.run({
         pet_id: eggSettingPet.pet_id,
         name: eggSettingPet.name,
         rarity: eggSettingPet.rarity,
-        enabled: values.enabled,
-        obtainable_by_egg: values.obtainable_by_egg,
-        display: values.display,
-        description: values.description,
-        pricing: values.pricing,
-        abilities,
+        enabled: values.enabled ?? false,
+        obtainable_by_egg: values.obtainable_by_egg ?? false,
+        display: eggSettingPet.display,
+        description: eggSettingPet.description,
+        pricing: eggSettingPet.pricing,
+        abilities: eggSettingPet.abilities,
       });
       message.success(eggSettingMode === 'edit' ? '开蛋设置已更新' : '开蛋设置已新增');
       closeEggSettingModal();
@@ -536,43 +470,6 @@ export default function PetsPage() {
     } catch (error) {
       message.error(error instanceof Error ? error.message : 'abilities JSON 解析失败');
     }
-  };
-
-  const handleEggSettingFeatureTemplatesChange = (featureKeys: string[]) => {
-    try {
-      const currentAbilities = parseJsonField(
-        eggSettingForm.getFieldValue('abilities_json'),
-        'abilities',
-      ) as PetAbilities | undefined;
-      const nextAbilities = featureKeys.reduce((result, featureKey) => {
-        result[featureKey] = currentAbilities?.[featureKey] ?? {};
-        return result;
-      }, {} as PetAbilities);
-
-      eggSettingForm.setFieldsValue({
-        feature_keys: featureKeys,
-        abilities_json: formatJsonEditor(nextAbilities),
-      });
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : 'abilities JSON 解析失败');
-    }
-  };
-
-  const handleDeletePet = (record: PetDefinition) => {
-    modal.confirm({
-      title: `确认下架 ${record.pet_id} 吗？`,
-      content: '接口约定支持软删，后端通常会将 enabled 置为 false。',
-      okButtonProps: { danger: true },
-      onOk: async () => {
-        try {
-          await deletePetRequest.run(record.id);
-          message.success('龟种已删除');
-          await loadPets();
-        } catch (error) {
-          message.error(error instanceof Error ? error.message : '龟种删除失败');
-        }
-      },
-    });
   };
 
   const handleTogglePetBoolean = async (
@@ -734,64 +631,15 @@ export default function PetsPage() {
     value: string | undefined,
   ) => {
     const trimmed = typeof value === 'string' ? value.trim() : '';
-    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
 
     return (
       <Col span={8}>
         <Form.Item name={['display', field]} label={label}>
-          <Input placeholder="相对路径或完整 URL（如 /uploads/a.png 或 https://…）" allowClear />
+          <Input placeholder="相对路径或完整 URL（PNG/JPG 或 .json 骨骼）" allowClear />
         </Form.Item>
         <div style={{ marginTop: -8 }}>
-          {previewSrc ? (
-            <Image
-              src={previewSrc}
-              alt={label}
-              width={104}
-              height={104}
-              style={{ objectFit: 'cover', borderRadius: 8 }}
-            />
-          ) : (
-            <Typography.Text type="secondary">暂无预览</Typography.Text>
-          )}
-        </div>
-      </Col>
-    );
-  };
-
-  const renderEggSettingDisplayImageField = (
-    field: keyof PetDisplay,
-    label: string,
-    value: string | undefined,
-  ) => {
-    const trimmed = typeof value === 'string' ? value.trim() : '';
-    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
-
-    return (
-      <Col span={8}>
-        <Form.Item
-          name={['display', field]}
-          label={label}
-          required={!eggSettingReadonly}
-          validateStatus={!eggSettingReadonly && Boolean(eggSettingPet) && !trimmed ? 'error' : undefined}
-          help={!eggSettingReadonly && eggSettingPet && !trimmed ? `请填写${label}链接` : undefined}
-        >
-          <Input
-            placeholder="相对路径或完整 URL"
-            allowClear
-            disabled={eggSettingReadonly}
-          />
-        </Form.Item>
-        <div style={{ marginTop: -8 }}>
-          {previewSrc ? (
-            <Image
-              src={previewSrc}
-              alt={label}
-              width={104}
-              height={104}
-              style={{ objectFit: 'cover', borderRadius: 8 }}
-            />
-          ) : eggSettingReadonly ? (
-            <Typography.Text type="secondary">暂无图片</Typography.Text>
+          {trimmed ? (
+            <PetDisplayAssetPreview src={trimmed} alt={label} width={104} height={104} />
           ) : (
             <Typography.Text type="secondary">暂无预览</Typography.Text>
           )}
@@ -803,25 +651,15 @@ export default function PetsPage() {
   const columns: ProColumns<PetDefinition>[] = [
     {
       title: '图片',
-      width: 76,
-      render: (_, record) => {
-        const imageUrl = record.display?.thumbnail || record.display?.icon || record.display?.cover;
-        return imageUrl ? (
-          <img
-            src={resolveImageUrl(imageUrl)}
-            alt={getLocalizedLabel(record.name)}
-            style={{
-              width: 44,
-              height: 44,
-              objectFit: 'cover',
-              borderRadius: 10,
-              border: '1px solid #eaecf0',
-            }}
-          />
-        ) : (
-          '-'
-        );
-      },
+      width: 88,
+      render: (_, record) => (
+        <PetDisplayAssetPreview
+          src={getPetDisplayPreviewUrl(record.display)}
+          alt={getLocalizedLabel(record.name)}
+          width={72}
+          height={72}
+        />
+      ),
     },
     { title: 'Pet ID', dataIndex: 'pet_id', width: 140 },
     {
@@ -868,11 +706,6 @@ export default function PetsPage() {
       ),
     },
     {
-      title: '默认价格',
-      width: 120,
-      render: (_, record) => record.pricing?.egg_price ?? '-',
-    },
-    {
       title: '能力',
       width: 220,
       render: (_, record) => {
@@ -890,23 +723,6 @@ export default function PetsPage() {
       },
     },
     {
-      title: '特性模板',
-      width: 260,
-      render: (_, record) => {
-        const featureKeys = getAbilityFeatureKeys(record.abilities);
-
-        return featureKeys.length ? (
-          <Space size={[0, 6]} wrap>
-            {featureKeys.map((featureKey) => (
-              <Tag key={featureKey}>{getFeatureTemplateLabel(featureKey)}</Tag>
-            ))}
-          </Space>
-        ) : (
-          '-'
-        );
-      },
-    },
-    {
       title: '更新时间',
       width: 180,
       render: (_, record) => record.metadata?.updated_at || '-',
@@ -914,7 +730,7 @@ export default function PetsPage() {
     {
       title: '操作',
       valueType: 'option',
-      width: 240,
+      width: 160,
       render: (_, record) => (
         <Space wrap>
           <Button size="small" icon={<EyeOutlined />} onClick={() => openDetailModal(record)}>
@@ -923,17 +739,6 @@ export default function PetsPage() {
           {canManagePets ? (
             <Button size="small" icon={<EditOutlined />} onClick={() => openEditModal(record)}>
               编辑
-            </Button>
-          ) : null}
-          {canManagePets ? (
-            <Button
-              size="small"
-              danger
-              icon={<DeleteOutlined />}
-              loading={deletePetRequest.loading}
-              onClick={() => handleDeletePet(record)}
-            >
-              删除
             </Button>
           ) : null}
         </Space>
@@ -1058,17 +863,7 @@ export default function PetsPage() {
             <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void loadPets()}>
               刷新
             </Button>,
-            canManagePets ? (
-              <Button
-                key="egg-setting"
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={openEggSettingModal}
-              >
-                新增开蛋设置
-              </Button>
-            ) : null,
-          ].filter(Boolean)}
+          ]}
           tableAlertRender={false}
           tableAlertOptionRender={false}
           rowKey="id"
@@ -1082,259 +877,21 @@ export default function PetsPage() {
         />
       </Space>
 
-      <Modal
-        width={980}
-        title={
-          eggSettingMode === 'detail'
-            ? '开蛋设置详情'
-            : eggSettingMode === 'edit'
-              ? '编辑开蛋设置'
-              : '新增开蛋设置'
-        }
+      <PetEggSettingModal
         open={eggSettingOpen}
+        mode={eggSettingMode}
+        pet={eggSettingPet}
+        petId={eggSettingPetId}
+        petOptions={petRecords.map((item) => ({
+          label: `${item.pet_id} · ${getLocalizedLabel(item.name)} · ${item.rarity}`,
+          value: item.id,
+        }))}
+        form={eggSettingForm}
+        loading={savePetRequest.loading}
         onCancel={closeEggSettingModal}
-        onOk={eggSettingReadonly ? undefined : () => void handleSaveEggSetting()}
-        okText={eggSettingMode === 'edit' ? '保存修改' : '新增'}
-        footer={eggSettingReadonly ? null : undefined}
-        confirmLoading={savePetRequest.loading}
-        destroyOnClose
-      >
-        <Space direction="vertical" size={16} style={{ width: '100%' }}>
-          <ProCard title="基础信息" size="small" style={panelStyle}>
-            <Space direction="vertical" size={16} style={{ width: '100%' }}>
-              <Select
-                showSearch
-                allowClear
-                style={{ width: '100%' }}
-                placeholder="选择龟后自动带出基础信息"
-                value={eggSettingPetId}
-                disabled={eggSettingMode !== 'create'}
-                optionFilterProp="label"
-                options={petRecords.map((item) => ({
-                  label: `${item.pet_id} · ${getLocalizedLabel(item.name)} · ${item.rarity}`,
-                  value: item.id,
-                }))}
-                onChange={handleEggSettingPetChange}
-              />
-
-              {eggSettingPet ? (
-                <Row gutter={[16, 16]}>
-                  <Col xs={24} md={6}>
-                    <Typography.Text type="secondary">图片</Typography.Text>
-                    <div style={{ marginTop: 8 }}>
-                      {eggSettingPet.display?.thumbnail || eggSettingPet.display?.icon || eggSettingPet.display?.cover ? (
-                        <img
-                          src={resolveImageUrl(
-                            eggSettingPet.display?.thumbnail ||
-                              eggSettingPet.display?.icon ||
-                              eggSettingPet.display?.cover,
-                          )}
-                          alt={getLocalizedLabel(eggSettingPet.name)}
-                          style={{
-                            width: 72,
-                            height: 72,
-                            objectFit: 'cover',
-                            borderRadius: 8,
-                            border: '1px solid #eaecf0',
-                          }}
-                        />
-                      ) : (
-                        '-'
-                      )}
-                    </div>
-                  </Col>
-                  <Col xs={24} md={6}>
-                    <Typography.Text type="secondary">Pet ID</Typography.Text>
-                    <div>
-                      <Typography.Text strong>{eggSettingPet.pet_id}</Typography.Text>
-                    </div>
-                  </Col>
-                  <Col xs={24} md={6}>
-                    <Typography.Text type="secondary">稀有度</Typography.Text>
-                    <div>
-                      <Tag color="processing">{eggSettingPet.rarity}</Tag>
-                    </div>
-                  </Col>
-                  <Col xs={24} md={6}>
-                    <Typography.Text type="secondary">中文名称</Typography.Text>
-                    <div>
-                      <Typography.Text strong>{eggSettingPet.name['zh-CN'] || '-'}</Typography.Text>
-                    </div>
-                  </Col>
-                  <Col xs={24} md={6}>
-                    <Typography.Text type="secondary">英文名称</Typography.Text>
-                    <div>
-                      <Typography.Text strong>{eggSettingPet.name['en-US'] || '-'}</Typography.Text>
-                    </div>
-                  </Col>
-                  <Col xs={24} md={9}>
-                    <Typography.Text type="secondary">能力</Typography.Text>
-                    <div style={{ marginTop: 6 }}>
-                      {getAbilityFeatureKeys(eggSettingPet.abilities).length ? (
-                        <Space size={[0, 6]} wrap>
-                          {getAbilityFeatureKeys(eggSettingPet.abilities).map((featureKey) => (
-                            <Tag key={featureKey}>{featureKey}</Tag>
-                          ))}
-                        </Space>
-                      ) : (
-                        '-'
-                      )}
-                    </div>
-                  </Col>
-                  <Col xs={24} md={9}>
-                    <Typography.Text type="secondary">特性</Typography.Text>
-                    <div style={{ marginTop: 6 }}>
-                      {selectedFeatureItems.length ? (
-                        <Space size={[0, 6]} wrap>
-                          {selectedFeatureItems.map((feature) => (
-                            <Tag key={feature.feature_key}>
-                              {feature.feature_key} · {getLocalizedLabel(feature.name)}
-                            </Tag>
-                          ))}
-                        </Space>
-                      ) : (
-                        '-'
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-              ) : (
-                <Alert type="info" showIcon message="请选择一个龟种查看基础信息" />
-              )}
-            </Space>
-          </ProCard>
-
-          <Form form={eggSettingForm} layout="vertical" disabled={!eggSettingPet || eggSettingReadonly}>
-            <Space direction="vertical" size={16} style={{ width: '100%' }}>
-              <ProCard title="开蛋设置" size="small" style={panelStyle}>
-                <Row gutter={16}>
-                  <Col xs={24} md={8}>
-                    <Form.Item name="enabled" label="启用展示" valuePropName="checked">
-                      <Switch checkedChildren="启用" unCheckedChildren="关闭" />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Form.Item name="obtainable_by_egg" label="可开蛋获得" valuePropName="checked">
-                      <Switch checkedChildren="可获得" unCheckedChildren="不可获得" />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Form.Item name={['pricing', 'egg_price']} label="开蛋价格">
-                      <InputNumber min={0} precision={0} style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Form.Item name={['pricing', 'egg_discount', 'type']} label="折扣类型">
-                      <Select
-                        allowClear
-                        placeholder="不配置折扣"
-                        options={[
-                          { label: 'rate', value: 'rate' },
-                          { label: 'fixed', value: 'fixed' },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Form.Item name={['pricing', 'egg_discount', 'value']} label="折扣值">
-                      <InputNumber min={0} style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </ProCard>
-
-              <ProCard title="图片资源" size="small" style={panelStyle}>
-                <Row gutter={16}>
-                  {renderEggSettingDisplayImageField('icon', '图标资源', eggSettingDisplayIcon)}
-                  {renderEggSettingDisplayImageField('cover', '封面资源', eggSettingDisplayCover)}
-                  {renderEggSettingDisplayImageField('thumbnail', '缩略图资源', eggSettingDisplayThumbnail)}
-                </Row>
-              </ProCard>
-
-              <ProCard title="描述文案" size="small" style={panelStyle}>
-                <Row gutter={16}>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      name={['description', 'zh-CN']}
-                      label="中文描述"
-                      rules={[{ required: true, message: '请输入中文描述' }]}
-                    >
-                      <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入中文描述" />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      name={['description', 'en-US']}
-                      label="英文描述"
-                      rules={[{ required: true, message: '请输入英文描述' }]}
-                    >
-                      <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="请输入英文描述" />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </ProCard>
-
-              <ProCard title="能力配置" size="small" style={{ ...panelStyle, display: 'none' }}>
-                <Form.Item
-                  name="feature_keys"
-                  label="特性模板"
-                  extra="选择特性模板会同步 abilities 的 featureKey；已有参数会保留。"
-                >
-                  <Select
-                    mode="multiple"
-                    showSearch
-                    allowClear
-                    placeholder="请选择特性模板"
-                    optionFilterProp="label"
-                    loading={petFeaturesRequest.loading}
-                    options={featureOptions.map((item: FeatureCatalogItem) => ({
-                      label: `${item.feature_key} · ${getLocalizedLabel(item.name)}`,
-                      value: item.feature_key,
-                    }))}
-                    onChange={handleEggSettingFeatureTemplatesChange}
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="abilities_json"
-                  label="Abilities JSON"
-                  rules={[{ required: true, message: '请输入 abilities JSON' }]}
-                >
-                  <Input.TextArea
-                    autoSize={{ minRows: 8, maxRows: 16 }}
-                    placeholder='{"spark_multiplier":{"base":1.3}}'
-                  />
-                </Form.Item>
-              </ProCard>
-
-              <ProCard title="配置的特性" size="small" style={{ ...panelStyle, display: 'none' }}>
-                <Table
-                  rowKey="feature_key"
-                  pagination={false}
-                  dataSource={selectedFeatureItems}
-                  columns={[
-                    { title: 'featureKey', dataIndex: 'feature_key', width: 220 },
-                    {
-                      title: '特性名称',
-                      dataIndex: 'name',
-                      render: (value: LocalizedText) => getLocalizedLabel(value),
-                    },
-                    { title: '作用域', dataIndex: 'scope', width: 120 },
-                    { title: '生效事件', dataIndex: 'effective_event', width: 160 },
-                    {
-                      title: '状态',
-                      dataIndex: 'enabled',
-                      width: 100,
-                      render: (value: boolean) => (
-                        <Tag color={value ? 'success' : 'default'}>{value ? '启用' : '停用'}</Tag>
-                      ),
-                    },
-                  ]}
-                />
-              </ProCard>
-            </Space>
-          </Form>
-        </Space>
-      </Modal>
+        onSave={() => void handleSaveEggSetting()}
+        onPetChange={handleEggSettingPetChange}
+      />
 
       <Modal
         width={960}
@@ -1344,7 +901,7 @@ export default function PetsPage() {
         onOk={() => void handleSavePet()}
         okText="保存"
         confirmLoading={savePetRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={petForm} layout="vertical">
           <Space direction="vertical" size={16} style={{ width: '100%' }}>
@@ -1485,7 +1042,7 @@ export default function PetsPage() {
         open={Boolean(activePet)}
         onCancel={closeAbilitiesModal}
         footer={null}
-        destroyOnClose
+        destroyOnHidden
       >
         {activePet ? (
           <Space direction="vertical" size={16} style={{ width: '100%' }}>
@@ -1590,7 +1147,7 @@ export default function PetsPage() {
         onOk={() => void handleSaveAbility()}
         okText="保存"
         confirmLoading={saveAbilityRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={abilityForm} layout="vertical">
           <Form.Item

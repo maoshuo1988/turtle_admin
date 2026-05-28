@@ -19,36 +19,29 @@ import {
   App,
   Button,
   Col,
-  Empty,
   Form,
-  Image,
   Input,
   Modal,
   Row,
   Select,
   Space,
   Tag,
-  Typography,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
-import { TURTLE_API_BASE } from '@/api/api';
+import { PetDisplayAssetPreview } from '@/components/PetDisplayAssetPreview';
 import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestDeletePetDefinition,
+  useRequestPetAbilityOptions,
   useRequestPetDefinitions,
-  useRequestPetFeatures,
   useRequestSavePetDefinition,
 } from '@/hooks/usePetAdminRequest';
-import { PET_RARITY_OPTIONS } from '@/types/pet';
-import type {
-  PetAbilities,
-  PetAbilityParams,
-  FeatureCatalogItem,
-  LocalizedText,
-  PetDefinition,
-  PetDisplay,
-  PetRarity,
-} from '@/types/pet';
+import { PET_RARITY_OPTIONS, type AbilityOption, type LocalizedText, type PetDefinition, type PetDisplay, type PetRarity } from '@/types/pet';
+import { applyUrlToDisplay, getPetDisplayPreviewUrl } from '@/utils/petAssetUrl';
+import {
+  buildAbilitiesFromOptionKeys,
+  matchAbilityOptionKeys,
+} from '@/utils/petAdminAdapters';
 
 const rarityOptions = PET_RARITY_OPTIONS;
 
@@ -56,9 +49,9 @@ interface PetFormValues {
   pet_id: string;
   name?: LocalizedText;
   rarity: PetRarity;
+  display_url?: string;
   display?: PetDisplay;
-  abilities?: string[];
-  feature_keys?: string[];
+  ability_option_keys?: string[];
 }
 
 interface PetFilterValues {
@@ -66,24 +59,8 @@ interface PetFilterValues {
   rarity?: PetRarity | 'all';
 }
 
-function resolveImageUrl(url: string | undefined) {
-  if (!url) {
-    return '';
-  }
-
-  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
-    return url;
-  }
-
-  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
-}
-
 function getLocaleText(value: LocalizedText | undefined, locale: string) {
   return value?.[locale] || '-';
-}
-
-function getPetImage(record: PetDefinition) {
-  return record.display?.thumbnail || record.display?.icon || record.display?.cover;
 }
 
 function compactObject(value: Record<string, unknown> | undefined) {
@@ -118,37 +95,20 @@ function compactObject(value: Record<string, unknown> | undefined) {
   return Object.keys(next).length ? next : undefined;
 }
 
-function buildAbilitiesPayload(
-  selectedAbilityKeys: string[] | undefined,
-  selectedFeatureKeys: string[] | undefined,
-  currentPet: PetDefinition | null | undefined,
-  abilityParamMap: Map<string, PetAbilityParams>,
-) {
-  const selectedKeys = Array.from(new Set([...(selectedAbilityKeys || []), ...(selectedFeatureKeys || [])]));
-
-  if (!selectedKeys.length) {
-    return undefined;
-  }
-
-  const abilities = selectedKeys.reduce((result, featureKey) => {
-    result[featureKey] = currentPet?.abilities?.[featureKey] ?? abilityParamMap.get(featureKey) ?? {};
-    return result;
-  }, {} as PetAbilities);
-
-  return Object.keys(abilities).length ? abilities : undefined;
-}
-
 function buildPetPayload(
   values: PetFormValues,
   currentPet: PetDefinition | null | undefined,
-  abilityParamMap: Map<string, PetAbilityParams>,
+  abilityOptionMap: Map<string, AbilityOption>,
 ) {
   const base = compactObject({
     pet_id: values.pet_id,
     name: values.name,
     rarity: values.rarity,
-    display: values.display,
   }) as Record<string, unknown> | undefined;
+
+  const displayFromUrl = values.display_url?.trim()
+    ? applyUrlToDisplay(values.display_url.trim())
+    : {};
 
   return {
     pet_id: String(base?.pet_id ?? '').trim(),
@@ -158,12 +118,25 @@ function buildPetPayload(
     obtainable_by_egg: currentPet?.obtainable_by_egg ?? true,
     display: {
       ...currentPet?.display,
-      ...(base?.display as PetDisplay | undefined),
+      ...displayFromUrl,
     },
     description: currentPet?.description,
     pricing: currentPet?.pricing,
-    abilities: buildAbilitiesPayload(values.abilities, values.feature_keys, currentPet, abilityParamMap),
+    abilities: buildAbilitiesFromOptionKeys(values.ability_option_keys, abilityOptionMap),
   } satisfies Omit<PetDefinition, 'raw' | 'id'>;
+}
+
+function getAbilityLabelsForPet(
+  pet: PetDefinition,
+  abilityOptions: AbilityOption[],
+  abilityOptionMap: Map<string, AbilityOption>,
+) {
+  const matchedKeys = matchAbilityOptionKeys(pet.abilities, abilityOptions);
+  if (matchedKeys.length) {
+    return matchedKeys.map((optionKey) => abilityOptionMap.get(optionKey)?.name || optionKey);
+  }
+
+  return Object.keys(pet.abilities || {});
 }
 
 export default function PetTypesPage() {
@@ -176,11 +149,12 @@ export default function PetTypesPage() {
   const [editingPetId, setEditingPetId] = useState<string | null>(null);
   const [editingPet, setEditingPet] = useState<PetDefinition | null>(null);
   const petListRequest = useRequestPetDefinitions();
-  const petFeaturesRequest = useRequestPetFeatures();
+  const abilityOptionsRequest = useRequestPetAbilityOptions();
   const savePetRequest = useRequestSavePetDefinition();
   const deletePetRequest = useRequestDeletePetDefinition();
 
-  const displayThumbnail = Form.useWatch(['display', 'thumbnail'], petForm) as string | undefined;
+  const displayUrl = Form.useWatch('display_url', petForm) as string | undefined;
+  const formRarity = Form.useWatch('rarity', petForm) as PetRarity | undefined;
 
   const loadPets = async (nextFilters = filters) => {
     try {
@@ -195,65 +169,53 @@ export default function PetTypesPage() {
     }
   };
 
-  const loadPetFeatureOptions = async () => {
+  const loadAbilityOptions = async (rarity?: PetRarity) => {
     try {
-      await petFeaturesRequest.run({
-        current: 1,
-        pageSize: 200,
-        scope: 'PET',
-        enabled: true,
+      await abilityOptionsRequest.run({
+        selectableOnly: false,
+        rarity,
       });
     } catch (error) {
-      message.error(error instanceof Error ? error.message : '特性模板加载失败');
+      message.error(error instanceof Error ? error.message : '能力预设加载失败');
     }
   };
 
   useEffect(() => {
     void loadPets();
-    void loadPetFeatureOptions();
+    void loadAbilityOptions();
     // Initial bootstrap only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);
-  const featureOptions = useMemo(
-    () => petFeaturesRequest.data?.data || [],
-    [petFeaturesRequest.data?.data],
-  );
-  const abilityParamMap = useMemo(() => {
-    const next = new Map<string, PetAbilityParams>();
-
-    petRecords.forEach((pet) => {
-      Object.entries(pet.abilities || {}).forEach(([featureKey, params]) => {
-        if (!next.has(featureKey)) {
-          next.set(featureKey, params);
-        }
-      });
-    });
-
-    return next;
-  }, [petRecords]);
-  const abilityOptions = useMemo(
-    () => [...abilityParamMap.keys()].map((featureKey) => ({ label: featureKey, value: featureKey })),
-    [abilityParamMap],
-  );
-  const featureTemplateOptions = useMemo(
-    () =>
-      featureOptions.map((item: FeatureCatalogItem) => ({
-        label: `${item.feature_key} · ${getLocaleText(item.name, 'zh-CN')}`,
-        value: item.feature_key,
-      })),
-    [featureOptions],
-  );
-  const getFeatureTemplateLabel = (featureKey: string) => {
-    const feature = featureOptions.find((item) => item.feature_key === featureKey);
-
-    if (!feature) {
-      return featureKey;
+  useEffect(() => {
+    if (!editorOpen || !formRarity) {
+      return;
     }
+    void loadAbilityOptions(formRarity);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorOpen, formRarity]);
 
-    return `${feature.feature_key} · ${getLocaleText(feature.name, 'zh-CN')}`;
-  };
+  const petRecords = useMemo(() => petListRequest.data?.data || [], [petListRequest.data?.data]);
+  const abilityOptions = useMemo(
+    () => abilityOptionsRequest.data?.data || [],
+    [abilityOptionsRequest.data?.data],
+  );
+  const abilityOptionMap = useMemo(
+    () => new Map(abilityOptions.map((item) => [item.optionKey, item])),
+    [abilityOptions],
+  );
+  const abilitySelectOptions = useMemo(
+    () =>
+      abilityOptions.map((option) => ({
+        label: `${option.name || option.optionKey} (${option.optionKey})`,
+        value: option.optionKey,
+        disabled: !option.selectable,
+        title: option.selectable
+          ? option.description || undefined
+          : option.disabledReason || option.description || undefined,
+      })),
+    [abilityOptions],
+  );
 
   const handleFilterSubmit = async (values: PetFilterValues) => {
     const nextFilters: PetFilterValues = {
@@ -275,25 +237,14 @@ export default function PetTypesPage() {
       title: '龟图片',
       width: 120,
       search: false,
-      render: (_, record) => {
-        const imageUrl = resolveImageUrl(getPetImage(record));
-
-        return imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={getLocaleText(record.name, 'zh-CN')}
-            width={64}
-            height={64}
-            style={{
-              objectFit: 'cover',
-              borderRadius: 8,
-              border: '1px solid #eaecf0',
-            }}
-          />
-        ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
-        );
-      },
+      render: (_, record) => (
+        <PetDisplayAssetPreview
+          src={getPetDisplayPreviewUrl(record.display)}
+          alt={getLocaleText(record.name, 'zh-CN')}
+          width={72}
+          height={72}
+        />
+      ),
     },
     { title: 'Pet ID', dataIndex: 'pet_id', width: 180 },
     {
@@ -316,35 +267,16 @@ export default function PetTypesPage() {
       title: '能力',
       dataIndex: 'abilities',
       render: (_, record) => {
-        const abilityKeys = Object.keys(record.abilities || {});
+        const labels = getAbilityLabelsForPet(record, abilityOptions, abilityOptionMap);
 
-        if (!abilityKeys.length) {
+        if (!labels.length) {
           return '-';
         }
 
         return (
           <Space wrap size={[4, 4]}>
-            {abilityKeys.map((featureKey) => (
-              <Tag key={featureKey}>{featureKey}</Tag>
-            ))}
-          </Space>
-        );
-      },
-    },
-    {
-      title: '特性模板',
-      dataIndex: 'abilities',
-      render: (_, record) => {
-        const abilityKeys = Object.keys(record.abilities || {});
-
-        if (!abilityKeys.length) {
-          return '-';
-        }
-
-        return (
-          <Space wrap size={[4, 4]}>
-            {abilityKeys.map((featureKey) => (
-              <Tag key={featureKey}>{getFeatureTemplateLabel(featureKey)}</Tag>
+            {labels.map((label) => (
+              <Tag key={label}>{label}</Tag>
             ))}
           </Space>
         );
@@ -360,7 +292,7 @@ export default function PetTypesPage() {
             <Button
               size="small"
               icon={<EditOutlined />}
-              onClick={() => openEditModal(record)}
+              onClick={() => void openEditModal(record)}
             >
               编辑
             </Button>
@@ -387,27 +319,31 @@ export default function PetTypesPage() {
     petForm.resetFields();
     petForm.setFieldsValue({
       rarity: 'C',
-      abilities: [],
-      feature_keys: [],
+      ability_option_keys: [],
     });
     setEditorOpen(true);
+    void loadAbilityOptions('C');
   };
 
-  const openEditModal = (record: PetDefinition) => {
-    setEditingPetId(record.id);
-    setEditingPet(record);
-    petForm.setFieldsValue({
-      pet_id: record.pet_id,
-      name: record.name,
-      rarity: record.rarity,
-      display: {
-        ...record.display,
-        thumbnail: getPetImage(record),
-      },
-      abilities: Object.keys(record.abilities || {}),
-      feature_keys: Object.keys(record.abilities || {}),
-    });
-    setEditorOpen(true);
+  const openEditModal = async (record: PetDefinition) => {
+    try {
+      const result = await abilityOptionsRequest.run({
+        selectableOnly: false,
+        rarity: record.rarity,
+      });
+      setEditingPetId(record.id);
+      setEditingPet(record);
+      petForm.setFieldsValue({
+        pet_id: record.pet_id,
+        name: record.name,
+        rarity: record.rarity,
+        display_url: getPetDisplayPreviewUrl(record.display),
+        ability_option_keys: matchAbilityOptionKeys(record.abilities, result.data),
+      });
+      setEditorOpen(true);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '能力预设加载失败');
+    }
   };
 
   const closeEditor = () => {
@@ -420,7 +356,7 @@ export default function PetTypesPage() {
   const handleSavePet = async () => {
     try {
       const values = await petForm.validateFields();
-      const payload = buildPetPayload(values, editingPet, abilityParamMap);
+      const payload = buildPetPayload(values, editingPet, abilityOptionMap);
       await savePetRequest.run(payload);
       message.success(editingPetId ? '龟种已更新' : '龟种已添加');
       closeEditor();
@@ -449,35 +385,23 @@ export default function PetTypesPage() {
     });
   };
 
-  const renderImageUpload = () => {
-    const trimmed = displayThumbnail?.trim() ?? '';
-    const previewSrc = trimmed ? resolveImageUrl(trimmed) : '';
-
-    return (
-      <Form.Item label="图片" required>
-        <Space direction="vertical" size={8} style={{ width: '100%' }}>
-          <Form.Item
-            name={['display', 'thumbnail']}
-            rules={[{ required: true, message: '请输入图片链接' }]}
-            noStyle
-          >
-            <Input placeholder="相对路径或完整 URL" allowClear />
-          </Form.Item>
-          {previewSrc ? (
-            <Image
-              src={previewSrc}
-              alt="预览"
-              width={104}
-              height={104}
-              style={{ objectFit: 'cover', borderRadius: 8 }}
-            />
-          ) : (
-            <Typography.Text type="secondary">暂无预览</Typography.Text>
-          )}
-        </Space>
-      </Form.Item>
-    );
-  };
+  const renderDisplayAssetFields = () => (
+    <Form.Item label="展示资源链接" required>
+      <Space direction="vertical" size={8} style={{ width: '100%' }}>
+        <Form.Item
+          name="display_url"
+          rules={[{ required: true, message: '请输入资源链接' }]}
+          noStyle
+        >
+          <Input
+            placeholder="PNG/JPG 等显示图片；.json 显示骨骼动画（需同目录有同名 .atlas）"
+            allowClear
+          />
+        </Form.Item>
+        <PetDisplayAssetPreview src={displayUrl} alt="资源预览" width={120} height={120} />
+      </Space>
+    </Form.Item>
+  );
 
   return (
     <PageContainer title={false}>
@@ -550,7 +474,7 @@ export default function PetTypesPage() {
         onOk={() => void handleSavePet()}
         okText="保存"
         confirmLoading={savePetRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={petForm} layout="vertical">
           <ProCard title="基础信息" size="small" style={panelStyle}>
@@ -595,32 +519,24 @@ export default function PetTypesPage() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Form.Item name="abilities" label="能力">
+                <Form.Item
+                  name="ability_option_keys"
+                  label="能力"
+                  extra="从能力预设列表选择，保存时会写入对应 abilities 参数"
+                >
                   <Select
                     mode="multiple"
                     showSearch
                     allowClear
-                    placeholder="选择能力"
+                    placeholder="选择能力预设"
                     optionFilterProp="label"
-                    options={abilityOptions}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item name="feature_keys" label="特性模板">
-                  <Select
-                    mode="multiple"
-                    showSearch
-                    allowClear
-                    placeholder="选择特性模板"
-                    optionFilterProp="label"
-                    loading={petFeaturesRequest.loading}
-                    options={featureTemplateOptions}
+                    loading={abilityOptionsRequest.loading}
+                    options={abilitySelectOptions}
                   />
                 </Form.Item>
               </Col>
             </Row>
-            {renderImageUpload()}
+            {renderDisplayAssetFields()}
           </ProCard>
         </Form>
       </Modal>

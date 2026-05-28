@@ -5,7 +5,7 @@ import {
   createIntl,
   IntlShape,
   MessageDescriptor,
-} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/react-intl';
+} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/react-intl';
 import { getPluginManager } from '../core/plugin';
 import EventEmitter from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/event-emitter';
 // @ts-ignore
@@ -34,7 +34,7 @@ export {
   defineMessages,
   injectIntl,
   useIntl,
-} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/@umijs/plugins/node_modules/react-intl';
+} from '/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/react-intl';
 
 let g_intl: IntlShape;
 

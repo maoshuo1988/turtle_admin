@@ -114,3 +114,35 @@ export interface DeletePetAbilityPayload {
   petDefinitionId: string;
   featureKey: string;
 }
+
+export interface AbilityOptionSourcePet {
+  petKey: string;
+  name: string;
+  rarity: string;
+}
+
+export interface AbilityOption {
+  optionKey: string;
+  name: string;
+  description: string;
+  sourcePet: AbilityOptionSourcePet;
+  featureKeys: string[];
+  effectiveEvents: FeatureEffectiveEvent[];
+  abilities: PetAbilities;
+  selectable: boolean;
+  disabledReason: string;
+  raw: Record<string, unknown>;
+}
+
+export interface AbilityOptionListParams {
+  featureKey?: string;
+  rarity?: PetRarity | 'all';
+  selectableOnly?: boolean;
+  keyword?: string;
+}
+
+export interface AbilityOptionListResult {
+  data: AbilityOption[];
+  total: number;
+  success: boolean;
+}

@@ -84,6 +84,19 @@ function pickBoolean(source: AnyRecord, ...keys: string[]) {
   return toBoolean(firstValue(source, keys));
 }
 
+/** 仅当接口显式下发平局池字段时解析，避免二元盘被误判为三元盘 */
+function pickOptionalPoolDraw(market: AnyRecord, context: AnyRecord): number | undefined {
+  const raw =
+    firstValue(market, ['poolDraw', 'poolC', 'tiePool', 'pool_c']) ??
+    firstValue(context, ['poolDraw', 'tiePool', 'tie_pool', 'tiePoolAmount']);
+  if (raw === undefined || raw === null || raw === '') {
+    return undefined;
+  }
+
+  const n = toNumber(raw, NaN);
+  return Number.isFinite(n) ? n : undefined;
+}
+
 function pickRecord(source: AnyRecord, ...keys: string[]) {
   for (const key of keys) {
     const value = source[key];
@@ -209,9 +222,21 @@ export function mapMarket(item: unknown): AdminMarket {
   const tags = parseTags(firstValue(context, ['tags']));
   const poolA = pickNumber(market, 'poolA');
   const poolB = pickNumber(market, 'poolB');
+  const poolDraw = pickOptionalPoolDraw(market, context);
   const proVoteCount = pickNumber(context, 'proVoteCount');
   const conVoteCount = pickNumber(context, 'conVoteCount');
   const result = pickString(market, 'result').toUpperCase();
+  const drawTextRaw = pickString(context, 'drawText', 'tieText', 'neutralText', 'draw_text', 'tie_text');
+  const drawText = drawTextRaw.trim() || undefined;
+
+  let outcome: AdminMarket['outcome'] = null;
+  if (result === 'A' || result === 'B') {
+    outcome = result;
+  } else if (result === 'VOID') {
+    outcome = 'VOID';
+  } else if (result === 'DRAW' || result === 'TIE' || result === 'D' || result === 'C') {
+    outcome = 'DRAW';
+  }
 
   return {
     id: pickNumber(market, 'id'),
@@ -221,6 +246,7 @@ export function mapMarket(item: unknown): AdminMarket {
     status: (pickString(market, 'status').toUpperCase() as AdminMarket['status']) || 'OPEN',
     poolA,
     poolB,
+    poolDraw,
     baseA: pickNumber(market, 'baseA'),
     baseB: pickNumber(market, 'baseB'),
     betCount: pickNumber(context, 'participantCount', 'betCount') || proVoteCount + conVoteCount,
@@ -238,7 +264,8 @@ export function mapMarket(item: unknown): AdminMarket {
     sideABgColor: pickString(context, 'sideABgColor', 'side_a_bg_color'),
     sideBBgColor: pickString(context, 'sideBBgColor', 'side_b_bg_color'),
     detail: pickString(context, 'detail'),
-    outcome: result === 'A' || result === 'B' ? result : result === 'VOID' ? 'VOID' : null,
+    drawText,
+    outcome,
     settledBy: pickString(market, 'resolvedBy', 'settledBy'),
     settleReason: pickString(market, 'remark', 'settleReason'),
   };

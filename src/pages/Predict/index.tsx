@@ -82,6 +82,26 @@ function resolveImageUrl(url: string | undefined) {
   return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
 }
 
+function hasPredictDrawLane(market: AdminMarket): boolean {
+  return market.poolDraw !== undefined || Boolean(market.drawText?.trim());
+}
+
+function settleOutcomeLabel(market: AdminMarket): string {
+  if (market.status !== 'SETTLED') {
+    return '';
+  }
+  if (market.outcome === 'A') {
+    return market.proText;
+  }
+  if (market.outcome === 'B') {
+    return market.conText;
+  }
+  if (market.outcome === 'DRAW') {
+    return market.drawText?.trim() || '平局';
+  }
+  return '—';
+}
+
 function ContextImageField({
   label,
   name,
@@ -386,11 +406,22 @@ export default function PredictPage() {
           ) : null}
 
           {filtered.map((market) => {
-            const total = market.poolA + market.poolB;
-            const pctA = total ? Math.round((market.poolA / total) * 100) : 50;
-            const pctB = 100 - pctA;
-            const oddsA = total ? (total / market.poolA).toFixed(2) : '—';
-            const oddsB = total ? (total / market.poolB).toFixed(2) : '—';
+            const hasDraw = hasPredictDrawLane(market);
+            const tiePool = hasDraw ? (market.poolDraw ?? 0) : 0;
+            const drawLabel = market.drawText?.trim() || '平局';
+            const total = hasDraw ? market.poolA + market.poolB + tiePool : market.poolA + market.poolB;
+            const pctA = total ? Math.round((market.poolA / total) * 100) : hasDraw ? 34 : 50;
+            const pctB = total
+              ? hasDraw
+                ? Math.round((market.poolB / total) * 100)
+                : Math.max(0, 100 - pctA)
+              : hasDraw
+                ? 33
+                : 50;
+            const pctDraw = hasDraw && total ? Math.max(0, 100 - pctA - pctB) : 0;
+            const oddsA = market.poolA > 0 && total ? (total / market.poolA).toFixed(2) : '—';
+            const oddsB = market.poolB > 0 && total ? (total / market.poolB).toFixed(2) : '—';
+            const oddsDraw = hasDraw && tiePool > 0 && total ? (total / tiePool).toFixed(2) : '—';
 
             return (
               <ProCard key={market.id} style={panelStyle}>
@@ -420,27 +451,94 @@ export default function PredictPage() {
                   ) : null}
 
                   <div>
-                    <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                      <Typography.Text style={{ color: '#344054' }}>
-                        正方: {market.proText} ({pctA}%)
-                      </Typography.Text>
-                      <Typography.Text style={{ color: '#344054' }}>
-                        反方: {market.conText} ({pctB}%)
-                      </Typography.Text>
-                    </Space>
-                    <Progress
-                      percent={pctA}
-                      showInfo={false}
-                      strokeColor="#1677ff"
-                      trailColor="#fa8c16"
-                    />
+                    {hasDraw ? (
+                      <>
+                        <Space
+                          style={{
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            flexWrap: 'wrap',
+                            rowGap: 8,
+                          }}
+                        >
+                          <Typography.Text style={{ color: '#344054' }}>
+                            正方: {market.proText} ({pctA}%)
+                          </Typography.Text>
+                          <Typography.Text style={{ color: '#595959' }}>
+                            {drawLabel} ({pctDraw}%)
+                          </Typography.Text>
+                          <Typography.Text style={{ color: '#344054' }}>
+                            反方: {market.conText} ({pctB}%)
+                          </Typography.Text>
+                        </Space>
+                        <div
+                          style={{
+                            display: 'flex',
+                            height: 10,
+                            borderRadius: 6,
+                            overflow: 'hidden',
+                            marginTop: 8,
+                            border: '1px solid rgba(0,0,0,0.06)',
+                          }}
+                        >
+                          <div
+                            style={{
+                              flex: Math.max(pctA, 1),
+                              background: '#1677ff',
+                              minWidth: pctA ? 2 : 0,
+                            }}
+                          />
+                          <div
+                            style={{
+                              flex: Math.max(pctDraw, 1),
+                              background: '#8c8c8c',
+                              minWidth: pctDraw ? 2 : 0,
+                            }}
+                          />
+                          <div
+                            style={{
+                              flex: Math.max(pctB, 1),
+                              background: '#fa8c16',
+                              minWidth: pctB ? 2 : 0,
+                            }}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+                          <Typography.Text style={{ color: '#344054' }}>
+                            正方: {market.proText} ({pctA}%)
+                          </Typography.Text>
+                          <Typography.Text style={{ color: '#344054' }}>
+                            反方: {market.conText} ({pctB}%)
+                          </Typography.Text>
+                        </Space>
+                        <Progress
+                          percent={pctA}
+                          showInfo={false}
+                          strokeColor="#1677ff"
+                          trailColor="#fa8c16"
+                        />
+                      </>
+                    )}
                   </div>
 
                   <Space wrap size={[16, 8]}>
                     <MetricLine label="投注数" value={market.betCount} />
                     <MetricLine label="总金额" value={fmtNum(total)} />
                     <MetricLine label="赔率A" value={`x${oddsA}`} valueColor="#1677ff" />
+                    {hasDraw ? (
+                      <MetricLine
+                        label={`赔率·${drawLabel}`}
+                        value={`x${oddsDraw}`}
+                        valueColor="#595959"
+                      />
+                    ) : null}
                     <MetricLine label="赔率B" value={`x${oddsB}`} valueColor="#fa8c16" />
+                    {hasDraw ? (
+                      <MetricLine label="平局池" value={fmtNum(tiePool)} valueColor="#595959" />
+                    ) : null}
                     <MetricLine label="截止" value={fmtDate(market.closeTime)} />
                     <MetricLine
                       label="热度"
@@ -466,7 +564,7 @@ export default function PredictPage() {
                       <Space wrap>
                         <Typography.Text strong>
                           {market.status === 'SETTLED'
-                            ? `结算结果: ${market.outcome === 'A' ? market.proText : market.conText}`
+                            ? `结算结果: ${settleOutcomeLabel(market)}`
                             : '已作废'}
                         </Typography.Text>
                         <Typography.Text>操作人: {market.settledBy}</Typography.Text>
@@ -514,8 +612,18 @@ export default function PredictPage() {
               <Alert
                 type="info"
                 showIcon
-                message={`正方 ${marketStatsRequest.data.proAmount} / 反方 ${marketStatsRequest.data.conAmount}`}
-                description={`投注人数 ${marketStatsRequest.data.proUserCount}:${marketStatsRequest.data.conUserCount}，总下注 ${marketStatsRequest.data.totalAmount}`}
+                message={`正方 ${marketStatsRequest.data.proAmount} / 反方 ${marketStatsRequest.data.conAmount}${
+                  marketStatsRequest.data.drawAmount !== undefined
+                    ? ` / ${settleModal.drawText?.trim() || '平局'} ${marketStatsRequest.data.drawAmount}`
+                    : ''
+                }`}
+                description={`投注人数 正${marketStatsRequest.data.proUserCount} : 反${
+                  marketStatsRequest.data.conUserCount
+                }${
+                  marketStatsRequest.data.drawUserCount !== undefined
+                    ? ` : ${settleModal.drawText?.trim() || '平局'}${marketStatsRequest.data.drawUserCount}`
+                    : ''
+                }，总下注 ${marketStatsRequest.data.totalAmount}`}
               />
             ) : null}
             <Segmented
@@ -549,10 +657,18 @@ export default function PredictPage() {
             <Space wrap>
               <Tag color="processing">正方人数 {marketStatsRequest.data.proUserCount}</Tag>
               <Tag color="warning">反方人数 {marketStatsRequest.data.conUserCount}</Tag>
+              {marketStatsRequest.data.drawUserCount !== undefined ? (
+                <Tag>平局人数 {marketStatsRequest.data.drawUserCount}</Tag>
+              ) : null}
               <Tag>总下注 {marketStatsRequest.data.totalAmount}</Tag>
               <Tag>总笔数 {marketStatsRequest.data.totalBetCount}</Tag>
             </Space>
             <Typography.Text>正方金额：{marketStatsRequest.data.proAmount}</Typography.Text>
+            {marketStatsRequest.data.drawAmount !== undefined ? (
+              <Typography.Text>
+                {statsModal.drawText?.trim() || '平局'}金额：{marketStatsRequest.data.drawAmount}
+              </Typography.Text>
+            ) : null}
             <Typography.Text>反方金额：{marketStatsRequest.data.conAmount}</Typography.Text>
           </Space>
         ) : null}
@@ -572,7 +688,7 @@ export default function PredictPage() {
         okText={contextMode === 'create' ? '新增' : '保存'}
         cancelText="取消"
         confirmLoading={updatePredictContextRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={contextForm} layout="vertical">
           <Form.Item

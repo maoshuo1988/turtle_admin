@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { API_UPLOAD_IMAGE } from '@/api/api';
 import {
   API_ADMIN_PET_DEFS,
+  API_ADMIN_PET_ABILITY_OPTIONS,
   API_ADMIN_PET_FEATURES,
   API_ADMIN_PET_GACHA_CONFIG,
   API_ADMIN_PET_GACHA_CONFIG_RESET,
@@ -14,6 +15,8 @@ import {
 } from '@/api/admin_api';
 import { axiosCustom } from '@/api/axios';
 import type {
+  AbilityOptionListParams,
+  AbilityOptionListResult,
   DeletePetAbilityPayload,
   FeatureCatalogItem,
   FeatureCatalogListParams,
@@ -27,6 +30,7 @@ import type {
 } from '@/types/pet';
 import { normalizePageResult } from '@/utils/adminAdapters';
 import {
+  mapAbilityOption,
   mapFeatureCatalogItem,
   mapGachaPoolConfig,
   mapPetDefinition,
@@ -237,6 +241,48 @@ async function requestDeletePetFeature(featureKey: string) {
   return assertSuccess(response);
 }
 
+async function requestPetAbilityOptions(
+  params: AbilityOptionListParams = {},
+): Promise<AbilityOptionListResult> {
+  const response = await axiosCustom<unknown>({
+    method: 'get',
+    cmd: API_ADMIN_PET_ABILITY_OPTIONS,
+    params: {
+      feature_key: params.featureKey?.trim() || undefined,
+      rarity: params.rarity && params.rarity !== 'all' ? params.rarity : undefined,
+      selectable_only: params.selectableOnly ?? true,
+    },
+    headers: getAuthorizationHeaders(),
+  });
+
+  const pageResult = normalizePageResult(assertSuccess(response), mapAbilityOption);
+  const normalizedKeyword = params.keyword?.trim().toLowerCase();
+  const filtered = normalizedKeyword
+    ? pageResult.data.filter((item) =>
+        [
+          item.optionKey,
+          item.name,
+          item.description,
+          item.sourcePet.petKey,
+          item.sourcePet.name,
+          item.sourcePet.rarity,
+          ...item.featureKeys,
+          ...item.effectiveEvents,
+          JSON.stringify(item.abilities),
+        ]
+          .join(' ')
+          .toLowerCase()
+          .includes(normalizedKeyword),
+      )
+    : pageResult.data;
+
+  return {
+    data: filtered,
+    total: normalizedKeyword ? filtered.length : pageResult.total,
+    success: true,
+  };
+}
+
 async function requestReplacePetAbilities(payload: ReplacePetAbilitiesPayload) {
   const response = await axiosCustom<unknown>({
     method: 'put',
@@ -384,6 +430,13 @@ export function useRequestSavePetFeature() {
 
 export function useRequestDeletePetFeature() {
   return useMutationRequest(['requestDeletePetFeature'], requestDeletePetFeature);
+}
+
+export function useRequestPetAbilityOptions() {
+  return useLazyQueryRequest(
+    (params: AbilityOptionListParams) => ['requestPetAbilityOptions', params],
+    requestPetAbilityOptions,
+  );
 }
 
 export function useRequestReplacePetAbilities() {

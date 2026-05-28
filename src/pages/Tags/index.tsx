@@ -324,7 +324,7 @@ export default function TagsPage() {
         onOk={() => void handleCreate()}
         okText="创建"
         confirmLoading={tagCreateRequest.loading}
-        destroyOnClose
+        destroyOnHidden
         width={560}
       >
         {canManageTags ? (

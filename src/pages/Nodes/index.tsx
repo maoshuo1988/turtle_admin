@@ -278,7 +278,7 @@ export default function NodesPage() {
         onCancel={() => setEditingNode(null)}
         onOk={() => void editForm.submit()}
         confirmLoading={updateNodeRequest.loading}
-        destroyOnClose
+        destroyOnHidden
       >
         <Form form={editForm} layout="vertical" onFinish={(values) => void handleUpdateNode(values)}>
           <Form.Item

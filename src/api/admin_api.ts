@@ -23,6 +23,7 @@ export const API_ADMIN_BATTLE_RESOLVE = '/api/admin/battle/resolve';
 export const API_ADMIN_PET_DEFS = '/api/admin/pet/defs';
 export const API_ADMIN_PET_KILL_SWITCH = '/api/admin/pet/kill-switch';
 export const API_ADMIN_PET_FEATURES = '/api/admin/pet/features';
+export const API_ADMIN_PET_ABILITY_OPTIONS = '/api/admin/pet/ability-options';
 export const API_ADMIN_PET_GACHA_CONFIG = '/api/admin/pet/gacha/config';
 export const API_ADMIN_PET_GACHA_CONFIG_RESET = '/api/admin/pet/gacha/config/reset';
 

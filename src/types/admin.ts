@@ -39,6 +39,9 @@ export interface PredictMarketStatsResponse {
   conUserCount: number;
   proAmount: number;
   conAmount: number;
+  /** 平局侧（三元盘口可选） */
+  drawUserCount?: number;
+  drawAmount?: number;
   totalAmount: number;
   totalBetCount: number;
 }
