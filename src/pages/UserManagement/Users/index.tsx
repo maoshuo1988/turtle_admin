@@ -1,5 +1,19 @@
-import { CrownOutlined, MoreOutlined, PlusOutlined, StopOutlined, UndoOutlined } from '@ant-design/icons';
-import { PageContainer, ProCard } from '@ant-design/pro-components';
+import {
+  CrownOutlined,
+  MoreOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  StopOutlined,
+  UndoOutlined,
+} from '@ant-design/icons';
+import {
+  PageContainer,
+  ProCard,
+  ProFormText,
+  ProTable,
+  QueryFilter,
+  type ProColumns,
+} from '@ant-design/pro-components';
 import {
   Alert,
   App,
@@ -10,12 +24,12 @@ import {
   InputNumber,
   Modal,
   Space,
-  Table,
   Tag,
   Typography,
   type MenuProps,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { panelStyle } from '@/features/admin/shared';
 import {
   useRequestForbiddenUser,
   useRequestGrantAdmin,
@@ -23,13 +37,39 @@ import {
   useRequestRevokeAdmin,
   useRequestUsers,
 } from '@/hooks/useUserManagementRequest';
-import { panelStyle } from '@/features/admin/shared';
 import type { AdminUserRecord } from '@/types/admin';
+
+interface UserFilterValues {
+  id?: number;
+  username?: string;
+  nickname?: string;
+  email?: string;
+}
+
+const DEFAULT_PAGE_SIZE = 20;
+
+function parseOptionalUserId(value: unknown) {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+
+  const num = typeof value === 'number' ? value : Number(value);
+  if (!Number.isFinite(num) || num <= 0) {
+    return undefined;
+  }
+
+  return Math.trunc(num);
+}
 
 export default function UsersPage() {
   const { message } = App.useApp();
   const [mintForm] = Form.useForm<{ amount: number; remark?: string }>();
   const [mintModalUser, setMintModalUser] = useState<AdminUserRecord | null>(null);
+  const [filters, setFilters] = useState<UserFilterValues>({});
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: DEFAULT_PAGE_SIZE,
+  });
 
   const usersRequest = useRequestUsers();
   const forbiddenUserRequest = useRequestForbiddenUser();
@@ -37,10 +77,66 @@ export default function UsersPage() {
   const revokeAdminRequest = useRequestRevokeAdmin();
   const mintCoinsRequest = useRequestMintCoins();
 
+  const loadUsers = async (
+    nextFilters: UserFilterValues = filters,
+    nextPagination = pagination,
+  ) => {
+    try {
+      await usersRequest.run({
+        current: nextPagination.current,
+        pageSize: nextPagination.pageSize,
+        id: nextFilters.id,
+        username: nextFilters.username?.trim() || undefined,
+        nickname: nextFilters.nickname?.trim() || undefined,
+        email: nextFilters.email?.trim() || undefined,
+      });
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '用户列表加载失败');
+    }
+  };
+
   useEffect(() => {
-    void usersRequest.run({ current: 1, pageSize: 100 });
+    void loadUsers({}, { current: 1, pageSize: DEFAULT_PAGE_SIZE });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const userRecords = useMemo(
+    () => usersRequest.data?.data || [],
+    [usersRequest.data?.data],
+  );
+
+  const handleFilterSubmit = async (values: UserFilterValues) => {
+    const nextFilters: UserFilterValues = {
+      id: parseOptionalUserId(values.id),
+      username: values.username,
+      nickname: values.nickname,
+      email: values.email,
+    };
+    const nextPagination = { ...pagination, current: 1 };
+
+    setFilters(nextFilters);
+    setPagination(nextPagination);
+    await loadUsers(nextFilters, nextPagination);
+  };
+
+  const handleFilterReset = () => {
+    const nextFilters: UserFilterValues = {};
+    const nextPagination = { current: 1, pageSize: DEFAULT_PAGE_SIZE };
+
+    setFilters(nextFilters);
+    setPagination(nextPagination);
+    void loadUsers(nextFilters, nextPagination);
+  };
+
+  const handleTableChange = (page: number, pageSize: number) => {
+    const nextPagination = { current: page, pageSize };
+    setPagination(nextPagination);
+    void loadUsers(filters, nextPagination);
+  };
+
+  const refreshUsers = async () => {
+    await loadUsers(filters, pagination);
+  };
 
   const handleMuteUser = async (userId: number, days: number) => {
     try {
@@ -49,7 +145,7 @@ export default function UsersPage() {
         days,
       });
       message.success(days === 0 ? '用户已解禁' : '用户已禁言');
-      await usersRequest.refresh();
+      await refreshUsers();
     } catch (error) {
       message.error(error instanceof Error ? error.message : '用户状态更新失败');
     }
@@ -59,7 +155,7 @@ export default function UsersPage() {
     try {
       await grantAdminRequest.run({ userId });
       message.success('管理员授权成功');
-      await usersRequest.refresh();
+      await refreshUsers();
     } catch (error) {
       message.error(error instanceof Error ? error.message : '授权失败');
     }
@@ -69,7 +165,7 @@ export default function UsersPage() {
     try {
       await revokeAdminRequest.run({ userId });
       message.success('管理员权限已取消');
-      await usersRequest.refresh();
+      await refreshUsers();
     } catch (error) {
       message.error(error instanceof Error ? error.message : '取消失败');
     }
@@ -162,7 +258,7 @@ export default function UsersPage() {
       });
       message.success('发币成功');
       closeMintModal();
-      await usersRequest.refresh();
+      await refreshUsers();
     } catch (error) {
       if (error instanceof Error) {
         message.error(error.message);
@@ -170,95 +266,131 @@ export default function UsersPage() {
     }
   };
 
+  const columns: ProColumns<AdminUserRecord>[] = [
+    { title: 'ID', dataIndex: 'id', width: 80 },
+    {
+      title: '用户名',
+      dataIndex: 'username',
+      width: 160,
+      render: (_, record) => record.username || '-',
+    },
+    {
+      title: '昵称',
+      dataIndex: 'nickname',
+      width: 160,
+      render: (_, record) => record.nickname || record.username || `用户 ${record.id}`,
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      width: 220,
+      render: (_, record) => record.email || '-',
+    },
+    {
+      title: '状态',
+      width: 180,
+      render: (_, record) => (
+        <Space wrap>
+          {getUserStatus(record)}
+          {String(record.raw.role || '').includes('admin') ? <Tag color="processing">管理员</Tag> : null}
+        </Space>
+      ),
+    },
+    {
+      title: '积分',
+      dataIndex: 'points',
+      width: 120,
+      align: 'right',
+      render: (_, record) => <Typography.Text>{formatNumber(record.points)}</Typography.Text>,
+    },
+    {
+      title: '余额',
+      dataIndex: 'balance',
+      width: 120,
+      align: 'right',
+      render: (_, record) => <Typography.Text>{formatNumber(record.balance)}</Typography.Text>,
+    },
+    {
+      title: '操作',
+      width: 160,
+      fixed: 'right',
+      valueType: 'option',
+      render: (_, record) => (
+        <Space wrap>
+          <Button size="small" type="primary" icon={<PlusOutlined />} onClick={() => openMintModal(record)}>
+            发币
+          </Button>
+          <Dropdown
+            menu={{
+              items: moreActions,
+              onClick: ({ key }) => void handleMoreAction(key, record),
+            }}
+          >
+            <Button
+              size="small"
+              icon={<MoreOutlined />}
+              loading={forbiddenUserRequest.loading || grantAdminRequest.loading || revokeAdminRequest.loading}
+            >
+              更多
+            </Button>
+          </Dropdown>
+        </Space>
+      ),
+    },
+  ];
+
   const usersError = usersRequest.error instanceof Error ? usersRequest.error : undefined;
 
   return (
     <PageContainer title="用户管理">
       <Space direction="vertical" size={16} style={{ width: '100%' }}>
-        <div className="turtle-page-toolbar turtle-page-toolbar-with-tabs">
-          {usersError ? <Alert type="error" showIcon message="用户列表加载失败" description={usersError.message} /> : null}
-        </div>
+        {usersError ? (
+          <Alert type="error" showIcon message="用户列表加载失败" description={usersError.message} />
+        ) : null}
 
         <ProCard style={panelStyle}>
-          <Table
-            rowKey="id"
-            loading={usersRequest.loading}
-            pagination={false}
-            scroll={{ x: 980 }}
-            dataSource={usersRequest.data?.data || []}
-            columns={[
-              { title: 'ID', dataIndex: 'id', width: 80 },
-              {
-                title: '用户名',
-                dataIndex: 'username',
-                width: 160,
-                render: (value?: string) => value || '-',
-              },
-              {
-                title: '昵称',
-                dataIndex: 'nickname',
-                width: 160,
-                render: (value?: string, record) => value || record.username || `用户 ${record.id}`,
-              },
-              {
-                title: '邮箱',
-                dataIndex: 'email',
-                width: 220,
-                render: (value?: string) => value || '-',
-              },
-              {
-                title: '状态',
-                width: 180,
-                render: (_, record) => (
-                  <Space wrap>
-                    {getUserStatus(record)}
-                    {String(record.raw.role || '').includes('admin') ? <Tag color="processing">管理员</Tag> : null}
-                  </Space>
-                ),
-              },
-              {
-                title: '积分',
-                dataIndex: 'points',
-                width: 120,
-                align: 'right',
-                render: (value?: number) => <Typography.Text>{formatNumber(value)}</Typography.Text>,
-              },
-              {
-                title: '余额',
-                dataIndex: 'balance',
-                width: 120,
-                align: 'right',
-                render: (value?: number) => <Typography.Text>{formatNumber(value)}</Typography.Text>,
-              },
-              {
-                title: '操作',
-                width: 160,
-                fixed: 'right',
-                render: (_, record) => (
-                  <Space wrap>
-                    <Button size="small" type="primary" icon={<PlusOutlined />} onClick={() => openMintModal(record)}>
-                      发币
-                    </Button>
-                    <Dropdown
-                      menu={{
-                        items: moreActions,
-                        onClick: ({ key }) => void handleMoreAction(key, record),
-                      }}
-                    >
-                      <Button
-                        size="small"
-                        icon={<MoreOutlined />}
-                        loading={forbiddenUserRequest.loading || grantAdminRequest.loading || revokeAdminRequest.loading}
-                      >
-                        更多
-                      </Button>
-                    </Dropdown>
-                  </Space>
-                ),
-              },
-            ]}
-          />
+          <QueryFilter<UserFilterValues>
+            defaultCollapsed={false}
+            labelWidth="auto"
+            span={6}
+            onFinish={handleFilterSubmit}
+            onReset={handleFilterReset}
+          >
+            <Form.Item name="id" label="用户 ID">
+              <InputNumber min={1} precision={0} placeholder="精确匹配" style={{ width: '100%' }} />
+            </Form.Item>
+            <ProFormText name="username" label="用户名" placeholder="支持模糊搜索" />
+            <ProFormText name="nickname" label="昵称" placeholder="支持模糊搜索" />
+            <ProFormText name="email" label="邮箱" placeholder="支持模糊搜索" />
+          </QueryFilter>
         </ProCard>
+
+        <ProTable<AdminUserRecord>
+          headerTitle="用户列表"
+          style={panelStyle}
+          search={false}
+          options={false}
+          toolBarRender={() => [
+            <Button key="refresh" icon={<ReloadOutlined />} onClick={() => void refreshUsers()}>
+              刷新
+            </Button>,
+          ]}
+          tableAlertRender={false}
+          tableAlertOptionRender={false}
+          rowKey="id"
+          loading={usersRequest.loading}
+          dataSource={userRecords}
+          scroll={{ x: 980 }}
+          pagination={{
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            total: usersRequest.data?.total || 0,
+            showSizeChanger: true,
+            showTotal: (total) => `共 ${total} 条`,
+            onChange: (page, pageSize) => handleTableChange(page, pageSize),
+          }}
+          columns={columns}
+        />
       </Space>
 
       <Modal
