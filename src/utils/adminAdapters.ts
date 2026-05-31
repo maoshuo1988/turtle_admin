@@ -8,6 +8,8 @@ import type {
   RiskAlert,
   TrendPoint,
 } from '@/data/admin_mock_data';
+import type { PageResult } from '@/types/http';
+import type { PredictTagListParams, PredictTagPageResult } from '@/types/predictTag';
 import type {
   AdminCommentRecord,
   AdminForbiddenWordRecord,
@@ -15,7 +17,6 @@ import type {
   AdminUserRecord,
   AdminUserReportRecord,
 } from '@/types/admin';
-import type { PageResult } from '@/types/http';
 
 type AnyRecord = Record<string, unknown>;
 
@@ -500,6 +501,34 @@ export function mapComment(item: unknown): AdminCommentRecord {
     userName: pickString(user, 'nickname', 'username') || pickString(record, 'userName'),
     createTime: pickNumber(record, 'createTime'),
     raw: record,
+  };
+}
+
+export function normalizePredictTagPageResult(
+  rawData: unknown,
+  params: PredictTagListParams = {},
+): PredictTagPageResult {
+  const pageResult = normalizePageResult(rawData, mapPredictTag);
+  const record = asRecord(rawData) ?? {};
+
+  return {
+    ...pageResult,
+    page: pickNumber(record, 'page') || params.current || 1,
+    pageSize: pickNumber(record, 'pageSize', 'page_size', 'limit') || params.pageSize || 20,
+  };
+}
+
+export function mapPredictTag(item: unknown) {
+  const record = asRecord(item) ?? {};
+  return {
+    id: pickNumber(record, 'id'),
+    slug: pickString(record, 'slug'),
+    name: pickString(record, 'name'),
+    cnName: pickString(record, 'cnName', 'cn_name'),
+    lastSeenAt: pickNumber(record, 'lastSeenAt', 'last_seen_at') || undefined,
+    createTime: pickNumber(record, 'createTime', 'create_time') || undefined,
+    updateTime: pickNumber(record, 'updateTime', 'update_time') || undefined,
+    marketCount: pickNumber(record, 'marketCount', 'market_count'),
   };
 }
 

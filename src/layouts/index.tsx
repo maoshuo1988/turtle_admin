@@ -31,6 +31,8 @@ const publicPaths = new Set([LOGIN_PATH, '/403', '/404']);
 const menuIconMap: Record<string, JSX.Element> = {
   dashboard: <DashboardOutlined />,
   predict: <ThunderboltOutlined />,
+  predictMarkets: <ThunderboltOutlined />,
+  predictTags: <TagOutlined />,
   battle: <NotificationOutlined />,
   pk: <TrophyOutlined />,
   community: <TeamOutlined />,

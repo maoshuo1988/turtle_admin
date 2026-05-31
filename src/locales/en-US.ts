@@ -2,6 +2,8 @@ export default {
   'app.title': 'Turtle Admin',
   'menu.dashboard': 'Dashboard',
   'menu.predict': 'Markets',
+  'menu.predictMarkets': 'Market List',
+  'menu.predictTags': 'Tag Categories',
   'menu.battle': 'Battles',
   'menu.pk': 'PK',
   'menu.community': 'Community',

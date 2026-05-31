@@ -30,8 +30,25 @@ export const appRouteManifest: AppRouteItem[] = [
   {
     path: '/predict',
     name: 'predict',
-    component: '@/pages/Predict',
     access: 'canPredict',
+    routes: [
+      {
+        path: '/predict',
+        redirect: '/predict/markets',
+        hideInMenu: true,
+      },
+      {
+        path: '/predict/markets',
+        name: 'predictMarkets',
+        component: '@/pages/Predict',
+        access: 'canPredict',
+      },
+      {
+        path: '/predict/tags',
+        redirect: '/predict/markets',
+        hideInMenu: true,
+      },
+    ],
   },
   {
     path: '/battle',
@@ -203,6 +220,8 @@ export const pageTitleMap: Record<string, string> = {
   '/': '总览看板',
   '/dashboard': '总览看板',
   '/predict': '预测市场',
+  '/predict/markets': '市场列表',
+  '/predict/tags': '标签分类',
   '/battle': '开战广场',
   '/pk': '对立PK管理',
   '/tags': '标签管理',

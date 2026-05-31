@@ -2,6 +2,8 @@ export default {
   'app.title': '龟投运营后台',
   'menu.dashboard': '总览看板',
   'menu.predict': '预测市场',
+  'menu.predictMarkets': '市场列表',
+  'menu.predictTags': '标签分类',
   'menu.battle': '开战广场',
   'menu.pk': '对立PK',
   'menu.community': '社区管理',

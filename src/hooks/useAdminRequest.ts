@@ -62,6 +62,7 @@ import {
   type TrendPoint,
 } from '@/data/admin_mock_data';
 import type { PageParams, PageResult } from '@/types/http';
+import type { PredictTagListParams, PredictTagPageResult } from '@/types/predictTag';
 import type {
   AdminCommentRecord,
   AdminDashboardStatsResponse,
@@ -99,8 +100,10 @@ import {
   mapUserReport,
   mapUserToBannedUser,
   normalizePageResult,
+  normalizePredictTagPageResult,
   toTrendPoints,
 } from '@/utils/adminAdapters';
+import { marketMatchesPredictTag } from '@/utils/predictTagMatch';
 import { assertSuccess, getAuthorizationHeaders } from '@/utils/requestUtils';
 
 interface ManualRequestResult<TResult, TParams extends unknown[]> {
@@ -291,44 +294,6 @@ function applyKeywordFilter<T>(
   return items.filter((item) => pickText(item).toLowerCase().includes(normalized));
 }
 
-function normalizeTagList(rawData: unknown): string[] {
-  if (Array.isArray(rawData)) {
-    return rawData
-      .map((item) => {
-        if (typeof item === 'string') {
-          return item.trim();
-        }
-
-        if (item && typeof item === 'object') {
-          const record = item as Record<string, unknown>;
-          return String(record.name ?? record.label ?? record.tag ?? '').trim();
-        }
-
-        return '';
-      })
-      .filter(Boolean);
-  }
-
-  if (rawData && typeof rawData === 'object') {
-    const pageResult = normalizePageResult(rawData, (item) => {
-      if (typeof item === 'string') {
-        return item.trim();
-      }
-
-      if (item && typeof item === 'object') {
-        const record = item as Record<string, unknown>;
-        return String(record.name ?? record.label ?? record.tag ?? '').trim();
-      }
-
-      return '';
-    });
-
-    return pageResult.data.filter(Boolean);
-  }
-
-  return [];
-}
-
 async function requestDashboardStats() {
   const res = await axiosCustom<AdminDashboardStatsResponse>({
     method: 'get',
@@ -393,28 +358,45 @@ async function requestBattleActiveUsers(range: AdminRange = '7d'): Promise<Trend
   return toTrendPoints(assertSuccess(res), 'activeUserCount');
 }
 
-async function requestPredictTags() {
+async function requestPredictTags(
+  params: PredictTagListParams = {},
+): Promise<PredictTagPageResult> {
   const res = await axiosCustom<unknown>({
     method: 'get',
     cmd: API_PREDICT_TAG_LIST,
+    params: {
+      page: params.current ?? 1,
+      pageSize: params.pageSize ?? 20,
+      q: params.q?.trim() || undefined,
+      slugs: params.slugs?.trim() || undefined,
+      sort: params.sort,
+      includeCounts: params.includeCounts ? 1 : undefined,
+    },
     headers: getAuthorizationHeaders(),
   });
 
-  return normalizeTagList(assertSuccess(res));
+  return normalizePredictTagPageResult(assertSuccess(res), params);
 }
 
 async function requestMarkets(
-  params: PageParams & { status?: string },
+  params: PageParams & { status?: string; tagSlug?: string },
 ): Promise<PageResult<AdminMarket>> {
   const res = await axiosCustom<unknown>({
     method: 'get',
     cmd: API_FOOTBALL_MARKETS,
-    params: toPageQuery(params),
+    params: {
+      ...toPageQuery(params),
+      tagSlug: params.tagSlug?.trim() || undefined,
+    },
     headers: getAuthorizationHeaders(),
   });
 
   const pageResult = normalizePageResult(assertSuccess(res), mapMarket);
   let list = pageResult.data;
+
+  if (params.tagSlug?.trim()) {
+    list = list.filter((item) => marketMatchesPredictTag(item, params.tagSlug!.trim()));
+  }
 
   if (params.status) {
     list = list.filter((item) => item.status === params.status);
@@ -1052,7 +1034,10 @@ export function useRequestBattleActiveUsers(range: AdminRange = '7d') {
 }
 
 export function useRequestPredictTags() {
-  return useAutoQueryRequest(['requestPredictTags'], requestPredictTags);
+  return useLazyQueryRequest(
+    (params: Parameters<typeof requestPredictTags>[0] = {}) => ['requestPredictTags', params],
+    requestPredictTags,
+  );
 }
 
 export function useRequestMarkets() {

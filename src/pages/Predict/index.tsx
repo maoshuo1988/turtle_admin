@@ -26,7 +26,9 @@ import {
   Typography,
 } from 'antd';
 import { TURTLE_API_BASE } from '@/api/api';
+import { history, useLocation } from '@umijs/max';
 import { useEffect, useMemo, useState } from 'react';
+import PredictTagSidebar from '@/pages/Predict/components/PredictTagSidebar';
 import {
   mktStatusLabel,
   type AdminMarket,
@@ -44,12 +46,11 @@ import {
   useRequestMarkets,
   useRequestPredictMarketStats,
   useRequestPredictStats,
-  useRequestPredictTags,
-  useRequestRefreshPredictTags,
   useRequestSettlePredictMarket,
   useRequestUpdatePredictContext,
 } from '@/hooks/useAdminRequest';
 import type { PredictContextUpdatePayload } from '@/types/admin';
+import type { PredictTagRecord } from '@/types/predictTag';
 
 interface PredictContextFormValues {
   marketId: number;
@@ -137,9 +138,14 @@ function ContextImageField({
 
 export default function PredictPage() {
   const { message } = App.useApp();
+  const location = useLocation();
   const [contextForm] = Form.useForm<PredictContextFormValues>();
   const [filter, setFilter] = useState<MktStatus | 'ALL'>('ALL');
   const [search, setSearch] = useState('');
+  const selectedTagSlug = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    return params.get('tag')?.trim() || null;
+  }, [location.search]);
   const [settleModal, setSettleModal] = useState<AdminMarket | null>(null);
   const [settleChoice, setSettleChoice] = useState<'A' | 'B'>('A');
   const [settleReason, setSettleReason] = useState('');
@@ -151,9 +157,7 @@ export default function PredictPage() {
   const predictStatsRequest = useRequestPredictStats();
   const marketStatsRequest = useRequestPredictMarketStats();
   const settleMarketRequest = useRequestSettlePredictMarket();
-  const refreshTagsRequest = useRequestRefreshPredictTags();
   const updatePredictContextRequest = useRequestUpdatePredictContext();
-  const predictTagsRequest = useRequestPredictTags();
   const contextImageUrl = Form.useWatch('imageUrl', contextForm) as string | undefined;
   const contextListImage = Form.useWatch('listImage', contextForm) as string | undefined;
   const contextSideABgImage = Form.useWatch('sideABgImage', contextForm) as string | undefined;
@@ -163,44 +167,79 @@ export default function PredictPage() {
     await marketsRequest.run({
       current: 1,
       pageSize: 200,
-      status: filter === 'ALL' ? undefined : filter,
       keyword: search,
+      tagSlug: selectedTagSlug || undefined,
     });
   };
 
+  const handleSelectTag = (tag: PredictTagRecord | string | null) => {
+    if (!tag) {
+      history.replace('/predict/markets');
+      return;
+    }
+
+    const slug = typeof tag === 'string' ? tag : tag.slug;
+    if (!slug) {
+      history.replace('/predict/markets');
+      return;
+    }
+
+    history.replace(`/predict/markets?tag=${encodeURIComponent(slug)}`);
+  };
+
+  const selectedTagLabel = useMemo(() => {
+    if (!selectedTagSlug) {
+      return '';
+    }
+
+    const matchedMarketTag = (marketsRequest.data?.data || [])
+      .flatMap((market) => market.tags)
+      .find((tag) => tag.toLowerCase() === selectedTagSlug.toLowerCase());
+
+    return matchedMarketTag || selectedTagSlug;
+  }, [marketsRequest.data?.data, selectedTagSlug]);
+
   useEffect(() => {
     void loadMarkets();
-    // Market list reloads only when local筛选条件发生变化。
+    // Market list reloads when search text or selected tag change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, search]);
+  }, [search, selectedTagSlug]);
 
   const counts = useMemo(() => {
     const next: Record<string, number> = {
-      ALL:
-        (predictStatsRequest.data?.openCount || 0) +
-        (predictStatsRequest.data?.closedCount || 0) +
-        (predictStatsRequest.data?.settledCount || 0),
-      OPEN: predictStatsRequest.data?.openCount || 0,
-      CLOSED: predictStatsRequest.data?.closedCount || 0,
-      SETTLED: predictStatsRequest.data?.settledCount || 0,
+      ALL: 0,
+      OPEN: 0,
+      CLOSED: 0,
+      SETTLED: 0,
       VOIDED: 0,
     };
 
     for (const item of marketsRequest.data?.data || []) {
-      if (item.status === 'VOIDED') {
-        next.VOIDED += 1;
-        next.ALL += 1;
-      }
+      next[item.status] = (next[item.status] || 0) + 1;
+      next.ALL += 1;
     }
 
-    if (!next.ALL) {
-      next.ALL = marketsRequest.data?.total || 0;
+    if (!next.ALL && !selectedTagSlug) {
+      next.ALL =
+        (predictStatsRequest.data?.openCount || 0) +
+        (predictStatsRequest.data?.closedCount || 0) +
+        (predictStatsRequest.data?.settledCount || 0);
+      next.OPEN = predictStatsRequest.data?.openCount || 0;
+      next.CLOSED = predictStatsRequest.data?.closedCount || 0;
+      next.SETTLED = predictStatsRequest.data?.settledCount || 0;
     }
 
     return next;
-  }, [marketsRequest.data?.data, marketsRequest.data?.total, predictStatsRequest.data]);
+  }, [marketsRequest.data?.data, predictStatsRequest.data, selectedTagSlug]);
 
-  const filtered = marketsRequest.data?.data || [];
+  const filtered = useMemo(() => {
+    const list = marketsRequest.data?.data || [];
+    if (filter === 'ALL') {
+      return list;
+    }
+
+    return list.filter((item) => item.status === filter);
+  }, [filter, marketsRequest.data?.data]);
 
   const openStatsModal = async (market: AdminMarket) => {
     setStatsModal(market);
@@ -325,83 +364,82 @@ export default function PredictPage() {
 
   return (
     <PageContainer title="预测市场管理">
-      <Space direction="vertical" size={16} style={{ width: '100%' }}>
-        <div className="turtle-page-toolbar">
-          <Space direction="vertical" size={16} style={{ width: '100%' }}>
-            {marketsRequest.error instanceof Error ? (
-              <Alert
-                type="error"
-                showIcon
-                message="预测市场加载失败"
-                description={marketsRequest.error.message}
-              />
-            ) : null}
+      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', width: '100%' }}>
+        <PredictTagSidebar
+          selectedSlug={selectedTagSlug}
+          onSelect={handleSelectTag}
+          onTagsRefreshed={() => void loadMarkets()}
+        />
 
-            <ProCard style={panelStyle}>
-              <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>
-                <Input
-                  allowClear
-                  prefix={<SearchOutlined />}
-                  placeholder="搜索市场..."
-                  style={{ width: 280 }}
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
+        <Space direction="vertical" size={16} style={{ flex: 1, minWidth: 0 }}>
+          <div className="turtle-page-toolbar">
+            <Space direction="vertical" size={16} style={{ width: '100%' }}>
+              {marketsRequest.error instanceof Error ? (
+                <Alert
+                  type="error"
+                  showIcon
+                  message="预测市场加载失败"
+                  description={marketsRequest.error.message}
                 />
-                <Space wrap>
-                  <Button type="primary" icon={<PlusOutlined />} onClick={openCreateContextModal}>
-                    新增预测
-                  </Button>
-                  <Button
-                    icon={<ReloadOutlined />}
-                    loading={refreshTagsRequest.loading || marketsRequest.loading}
-                    onClick={async () => {
-                      try {
-                        await refreshTagsRequest.run();
-                        message.success('标签物化刷新完成');
-                      } catch (error) {
-                        message.error(error instanceof Error ? error.message : '标签刷新失败');
-                      } finally {
-                        await loadMarkets();
-                      }
-                    }}
-                  >
-                    刷新标签
-                  </Button>
-                </Space>
-              </Space>
-            </ProCard>
+              ) : null}
 
-            <ProCard style={panelStyle}>
-              <Space direction="vertical" size={12} style={{ width: '100%' }}>
-                <Typography.Text strong>预测标签词库</Typography.Text>
-                {predictTagsRequest.error instanceof Error ? (
-                  <Alert type="error" showIcon message="标签词库加载失败" description={predictTagsRequest.error.message} />
-                ) : (
+              <ProCard style={panelStyle}>
+                <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>
+                  <Input
+                    allowClear
+                    prefix={<SearchOutlined />}
+                    placeholder="搜索市场..."
+                    style={{ width: 280 }}
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                  />
                   <Space wrap>
-                    {(predictTagsRequest.data || []).slice(0, 20).map((tag) => (
-                      <Tag key={tag}>{tag}</Tag>
-                    ))}
-                    {!(predictTagsRequest.data || []).length ? (
-                      <Typography.Text type="secondary">暂无标签词库数据</Typography.Text>
-                    ) : null}
+                    <Button type="primary" icon={<PlusOutlined />} onClick={openCreateContextModal}>
+                      新增预测
+                    </Button>
+                    <Button
+                      icon={<ReloadOutlined />}
+                      loading={marketsRequest.loading}
+                      onClick={() => void loadMarkets()}
+                    >
+                      刷新市场
+                    </Button>
                   </Space>
-                )}
-              </Space>
-            </ProCard>
+                </Space>
+              </ProCard>
 
-            <Segmented
-              block
-              options={options}
-              value={filter}
-              onChange={(value) => setFilter(value as MktStatus | 'ALL')}
-            />
-          </Space>
-        </div>
+              {selectedTagSlug ? (
+                <Alert
+                  type="info"
+                  showIcon
+                  message={`当前标签分类：${selectedTagLabel}`}
+                  action={
+                    <Button size="small" onClick={() => handleSelectTag(null)}>
+                      查看全部分类
+                    </Button>
+                  }
+                />
+              ) : null}
+
+              <Segmented
+                block
+                options={options}
+                value={filter}
+                onChange={(value) => setFilter(value as MktStatus | 'ALL')}
+              />
+            </Space>
+          </div>
 
         <Space direction="vertical" size={16} style={{ width: '100%' }}>
           {!marketsRequest.loading && filtered.length === 0 ? (
             <ProCard style={panelStyle}>
-              <Empty description="当前筛选条件下暂无市场数据" />
+              <Empty
+                description={
+                  selectedTagSlug
+                    ? `标签「${selectedTagLabel}」下暂无市场数据`
+                    : '当前筛选条件下暂无市场数据'
+                }
+              />
             </ProCard>
           ) : null}
 
@@ -549,7 +587,14 @@ export default function PredictPage() {
 
                   <Space wrap>
                     {market.tags.map((tag) => (
-                      <Tag key={tag}>{tag}</Tag>
+                      <Tag
+                        key={tag}
+                        color={selectedTagSlug === tag ? 'processing' : undefined}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleSelectTag(tag)}
+                      >
+                        {tag}
+                      </Tag>
                     ))}
                   </Space>
 
@@ -594,7 +639,8 @@ export default function PredictPage() {
             );
           })}
         </Space>
-      </Space>
+        </Space>
+      </div>
 
       <Modal
         open={Boolean(settleModal)}
