@@ -53,7 +53,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -66,7 +66,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -79,7 +79,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -96,7 +96,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -143,7 +143,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -157,10 +157,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            18
+            12
           ]
         },
-        "register": 11
+        "register": 9
       },
       "enableBy": "register"
     },
@@ -223,7 +223,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -240,7 +240,7 @@
             0
           ]
         },
-        "register": 6
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1092,7 +1092,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1109,7 +1109,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1135,7 +1135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 42
+        "register": 56
       },
       "enableBy": "register"
     },
@@ -1148,7 +1148,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 19
+        "register": 11
       },
       "enableBy": "config"
     },
@@ -1161,7 +1161,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 5
       },
       "enableBy": "config"
     },
@@ -1178,7 +1178,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1191,7 +1191,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1204,7 +1204,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1217,7 +1217,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 19
+        "register": 16
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1242,7 +1242,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1322,7 +1322,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1335,7 +1335,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1374,7 +1374,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1425,7 +1425,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1451,7 +1451,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1464,7 +1464,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1476,7 +1476,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 9
       },
       "enableBy": "config"
     },
@@ -1513,7 +1513,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1539,7 +1539,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/swc/swc": {
@@ -1555,7 +1555,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1580,7 +1580,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1605,7 +1605,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1617,7 +1617,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 14
+        "register": 12
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1655,7 +1655,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1668,7 +1668,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 17
+        "register": 14
       },
       "enableBy": "register"
     },
@@ -1681,7 +1681,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 16
+        "register": 6
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1706,7 +1706,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1719,7 +1719,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1784,7 +1784,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1914,7 +1914,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1927,7 +1927,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 11
+        "register": 12
       },
       "enableBy": "register"
     },
@@ -1981,7 +1981,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/plugins/dist/antd": {
@@ -1994,7 +1994,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1
+            0
           ],
           "modifyAppData": [
             0
@@ -2015,7 +2015,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2028,7 +2028,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2069,7 +2069,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2133,7 +2133,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2145,7 +2145,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2158,7 +2158,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2171,7 +2171,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2184,7 +2184,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2231,7 +2231,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2277,6 +2277,7 @@
     "model": {},
     "request": {},
     "initialState": {},
+    "esbuildMinifyIIFE": true,
     "mfsu": {
       "exclude": [
         "@esotericsoftware/spine-canvas",
@@ -2325,9 +2326,8 @@
           },
           {
             "path": "/predict/tags",
-            "name": "predictTags",
-            "component": "@/pages/PredictTags",
-            "access": "canPredict"
+            "redirect": "/predict/markets",
+            "hideInMenu": true
           }
         ]
       },
@@ -2536,6 +2536,7 @@
     "model": {},
     "request": {},
     "initialState": {},
+    "esbuildMinifyIIFE": true,
     "layout": false,
     "locale": {
       "default": "zh-CN",
@@ -2578,9 +2579,8 @@
           },
           {
             "path": "/predict/tags",
-            "name": "predictTags",
-            "component": "@/pages/PredictTags",
-            "access": "canPredict"
+            "redirect": "/predict/markets",
+            "hideInMenu": true
           }
         ]
       },
@@ -3721,21 +3721,17 @@
       "parentId": "4",
       "id": "6",
       "absPath": "/predict/markets",
-      "__content": "import {\n  EditOutlined,\n  FireOutlined,\n  PlusOutlined,\n  ReloadOutlined,\n  SearchOutlined,\n  StarFilled,\n  PushpinFilled,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport {\n  Alert,\n  App,\n  Button,\n  ColorPicker,\n  Empty,\n  Form,\n  Image,\n  Input,\n  InputNumber,\n  Modal,\n  Progress,\n  Segmented,\n  Space,\n  Tag,\n  Typography,\n} from 'antd';\nimport { TURTLE_API_BASE } from '@/api/api';\nimport { history } from '@umijs/max';\nimport { useEffect, useMemo, useState } from 'react';\nimport {\n  mktStatusLabel,\n  type AdminMarket,\n  type MktStatus,\n} from '@/data/admin_mock_data';\nimport {\n  fmtDate,\n  fmtNum,\n  getMarketStatusColor,\n  MetricLine,\n  mutedTextStyle,\n  panelStyle,\n} from '@/features/admin/shared';\nimport {\n  useRequestMarkets,\n  useRequestPredictMarketStats,\n  useRequestPredictStats,\n  useRequestPredictTags,\n  useRequestRefreshPredictTags,\n  useRequestSettlePredictMarket,\n  useRequestUpdatePredictContext,\n} from '@/hooks/useAdminRequest';\nimport type { PredictContextUpdatePayload } from '@/types/admin';\n\ninterface PredictContextFormValues {\n  marketId: number;\n  eventName: string;\n  proText: string;\n  conText: string;\n  heat?: number;\n  participantCount?: number;\n  tags?: string;\n  detail?: string;\n  imageUrl?: string;\n  listImage?: string;\n  sideABgImage?: string;\n  sideBBgImage?: string;\n  sideABgColor?: string;\n  sideBBgColor?: string;\n}\n\ntype PredictContextMode = 'create' | 'edit';\n\nfunction resolveImageUrl(url: string | undefined) {\n  if (!url) {\n    return '';\n  }\n\n  if (/^(https?:)?\\/\\//.test(url) || url.startsWith('data:')) {\n    return url;\n  }\n\n  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;\n}\n\nfunction hasPredictDrawLane(market: AdminMarket): boolean {\n  return market.poolDraw !== undefined || Boolean(market.drawText?.trim());\n}\n\nfunction settleOutcomeLabel(market: AdminMarket): string {\n  if (market.status !== 'SETTLED') {\n    return '';\n  }\n  if (market.outcome === 'A') {\n    return market.proText;\n  }\n  if (market.outcome === 'B') {\n    return market.conText;\n  }\n  if (market.outcome === 'DRAW') {\n    return market.drawText?.trim() || '平局';\n  }\n  return '—';\n}\n\nfunction ContextImageField({\n  label,\n  name,\n  value,\n}: {\n  label: string;\n  name: keyof PredictContextFormValues;\n  value: string | undefined;\n}) {\n  const previewSrc = value?.trim() ? resolveImageUrl(value.trim()) : '';\n\n  return (\n    <Form.Item label={label}>\n      <Space direction=\"vertical\" size={8} style={{ width: '100%' }}>\n        <Form.Item name={name} noStyle>\n          <Input placeholder=\"相对路径或完整 URL\" allowClear />\n        </Form.Item>\n        {previewSrc ? (\n          <Image\n            src={previewSrc}\n            alt={`${label}预览`}\n            width={104}\n            height={104}\n            style={{ objectFit: 'cover', borderRadius: 8 }}\n          />\n        ) : (\n          <Typography.Text type=\"secondary\">暂无预览</Typography.Text>\n        )}\n      </Space>\n    </Form.Item>\n  );\n}\n\nexport default function PredictPage() {\n  const { message } = App.useApp();\n  const [contextForm] = Form.useForm<PredictContextFormValues>();\n  const [filter, setFilter] = useState<MktStatus | 'ALL'>('ALL');\n  const [search, setSearch] = useState('');\n  const [settleModal, setSettleModal] = useState<AdminMarket | null>(null);\n  const [settleChoice, setSettleChoice] = useState<'A' | 'B'>('A');\n  const [settleReason, setSettleReason] = useState('');\n  const [statsModal, setStatsModal] = useState<AdminMarket | null>(null);\n  const [contextModal, setContextModal] = useState<AdminMarket | null>(null);\n  const [contextEditorOpen, setContextEditorOpen] = useState(false);\n  const [contextMode, setContextMode] = useState<PredictContextMode>('edit');\n  const marketsRequest = useRequestMarkets();\n  const predictStatsRequest = useRequestPredictStats();\n  const marketStatsRequest = useRequestPredictMarketStats();\n  const settleMarketRequest = useRequestSettlePredictMarket();\n  const refreshTagsRequest = useRequestRefreshPredictTags();\n  const updatePredictContextRequest = useRequestUpdatePredictContext();\n  const predictTagsRequest = useRequestPredictTags();\n  const contextImageUrl = Form.useWatch('imageUrl', contextForm) as string | undefined;\n  const contextListImage = Form.useWatch('listImage', contextForm) as string | undefined;\n  const contextSideABgImage = Form.useWatch('sideABgImage', contextForm) as string | undefined;\n  const contextSideBBgImage = Form.useWatch('sideBBgImage', contextForm) as string | undefined;\n\n  const loadMarkets = async () => {\n    await marketsRequest.run({\n      current: 1,\n      pageSize: 200,\n      status: filter === 'ALL' ? undefined : filter,\n      keyword: search,\n    });\n  };\n\n  useEffect(() => {\n    void predictTagsRequest.run({\n      current: 1,\n      pageSize: 20,\n      includeCounts: true,\n      sort: 'marketCount',\n    });\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  useEffect(() => {\n    void loadMarkets();\n    // Market list reloads only when local筛选条件发生变化。\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, [filter, search]);\n\n  const counts = useMemo(() => {\n    const next: Record<string, number> = {\n      ALL:\n        (predictStatsRequest.data?.openCount || 0) +\n        (predictStatsRequest.data?.closedCount || 0) +\n        (predictStatsRequest.data?.settledCount || 0),\n      OPEN: predictStatsRequest.data?.openCount || 0,\n      CLOSED: predictStatsRequest.data?.closedCount || 0,\n      SETTLED: predictStatsRequest.data?.settledCount || 0,\n      VOIDED: 0,\n    };\n\n    for (const item of marketsRequest.data?.data || []) {\n      if (item.status === 'VOIDED') {\n        next.VOIDED += 1;\n        next.ALL += 1;\n      }\n    }\n\n    if (!next.ALL) {\n      next.ALL = marketsRequest.data?.total || 0;\n    }\n\n    return next;\n  }, [marketsRequest.data?.data, marketsRequest.data?.total, predictStatsRequest.data]);\n\n  const filtered = marketsRequest.data?.data || [];\n\n  const openStatsModal = async (market: AdminMarket) => {\n    setStatsModal(market);\n    try {\n      await marketStatsRequest.run(market.id);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '盘口统计加载失败');\n    }\n  };\n\n  const openSettleModal = async (market: AdminMarket) => {\n    setSettleModal(market);\n    setSettleChoice('A');\n    setSettleReason('');\n    try {\n      await marketStatsRequest.run(market.id);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '盘口统计加载失败');\n    }\n  };\n\n  const handleSettleMarket = async () => {\n    if (!settleModal) {\n      return;\n    }\n\n    try {\n      await settleMarketRequest.run({\n        marketId: settleModal.id,\n        result: settleChoice,\n        remark: settleReason,\n        requestId: `market-settle-${settleModal.id}-${Date.now()}`,\n      });\n      message.success('市场结算成功');\n      setSettleModal(null);\n      await Promise.all([loadMarkets(), predictStatsRequest.refresh()]);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '市场结算失败');\n    }\n  };\n\n  const openContextModal = (market: AdminMarket) => {\n    setContextMode('edit');\n    setContextModal(market);\n    setContextEditorOpen(true);\n    contextForm.setFieldsValue({\n      marketId: market.id,\n      eventName: market.title,\n      proText: market.proText,\n      conText: market.conText,\n      heat: market.heat,\n      participantCount: market.betCount,\n      tags: market.tags.join(', '),\n      detail: market.detail,\n      imageUrl: market.imageUrl,\n      listImage: market.listImage,\n      sideABgImage: market.sideABgImage,\n      sideBBgImage: market.sideBBgImage,\n      sideABgColor: market.sideABgColor,\n      sideBBgColor: market.sideBBgColor,\n    });\n  };\n\n  const openCreateContextModal = () => {\n    setContextMode('create');\n    setContextModal(null);\n    contextForm.resetFields();\n    contextForm.setFieldsValue({\n      proText: '',\n      conText: '',\n      tags: '',\n      sideABgColor: '#E23D3D',\n      sideBBgColor: '#276EF1',\n    });\n    setContextEditorOpen(true);\n  };\n\n  const handleUpdateContext = async () => {\n    if (contextMode === 'edit' && !contextModal) {\n      return;\n    }\n\n    try {\n      const values = await contextForm.validateFields();\n      const payload: PredictContextUpdatePayload = {\n        marketId: contextModal?.id ?? values.marketId,\n        eventName: values.eventName,\n        proText: values.proText,\n        conText: values.conText,\n        heat: values.heat,\n        participantCount: values.participantCount,\n        tags: values.tags,\n        detail: values.detail,\n        imageUrl: values.imageUrl,\n        listImage: values.listImage,\n        sideABgImage: values.sideABgImage,\n        sideBBgImage: values.sideBBgImage,\n        sideABgColor: values.sideABgColor,\n        sideBBgColor: values.sideBBgColor,\n      };\n      await updatePredictContextRequest.run(payload);\n      message.success(contextMode === 'create' ? '预测已新增' : '市场上下文已更新');\n      setContextEditorOpen(false);\n      setContextModal(null);\n      setContextMode('edit');\n      contextForm.resetFields();\n      await loadMarkets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const options = [\n    { label: `全部 (${counts.ALL || 0})`, value: 'ALL' },\n    { label: `进行中 (${counts.OPEN || 0})`, value: 'OPEN' },\n    { label: `已关闭 (${counts.CLOSED || 0})`, value: 'CLOSED' },\n    { label: `已结算 (${counts.SETTLED || 0})`, value: 'SETTLED' },\n    { label: `已作废 (${counts.VOIDED || 0})`, value: 'VOIDED' },\n  ];\n\n  return (\n    <PageContainer title=\"预测市场管理\">\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        <div className=\"turtle-page-toolbar\">\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            {marketsRequest.error instanceof Error ? (\n              <Alert\n                type=\"error\"\n                showIcon\n                message=\"预测市场加载失败\"\n                description={marketsRequest.error.message}\n              />\n            ) : null}\n\n            <ProCard style={panelStyle}>\n              <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>\n                <Input\n                  allowClear\n                  prefix={<SearchOutlined />}\n                  placeholder=\"搜索市场...\"\n                  style={{ width: 280 }}\n                  value={search}\n                  onChange={(event) => setSearch(event.target.value)}\n                />\n                <Space wrap>\n                  <Button type=\"primary\" icon={<PlusOutlined />} onClick={openCreateContextModal}>\n                    新增预测\n                  </Button>\n                  <Button\n                    icon={<ReloadOutlined />}\n                    loading={refreshTagsRequest.loading || marketsRequest.loading}\n                    onClick={async () => {\n                      try {\n                        await refreshTagsRequest.run();\n                        message.success('标签物化刷新完成');\n                        await predictTagsRequest.run({\n                          current: 1,\n                          pageSize: 20,\n                          includeCounts: true,\n                          sort: 'marketCount',\n                        });\n                      } catch (error) {\n                        message.error(error instanceof Error ? error.message : '标签刷新失败');\n                      } finally {\n                        await loadMarkets();\n                      }\n                    }}\n                  >\n                    刷新标签\n                  </Button>\n                  <Button onClick={() => history.push('/predict/tags')}>标签分类</Button>\n                </Space>\n              </Space>\n            </ProCard>\n\n            <ProCard style={panelStyle}>\n              <Space direction=\"vertical\" size={12} style={{ width: '100%' }}>\n                <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>\n                  <Typography.Text strong>预测标签分类</Typography.Text>\n                  <Button type=\"link\" size=\"small\" onClick={() => history.push('/predict/tags')}>\n                    查看全部\n                  </Button>\n                </Space>\n                {predictTagsRequest.error instanceof Error ? (\n                  <Alert type=\"error\" showIcon message=\"标签列表加载失败\" description={predictTagsRequest.error.message} />\n                ) : (\n                  <Space wrap>\n                    {(predictTagsRequest.data?.data || []).map((tag) => (\n                      <Tag key={tag.slug || tag.id} color={tag.marketCount > 0 ? 'processing' : 'default'}>\n                        {tag.cnName || tag.name || tag.slug}\n                        {predictTagsRequest.data?.data ? ` · ${tag.marketCount}` : null}\n                      </Tag>\n                    ))}\n                    {!(predictTagsRequest.data?.data || []).length ? (\n                      <Typography.Text type=\"secondary\">暂无标签数据</Typography.Text>\n                    ) : null}\n                  </Space>\n                )}\n              </Space>\n            </ProCard>\n\n            <Segmented\n              block\n              options={options}\n              value={filter}\n              onChange={(value) => setFilter(value as MktStatus | 'ALL')}\n            />\n          </Space>\n        </div>\n\n        <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n          {!marketsRequest.loading && filtered.length === 0 ? (\n            <ProCard style={panelStyle}>\n              <Empty description=\"当前筛选条件下暂无市场数据\" />\n            </ProCard>\n          ) : null}\n\n          {filtered.map((market) => {\n            const hasDraw = hasPredictDrawLane(market);\n            const tiePool = hasDraw ? (market.poolDraw ?? 0) : 0;\n            const drawLabel = market.drawText?.trim() || '平局';\n            const total = hasDraw ? market.poolA + market.poolB + tiePool : market.poolA + market.poolB;\n            const pctA = total ? Math.round((market.poolA / total) * 100) : hasDraw ? 34 : 50;\n            const pctB = total\n              ? hasDraw\n                ? Math.round((market.poolB / total) * 100)\n                : Math.max(0, 100 - pctA)\n              : hasDraw\n                ? 33\n                : 50;\n            const pctDraw = hasDraw && total ? Math.max(0, 100 - pctA - pctB) : 0;\n            const oddsA = market.poolA > 0 && total ? (total / market.poolA).toFixed(2) : '—';\n            const oddsB = market.poolB > 0 && total ? (total / market.poolB).toFixed(2) : '—';\n            const oddsDraw = hasDraw && tiePool > 0 && total ? (total / tiePool).toFixed(2) : '—';\n\n            return (\n              <ProCard key={market.id} style={panelStyle}>\n                <Space direction=\"vertical\" size={14} style={{ width: '100%' }}>\n                  <Space wrap>\n                    <Tag color={getMarketStatusColor(market.status)}>{mktStatusLabel[market.status]}</Tag>\n                    <Typography.Text style={mutedTextStyle}>#{market.id}</Typography.Text>\n                    <Tag>{market.source}</Tag>\n                    {market.isPinned ? <PushpinFilled style={{ color: '#1677ff' }} /> : null}\n                    {market.isRecommended ? <StarFilled style={{ color: '#faad14' }} /> : null}\n                  </Space>\n\n                  <Typography.Title level={4} style={{ margin: 0 }}>\n                    {market.title}\n                  </Typography.Title>\n\n                  {market.imageUrl?.trim() ? (\n                    <div>\n                      <Image\n                        src={resolveImageUrl(market.imageUrl.trim())}\n                        alt=\"\"\n                        width={120}\n                        height={120}\n                        style={{ objectFit: 'cover', borderRadius: 8 }}\n                      />\n                    </div>\n                  ) : null}\n\n                  <div>\n                    {hasDraw ? (\n                      <>\n                        <Space\n                          style={{\n                            width: '100%',\n                            justifyContent: 'space-between',\n                            flexWrap: 'wrap',\n                            rowGap: 8,\n                          }}\n                        >\n                          <Typography.Text style={{ color: '#344054' }}>\n                            正方: {market.proText} ({pctA}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#595959' }}>\n                            {drawLabel} ({pctDraw}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            反方: {market.conText} ({pctB}%)\n                          </Typography.Text>\n                        </Space>\n                        <div\n                          style={{\n                            display: 'flex',\n                            height: 10,\n                            borderRadius: 6,\n                            overflow: 'hidden',\n                            marginTop: 8,\n                            border: '1px solid rgba(0,0,0,0.06)',\n                          }}\n                        >\n                          <div\n                            style={{\n                              flex: Math.max(pctA, 1),\n                              background: '#1677ff',\n                              minWidth: pctA ? 2 : 0,\n                            }}\n                          />\n                          <div\n                            style={{\n                              flex: Math.max(pctDraw, 1),\n                              background: '#8c8c8c',\n                              minWidth: pctDraw ? 2 : 0,\n                            }}\n                          />\n                          <div\n                            style={{\n                              flex: Math.max(pctB, 1),\n                              background: '#fa8c16',\n                              minWidth: pctB ? 2 : 0,\n                            }}\n                          />\n                        </div>\n                      </>\n                    ) : (\n                      <>\n                        <Space style={{ width: '100%', justifyContent: 'space-between' }}>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            正方: {market.proText} ({pctA}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            反方: {market.conText} ({pctB}%)\n                          </Typography.Text>\n                        </Space>\n                        <Progress\n                          percent={pctA}\n                          showInfo={false}\n                          strokeColor=\"#1677ff\"\n                          trailColor=\"#fa8c16\"\n                        />\n                      </>\n                    )}\n                  </div>\n\n                  <Space wrap size={[16, 8]}>\n                    <MetricLine label=\"投注数\" value={market.betCount} />\n                    <MetricLine label=\"总金额\" value={fmtNum(total)} />\n                    <MetricLine label=\"赔率A\" value={`x${oddsA}`} valueColor=\"#1677ff\" />\n                    {hasDraw ? (\n                      <MetricLine\n                        label={`赔率·${drawLabel}`}\n                        value={`x${oddsDraw}`}\n                        valueColor=\"#595959\"\n                      />\n                    ) : null}\n                    <MetricLine label=\"赔率B\" value={`x${oddsB}`} valueColor=\"#fa8c16\" />\n                    {hasDraw ? (\n                      <MetricLine label=\"平局池\" value={fmtNum(tiePool)} valueColor=\"#595959\" />\n                    ) : null}\n                    <MetricLine label=\"截止\" value={fmtDate(market.closeTime)} />\n                    <MetricLine\n                      label=\"热度\"\n                      value={market.heat}\n                      icon={<FireOutlined style={{ color: '#ff4d4f' }} />}\n                    />\n                  </Space>\n\n                  <Space wrap>\n                    {market.tags.map((tag) => (\n                      <Tag key={tag}>{tag}</Tag>\n                    ))}\n                  </Space>\n\n                  {(market.status === 'SETTLED' || market.status === 'VOIDED') && (\n                    <div\n                      style={{\n                        padding: 12,\n                        borderRadius: 12,\n                        background: market.status === 'SETTLED' ? '#f6ffed' : '#fff2f0',\n                      }}\n                    >\n                      <Space wrap>\n                        <Typography.Text strong>\n                          {market.status === 'SETTLED'\n                            ? `结算结果: ${settleOutcomeLabel(market)}`\n                            : '已作废'}\n                        </Typography.Text>\n                        <Typography.Text>操作人: {market.settledBy}</Typography.Text>\n                        <Typography.Text>原因: {market.settleReason}</Typography.Text>\n                      </Space>\n                    </div>\n                  )}\n\n                  {(market.status === 'OPEN' || market.status === 'CLOSED') && (\n                    <Space>\n                      <Button icon={<EditOutlined />} onClick={() => openContextModal(market)}>\n                        编辑上下文\n                      </Button>\n                      <Button onClick={() => void openStatsModal(market)}>盘口统计</Button>\n                      <Button\n                        type=\"primary\"\n                        onClick={() => {\n                          void openSettleModal(market);\n                        }}\n                      >\n                        结算\n                      </Button>\n                    </Space>\n                  )}\n                </Space>\n              </ProCard>\n            );\n          })}\n        </Space>\n      </Space>\n\n      <Modal\n        open={Boolean(settleModal)}\n        title=\"人工结算\"\n        onCancel={() => setSettleModal(null)}\n        onOk={() => void handleSettleMarket()}\n        okText=\"确认结算\"\n        cancelText=\"取消\"\n        confirmLoading={settleMarketRequest.loading}\n      >\n        {settleModal ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Typography.Text>{settleModal.title}</Typography.Text>\n            {marketStatsRequest.data ? (\n              <Alert\n                type=\"info\"\n                showIcon\n                message={`正方 ${marketStatsRequest.data.proAmount} / 反方 ${marketStatsRequest.data.conAmount}${\n                  marketStatsRequest.data.drawAmount !== undefined\n                    ? ` / ${settleModal.drawText?.trim() || '平局'} ${marketStatsRequest.data.drawAmount}`\n                    : ''\n                }`}\n                description={`投注人数 正${marketStatsRequest.data.proUserCount} : 反${\n                  marketStatsRequest.data.conUserCount\n                }${\n                  marketStatsRequest.data.drawUserCount !== undefined\n                    ? ` : ${settleModal.drawText?.trim() || '平局'}${marketStatsRequest.data.drawUserCount}`\n                    : ''\n                }，总下注 ${marketStatsRequest.data.totalAmount}`}\n              />\n            ) : null}\n            <Segmented\n              block\n              value={settleChoice}\n              onChange={(value) => setSettleChoice(value as 'A' | 'B')}\n              options={[\n                { label: settleModal.proText, value: 'A' },\n                { label: settleModal.conText, value: 'B' },\n              ]}\n            />\n            <Input.TextArea\n              rows={4}\n              placeholder=\"请输入操作原因...\"\n              value={settleReason}\n              onChange={(event) => setSettleReason(event.target.value)}\n            />\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        open={Boolean(statsModal)}\n        title=\"盘口统计\"\n        onCancel={() => setStatsModal(null)}\n        footer={null}\n      >\n        {statsModal && marketStatsRequest.data ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Typography.Text>{statsModal.title}</Typography.Text>\n            <Space wrap>\n              <Tag color=\"processing\">正方人数 {marketStatsRequest.data.proUserCount}</Tag>\n              <Tag color=\"warning\">反方人数 {marketStatsRequest.data.conUserCount}</Tag>\n              {marketStatsRequest.data.drawUserCount !== undefined ? (\n                <Tag>平局人数 {marketStatsRequest.data.drawUserCount}</Tag>\n              ) : null}\n              <Tag>总下注 {marketStatsRequest.data.totalAmount}</Tag>\n              <Tag>总笔数 {marketStatsRequest.data.totalBetCount}</Tag>\n            </Space>\n            <Typography.Text>正方金额：{marketStatsRequest.data.proAmount}</Typography.Text>\n            {marketStatsRequest.data.drawAmount !== undefined ? (\n              <Typography.Text>\n                {statsModal.drawText?.trim() || '平局'}金额：{marketStatsRequest.data.drawAmount}\n              </Typography.Text>\n            ) : null}\n            <Typography.Text>反方金额：{marketStatsRequest.data.conAmount}</Typography.Text>\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        width={760}\n        open={contextEditorOpen}\n        title={contextMode === 'create' ? '新增预测' : '编辑市场上下文'}\n        onCancel={() => {\n          setContextEditorOpen(false);\n          setContextModal(null);\n          setContextMode('edit');\n          contextForm.resetFields();\n        }}\n        onOk={() => void handleUpdateContext()}\n        okText={contextMode === 'create' ? '新增' : '保存'}\n        cancelText=\"取消\"\n        confirmLoading={updatePredictContextRequest.loading}\n        destroyOnHidden\n      >\n        <Form form={contextForm} layout=\"vertical\">\n          <Form.Item\n            name=\"marketId\"\n            label=\"市场 ID\"\n            rules={[{ required: true, message: '请输入市场 ID' }]}\n          >\n            <InputNumber min={1} precision={0} disabled={contextMode === 'edit'} style={{ width: '100%' }} />\n          </Form.Item>\n          <Form.Item\n            name=\"eventName\"\n            label=\"事件标题\"\n            rules={[{ required: true, message: '请输入事件标题' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item\n            name=\"proText\"\n            label=\"正方文案\"\n            rules={[{ required: true, message: '请输入正方文案' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item\n            name=\"conText\"\n            label=\"反方文案\"\n            rules={[{ required: true, message: '请输入反方文案' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item name=\"tags\" label=\"标签\">\n            <Input placeholder=\"多个标签用逗号分隔\" />\n          </Form.Item>\n          <Form.Item name=\"participantCount\" label=\"参与人数\">\n            <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n          </Form.Item>\n          <Form.Item name=\"heat\" label=\"热度\">\n            <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n          </Form.Item>\n          <ContextImageField name=\"imageUrl\" label=\"封面图链接\" value={contextImageUrl} />\n          <ContextImageField name=\"listImage\" label=\"列表图片\" value={contextListImage} />\n          <Space size={16} align=\"start\" style={{ width: '100%' }}>\n            <div style={{ flex: 1 }}>\n              <ContextImageField name=\"sideABgImage\" label=\"正方背景图\" value={contextSideABgImage} />\n            </div>\n            <div style={{ flex: 1 }}>\n              <ContextImageField name=\"sideBBgImage\" label=\"反方背景图\" value={contextSideBBgImage} />\n            </div>\n          </Space>\n          <Space size={16} style={{ width: '100%' }}>\n            <Form.Item\n              name=\"sideABgColor\"\n              label=\"正方背景色\"\n              getValueFromEvent={(color) => color.toHexString().toUpperCase()}\n              style={{ flex: 1 }}\n            >\n              <ColorPicker format=\"hex\" disabledAlpha showText />\n            </Form.Item>\n            <Form.Item\n              name=\"sideBBgColor\"\n              label=\"反方背景色\"\n              getValueFromEvent={(color) => color.toHexString().toUpperCase()}\n              style={{ flex: 1 }}\n            >\n              <ColorPicker format=\"hex\" disabledAlpha showText />\n            </Form.Item>\n          </Space>\n          <Form.Item name=\"detail\" label=\"上下文说明\">\n            <Input.TextArea rows={4} />\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n}\n",
+      "__content": "import {\n  EditOutlined,\n  FireOutlined,\n  PlusOutlined,\n  ReloadOutlined,\n  SearchOutlined,\n  StarFilled,\n  PushpinFilled,\n} from '@ant-design/icons';\nimport { PageContainer, ProCard } from '@ant-design/pro-components';\nimport {\n  Alert,\n  App,\n  Button,\n  ColorPicker,\n  Empty,\n  Form,\n  Image,\n  Input,\n  InputNumber,\n  Modal,\n  Progress,\n  Segmented,\n  Space,\n  Tag,\n  Typography,\n} from 'antd';\nimport { TURTLE_API_BASE } from '@/api/api';\nimport { history, useLocation } from '@umijs/max';\nimport { useEffect, useMemo, useState } from 'react';\nimport PredictTagSidebar from '@/pages/Predict/components/PredictTagSidebar';\nimport {\n  mktStatusLabel,\n  type AdminMarket,\n  type MktStatus,\n} from '@/data/admin_mock_data';\nimport {\n  fmtDate,\n  fmtNum,\n  getMarketStatusColor,\n  MetricLine,\n  mutedTextStyle,\n  panelStyle,\n} from '@/features/admin/shared';\nimport {\n  useRequestMarkets,\n  useRequestPredictMarketStats,\n  useRequestPredictStats,\n  useRequestSettlePredictMarket,\n  useRequestUpdatePredictContext,\n} from '@/hooks/useAdminRequest';\nimport type { PredictContextUpdatePayload } from '@/types/admin';\nimport type { PredictTagRecord } from '@/types/predictTag';\n\ninterface PredictContextFormValues {\n  marketId: number;\n  eventName: string;\n  proText: string;\n  conText: string;\n  heat?: number;\n  participantCount?: number;\n  tags?: string;\n  detail?: string;\n  imageUrl?: string;\n  listImage?: string;\n  sideABgImage?: string;\n  sideBBgImage?: string;\n  sideABgColor?: string;\n  sideBBgColor?: string;\n}\n\ntype PredictContextMode = 'create' | 'edit';\n\nfunction resolveImageUrl(url: string | undefined) {\n  if (!url) {\n    return '';\n  }\n\n  if (/^(https?:)?\\/\\//.test(url) || url.startsWith('data:')) {\n    return url;\n  }\n\n  return `${TURTLE_API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;\n}\n\nfunction hasPredictDrawLane(market: AdminMarket): boolean {\n  return market.poolDraw !== undefined || Boolean(market.drawText?.trim());\n}\n\nfunction settleOutcomeLabel(market: AdminMarket): string {\n  if (market.status !== 'SETTLED') {\n    return '';\n  }\n  if (market.outcome === 'A') {\n    return market.proText;\n  }\n  if (market.outcome === 'B') {\n    return market.conText;\n  }\n  if (market.outcome === 'DRAW') {\n    return market.drawText?.trim() || '平局';\n  }\n  return '—';\n}\n\nfunction ContextImageField({\n  label,\n  name,\n  value,\n}: {\n  label: string;\n  name: keyof PredictContextFormValues;\n  value: string | undefined;\n}) {\n  const previewSrc = value?.trim() ? resolveImageUrl(value.trim()) : '';\n\n  return (\n    <Form.Item label={label}>\n      <Space direction=\"vertical\" size={8} style={{ width: '100%' }}>\n        <Form.Item name={name} noStyle>\n          <Input placeholder=\"相对路径或完整 URL\" allowClear />\n        </Form.Item>\n        {previewSrc ? (\n          <Image\n            src={previewSrc}\n            alt={`${label}预览`}\n            width={104}\n            height={104}\n            style={{ objectFit: 'cover', borderRadius: 8 }}\n          />\n        ) : (\n          <Typography.Text type=\"secondary\">暂无预览</Typography.Text>\n        )}\n      </Space>\n    </Form.Item>\n  );\n}\n\nexport default function PredictPage() {\n  const { message } = App.useApp();\n  const location = useLocation();\n  const [contextForm] = Form.useForm<PredictContextFormValues>();\n  const [filter, setFilter] = useState<MktStatus | 'ALL'>('ALL');\n  const [search, setSearch] = useState('');\n  const selectedTagSlug = useMemo(() => {\n    const params = new URLSearchParams(location.search);\n    return params.get('tag')?.trim() || null;\n  }, [location.search]);\n  const [settleModal, setSettleModal] = useState<AdminMarket | null>(null);\n  const [settleChoice, setSettleChoice] = useState<'A' | 'B'>('A');\n  const [settleReason, setSettleReason] = useState('');\n  const [statsModal, setStatsModal] = useState<AdminMarket | null>(null);\n  const [contextModal, setContextModal] = useState<AdminMarket | null>(null);\n  const [contextEditorOpen, setContextEditorOpen] = useState(false);\n  const [contextMode, setContextMode] = useState<PredictContextMode>('edit');\n  const marketsRequest = useRequestMarkets();\n  const predictStatsRequest = useRequestPredictStats();\n  const marketStatsRequest = useRequestPredictMarketStats();\n  const settleMarketRequest = useRequestSettlePredictMarket();\n  const updatePredictContextRequest = useRequestUpdatePredictContext();\n  const contextImageUrl = Form.useWatch('imageUrl', contextForm) as string | undefined;\n  const contextListImage = Form.useWatch('listImage', contextForm) as string | undefined;\n  const contextSideABgImage = Form.useWatch('sideABgImage', contextForm) as string | undefined;\n  const contextSideBBgImage = Form.useWatch('sideBBgImage', contextForm) as string | undefined;\n\n  const loadMarkets = async () => {\n    await marketsRequest.run({\n      current: 1,\n      pageSize: 200,\n      keyword: search,\n      tagSlug: selectedTagSlug || undefined,\n    });\n  };\n\n  const handleSelectTag = (tag: PredictTagRecord | string | null) => {\n    if (!tag) {\n      history.replace('/predict/markets');\n      return;\n    }\n\n    const slug = typeof tag === 'string' ? tag : tag.slug;\n    if (!slug) {\n      history.replace('/predict/markets');\n      return;\n    }\n\n    history.replace(`/predict/markets?tag=${encodeURIComponent(slug)}`);\n  };\n\n  const selectedTagLabel = useMemo(() => {\n    if (!selectedTagSlug) {\n      return '';\n    }\n\n    const matchedMarketTag = (marketsRequest.data?.data || [])\n      .flatMap((market) => market.tags)\n      .find((tag) => tag.toLowerCase() === selectedTagSlug.toLowerCase());\n\n    return matchedMarketTag || selectedTagSlug;\n  }, [marketsRequest.data?.data, selectedTagSlug]);\n\n  useEffect(() => {\n    void loadMarkets();\n    // Market list reloads when search text or selected tag change.\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, [search, selectedTagSlug]);\n\n  const counts = useMemo(() => {\n    const next: Record<string, number> = {\n      ALL: 0,\n      OPEN: 0,\n      CLOSED: 0,\n      SETTLED: 0,\n      VOIDED: 0,\n    };\n\n    for (const item of marketsRequest.data?.data || []) {\n      next[item.status] = (next[item.status] || 0) + 1;\n      next.ALL += 1;\n    }\n\n    if (!next.ALL && !selectedTagSlug) {\n      next.ALL =\n        (predictStatsRequest.data?.openCount || 0) +\n        (predictStatsRequest.data?.closedCount || 0) +\n        (predictStatsRequest.data?.settledCount || 0);\n      next.OPEN = predictStatsRequest.data?.openCount || 0;\n      next.CLOSED = predictStatsRequest.data?.closedCount || 0;\n      next.SETTLED = predictStatsRequest.data?.settledCount || 0;\n    }\n\n    return next;\n  }, [marketsRequest.data?.data, predictStatsRequest.data, selectedTagSlug]);\n\n  const filtered = useMemo(() => {\n    const list = marketsRequest.data?.data || [];\n    if (filter === 'ALL') {\n      return list;\n    }\n\n    return list.filter((item) => item.status === filter);\n  }, [filter, marketsRequest.data?.data]);\n\n  const openStatsModal = async (market: AdminMarket) => {\n    setStatsModal(market);\n    try {\n      await marketStatsRequest.run(market.id);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '盘口统计加载失败');\n    }\n  };\n\n  const openSettleModal = async (market: AdminMarket) => {\n    setSettleModal(market);\n    setSettleChoice('A');\n    setSettleReason('');\n    try {\n      await marketStatsRequest.run(market.id);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '盘口统计加载失败');\n    }\n  };\n\n  const handleSettleMarket = async () => {\n    if (!settleModal) {\n      return;\n    }\n\n    try {\n      await settleMarketRequest.run({\n        marketId: settleModal.id,\n        result: settleChoice,\n        remark: settleReason,\n        requestId: `market-settle-${settleModal.id}-${Date.now()}`,\n      });\n      message.success('市场结算成功');\n      setSettleModal(null);\n      await Promise.all([loadMarkets(), predictStatsRequest.refresh()]);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '市场结算失败');\n    }\n  };\n\n  const openContextModal = (market: AdminMarket) => {\n    setContextMode('edit');\n    setContextModal(market);\n    setContextEditorOpen(true);\n    contextForm.setFieldsValue({\n      marketId: market.id,\n      eventName: market.title,\n      proText: market.proText,\n      conText: market.conText,\n      heat: market.heat,\n      participantCount: market.betCount,\n      tags: market.tags.join(', '),\n      detail: market.detail,\n      imageUrl: market.imageUrl,\n      listImage: market.listImage,\n      sideABgImage: market.sideABgImage,\n      sideBBgImage: market.sideBBgImage,\n      sideABgColor: market.sideABgColor,\n      sideBBgColor: market.sideBBgColor,\n    });\n  };\n\n  const openCreateContextModal = () => {\n    setContextMode('create');\n    setContextModal(null);\n    contextForm.resetFields();\n    contextForm.setFieldsValue({\n      proText: '',\n      conText: '',\n      tags: '',\n      sideABgColor: '#E23D3D',\n      sideBBgColor: '#276EF1',\n    });\n    setContextEditorOpen(true);\n  };\n\n  const handleUpdateContext = async () => {\n    if (contextMode === 'edit' && !contextModal) {\n      return;\n    }\n\n    try {\n      const values = await contextForm.validateFields();\n      const payload: PredictContextUpdatePayload = {\n        marketId: contextModal?.id ?? values.marketId,\n        eventName: values.eventName,\n        proText: values.proText,\n        conText: values.conText,\n        heat: values.heat,\n        participantCount: values.participantCount,\n        tags: values.tags,\n        detail: values.detail,\n        imageUrl: values.imageUrl,\n        listImage: values.listImage,\n        sideABgImage: values.sideABgImage,\n        sideBBgImage: values.sideBBgImage,\n        sideABgColor: values.sideABgColor,\n        sideBBgColor: values.sideBBgColor,\n      };\n      await updatePredictContextRequest.run(payload);\n      message.success(contextMode === 'create' ? '预测已新增' : '市场上下文已更新');\n      setContextEditorOpen(false);\n      setContextModal(null);\n      setContextMode('edit');\n      contextForm.resetFields();\n      await loadMarkets();\n    } catch (error) {\n      if (error instanceof Error) {\n        message.error(error.message);\n      }\n    }\n  };\n\n  const options = [\n    { label: `全部 (${counts.ALL || 0})`, value: 'ALL' },\n    { label: `进行中 (${counts.OPEN || 0})`, value: 'OPEN' },\n    { label: `已关闭 (${counts.CLOSED || 0})`, value: 'CLOSED' },\n    { label: `已结算 (${counts.SETTLED || 0})`, value: 'SETTLED' },\n    { label: `已作废 (${counts.VOIDED || 0})`, value: 'VOIDED' },\n  ];\n\n  return (\n    <PageContainer title=\"预测市场管理\">\n      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', width: '100%' }}>\n        <PredictTagSidebar\n          selectedSlug={selectedTagSlug}\n          onSelect={handleSelectTag}\n          onTagsRefreshed={() => void loadMarkets()}\n        />\n\n        <Space direction=\"vertical\" size={16} style={{ flex: 1, minWidth: 0 }}>\n          <div className=\"turtle-page-toolbar\">\n            <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n              {marketsRequest.error instanceof Error ? (\n                <Alert\n                  type=\"error\"\n                  showIcon\n                  message=\"预测市场加载失败\"\n                  description={marketsRequest.error.message}\n                />\n              ) : null}\n\n              <ProCard style={panelStyle}>\n                <Space style={{ width: '100%', justifyContent: 'space-between' }} wrap>\n                  <Input\n                    allowClear\n                    prefix={<SearchOutlined />}\n                    placeholder=\"搜索市场...\"\n                    style={{ width: 280 }}\n                    value={search}\n                    onChange={(event) => setSearch(event.target.value)}\n                  />\n                  <Space wrap>\n                    <Button type=\"primary\" icon={<PlusOutlined />} onClick={openCreateContextModal}>\n                      新增预测\n                    </Button>\n                    <Button\n                      icon={<ReloadOutlined />}\n                      loading={marketsRequest.loading}\n                      onClick={() => void loadMarkets()}\n                    >\n                      刷新市场\n                    </Button>\n                  </Space>\n                </Space>\n              </ProCard>\n\n              {selectedTagSlug ? (\n                <Alert\n                  type=\"info\"\n                  showIcon\n                  message={`当前标签分类：${selectedTagLabel}`}\n                  action={\n                    <Button size=\"small\" onClick={() => handleSelectTag(null)}>\n                      查看全部分类\n                    </Button>\n                  }\n                />\n              ) : null}\n\n              <Segmented\n                block\n                options={options}\n                value={filter}\n                onChange={(value) => setFilter(value as MktStatus | 'ALL')}\n              />\n            </Space>\n          </div>\n\n        <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n          {!marketsRequest.loading && filtered.length === 0 ? (\n            <ProCard style={panelStyle}>\n              <Empty\n                description={\n                  selectedTagSlug\n                    ? `标签「${selectedTagLabel}」下暂无市场数据`\n                    : '当前筛选条件下暂无市场数据'\n                }\n              />\n            </ProCard>\n          ) : null}\n\n          {filtered.map((market) => {\n            const hasDraw = hasPredictDrawLane(market);\n            const tiePool = hasDraw ? (market.poolDraw ?? 0) : 0;\n            const drawLabel = market.drawText?.trim() || '平局';\n            const total = hasDraw ? market.poolA + market.poolB + tiePool : market.poolA + market.poolB;\n            const pctA = total ? Math.round((market.poolA / total) * 100) : hasDraw ? 34 : 50;\n            const pctB = total\n              ? hasDraw\n                ? Math.round((market.poolB / total) * 100)\n                : Math.max(0, 100 - pctA)\n              : hasDraw\n                ? 33\n                : 50;\n            const pctDraw = hasDraw && total ? Math.max(0, 100 - pctA - pctB) : 0;\n            const oddsA = market.poolA > 0 && total ? (total / market.poolA).toFixed(2) : '—';\n            const oddsB = market.poolB > 0 && total ? (total / market.poolB).toFixed(2) : '—';\n            const oddsDraw = hasDraw && tiePool > 0 && total ? (total / tiePool).toFixed(2) : '—';\n\n            return (\n              <ProCard key={market.id} style={panelStyle}>\n                <Space direction=\"vertical\" size={14} style={{ width: '100%' }}>\n                  <Space wrap>\n                    <Tag color={getMarketStatusColor(market.status)}>{mktStatusLabel[market.status]}</Tag>\n                    <Typography.Text style={mutedTextStyle}>#{market.id}</Typography.Text>\n                    <Tag>{market.source}</Tag>\n                    {market.isPinned ? <PushpinFilled style={{ color: '#1677ff' }} /> : null}\n                    {market.isRecommended ? <StarFilled style={{ color: '#faad14' }} /> : null}\n                  </Space>\n\n                  <Typography.Title level={4} style={{ margin: 0 }}>\n                    {market.title}\n                  </Typography.Title>\n\n                  {market.imageUrl?.trim() ? (\n                    <div>\n                      <Image\n                        src={resolveImageUrl(market.imageUrl.trim())}\n                        alt=\"\"\n                        width={120}\n                        height={120}\n                        style={{ objectFit: 'cover', borderRadius: 8 }}\n                      />\n                    </div>\n                  ) : null}\n\n                  <div>\n                    {hasDraw ? (\n                      <>\n                        <Space\n                          style={{\n                            width: '100%',\n                            justifyContent: 'space-between',\n                            flexWrap: 'wrap',\n                            rowGap: 8,\n                          }}\n                        >\n                          <Typography.Text style={{ color: '#344054' }}>\n                            正方: {market.proText} ({pctA}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#595959' }}>\n                            {drawLabel} ({pctDraw}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            反方: {market.conText} ({pctB}%)\n                          </Typography.Text>\n                        </Space>\n                        <div\n                          style={{\n                            display: 'flex',\n                            height: 10,\n                            borderRadius: 6,\n                            overflow: 'hidden',\n                            marginTop: 8,\n                            border: '1px solid rgba(0,0,0,0.06)',\n                          }}\n                        >\n                          <div\n                            style={{\n                              flex: Math.max(pctA, 1),\n                              background: '#1677ff',\n                              minWidth: pctA ? 2 : 0,\n                            }}\n                          />\n                          <div\n                            style={{\n                              flex: Math.max(pctDraw, 1),\n                              background: '#8c8c8c',\n                              minWidth: pctDraw ? 2 : 0,\n                            }}\n                          />\n                          <div\n                            style={{\n                              flex: Math.max(pctB, 1),\n                              background: '#fa8c16',\n                              minWidth: pctB ? 2 : 0,\n                            }}\n                          />\n                        </div>\n                      </>\n                    ) : (\n                      <>\n                        <Space style={{ width: '100%', justifyContent: 'space-between' }}>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            正方: {market.proText} ({pctA}%)\n                          </Typography.Text>\n                          <Typography.Text style={{ color: '#344054' }}>\n                            反方: {market.conText} ({pctB}%)\n                          </Typography.Text>\n                        </Space>\n                        <Progress\n                          percent={pctA}\n                          showInfo={false}\n                          strokeColor=\"#1677ff\"\n                          trailColor=\"#fa8c16\"\n                        />\n                      </>\n                    )}\n                  </div>\n\n                  <Space wrap size={[16, 8]}>\n                    <MetricLine label=\"投注数\" value={market.betCount} />\n                    <MetricLine label=\"总金额\" value={fmtNum(total)} />\n                    <MetricLine label=\"赔率A\" value={`x${oddsA}`} valueColor=\"#1677ff\" />\n                    {hasDraw ? (\n                      <MetricLine\n                        label={`赔率·${drawLabel}`}\n                        value={`x${oddsDraw}`}\n                        valueColor=\"#595959\"\n                      />\n                    ) : null}\n                    <MetricLine label=\"赔率B\" value={`x${oddsB}`} valueColor=\"#fa8c16\" />\n                    {hasDraw ? (\n                      <MetricLine label=\"平局池\" value={fmtNum(tiePool)} valueColor=\"#595959\" />\n                    ) : null}\n                    <MetricLine label=\"截止\" value={fmtDate(market.closeTime)} />\n                    <MetricLine\n                      label=\"热度\"\n                      value={market.heat}\n                      icon={<FireOutlined style={{ color: '#ff4d4f' }} />}\n                    />\n                  </Space>\n\n                  <Space wrap>\n                    {market.tags.map((tag) => (\n                      <Tag\n                        key={tag}\n                        color={selectedTagSlug === tag ? 'processing' : undefined}\n                        style={{ cursor: 'pointer' }}\n                        onClick={() => handleSelectTag(tag)}\n                      >\n                        {tag}\n                      </Tag>\n                    ))}\n                  </Space>\n\n                  {(market.status === 'SETTLED' || market.status === 'VOIDED') && (\n                    <div\n                      style={{\n                        padding: 12,\n                        borderRadius: 12,\n                        background: market.status === 'SETTLED' ? '#f6ffed' : '#fff2f0',\n                      }}\n                    >\n                      <Space wrap>\n                        <Typography.Text strong>\n                          {market.status === 'SETTLED'\n                            ? `结算结果: ${settleOutcomeLabel(market)}`\n                            : '已作废'}\n                        </Typography.Text>\n                        <Typography.Text>操作人: {market.settledBy}</Typography.Text>\n                        <Typography.Text>原因: {market.settleReason}</Typography.Text>\n                      </Space>\n                    </div>\n                  )}\n\n                  {(market.status === 'OPEN' || market.status === 'CLOSED') && (\n                    <Space>\n                      <Button icon={<EditOutlined />} onClick={() => openContextModal(market)}>\n                        编辑上下文\n                      </Button>\n                      <Button onClick={() => void openStatsModal(market)}>盘口统计</Button>\n                      <Button\n                        type=\"primary\"\n                        onClick={() => {\n                          void openSettleModal(market);\n                        }}\n                      >\n                        结算\n                      </Button>\n                    </Space>\n                  )}\n                </Space>\n              </ProCard>\n            );\n          })}\n        </Space>\n        </Space>\n      </div>\n\n      <Modal\n        open={Boolean(settleModal)}\n        title=\"人工结算\"\n        onCancel={() => setSettleModal(null)}\n        onOk={() => void handleSettleMarket()}\n        okText=\"确认结算\"\n        cancelText=\"取消\"\n        confirmLoading={settleMarketRequest.loading}\n      >\n        {settleModal ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Typography.Text>{settleModal.title}</Typography.Text>\n            {marketStatsRequest.data ? (\n              <Alert\n                type=\"info\"\n                showIcon\n                message={`正方 ${marketStatsRequest.data.proAmount} / 反方 ${marketStatsRequest.data.conAmount}${\n                  marketStatsRequest.data.drawAmount !== undefined\n                    ? ` / ${settleModal.drawText?.trim() || '平局'} ${marketStatsRequest.data.drawAmount}`\n                    : ''\n                }`}\n                description={`投注人数 正${marketStatsRequest.data.proUserCount} : 反${\n                  marketStatsRequest.data.conUserCount\n                }${\n                  marketStatsRequest.data.drawUserCount !== undefined\n                    ? ` : ${settleModal.drawText?.trim() || '平局'}${marketStatsRequest.data.drawUserCount}`\n                    : ''\n                }，总下注 ${marketStatsRequest.data.totalAmount}`}\n              />\n            ) : null}\n            <Segmented\n              block\n              value={settleChoice}\n              onChange={(value) => setSettleChoice(value as 'A' | 'B')}\n              options={[\n                { label: settleModal.proText, value: 'A' },\n                { label: settleModal.conText, value: 'B' },\n              ]}\n            />\n            <Input.TextArea\n              rows={4}\n              placeholder=\"请输入操作原因...\"\n              value={settleReason}\n              onChange={(event) => setSettleReason(event.target.value)}\n            />\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        open={Boolean(statsModal)}\n        title=\"盘口统计\"\n        onCancel={() => setStatsModal(null)}\n        footer={null}\n      >\n        {statsModal && marketStatsRequest.data ? (\n          <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n            <Typography.Text>{statsModal.title}</Typography.Text>\n            <Space wrap>\n              <Tag color=\"processing\">正方人数 {marketStatsRequest.data.proUserCount}</Tag>\n              <Tag color=\"warning\">反方人数 {marketStatsRequest.data.conUserCount}</Tag>\n              {marketStatsRequest.data.drawUserCount !== undefined ? (\n                <Tag>平局人数 {marketStatsRequest.data.drawUserCount}</Tag>\n              ) : null}\n              <Tag>总下注 {marketStatsRequest.data.totalAmount}</Tag>\n              <Tag>总笔数 {marketStatsRequest.data.totalBetCount}</Tag>\n            </Space>\n            <Typography.Text>正方金额：{marketStatsRequest.data.proAmount}</Typography.Text>\n            {marketStatsRequest.data.drawAmount !== undefined ? (\n              <Typography.Text>\n                {statsModal.drawText?.trim() || '平局'}金额：{marketStatsRequest.data.drawAmount}\n              </Typography.Text>\n            ) : null}\n            <Typography.Text>反方金额：{marketStatsRequest.data.conAmount}</Typography.Text>\n          </Space>\n        ) : null}\n      </Modal>\n\n      <Modal\n        width={760}\n        open={contextEditorOpen}\n        title={contextMode === 'create' ? '新增预测' : '编辑市场上下文'}\n        onCancel={() => {\n          setContextEditorOpen(false);\n          setContextModal(null);\n          setContextMode('edit');\n          contextForm.resetFields();\n        }}\n        onOk={() => void handleUpdateContext()}\n        okText={contextMode === 'create' ? '新增' : '保存'}\n        cancelText=\"取消\"\n        confirmLoading={updatePredictContextRequest.loading}\n        destroyOnHidden\n      >\n        <Form form={contextForm} layout=\"vertical\">\n          <Form.Item\n            name=\"marketId\"\n            label=\"市场 ID\"\n            rules={[{ required: true, message: '请输入市场 ID' }]}\n          >\n            <InputNumber min={1} precision={0} disabled={contextMode === 'edit'} style={{ width: '100%' }} />\n          </Form.Item>\n          <Form.Item\n            name=\"eventName\"\n            label=\"事件标题\"\n            rules={[{ required: true, message: '请输入事件标题' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item\n            name=\"proText\"\n            label=\"正方文案\"\n            rules={[{ required: true, message: '请输入正方文案' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item\n            name=\"conText\"\n            label=\"反方文案\"\n            rules={[{ required: true, message: '请输入反方文案' }]}\n          >\n            <Input />\n          </Form.Item>\n          <Form.Item name=\"tags\" label=\"标签\">\n            <Input placeholder=\"多个标签用逗号分隔\" />\n          </Form.Item>\n          <Form.Item name=\"participantCount\" label=\"参与人数\">\n            <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n          </Form.Item>\n          <Form.Item name=\"heat\" label=\"热度\">\n            <InputNumber min={0} precision={0} style={{ width: '100%' }} />\n          </Form.Item>\n          <ContextImageField name=\"imageUrl\" label=\"封面图链接\" value={contextImageUrl} />\n          <ContextImageField name=\"listImage\" label=\"列表图片\" value={contextListImage} />\n          <Space size={16} align=\"start\" style={{ width: '100%' }}>\n            <div style={{ flex: 1 }}>\n              <ContextImageField name=\"sideABgImage\" label=\"正方背景图\" value={contextSideABgImage} />\n            </div>\n            <div style={{ flex: 1 }}>\n              <ContextImageField name=\"sideBBgImage\" label=\"反方背景图\" value={contextSideBBgImage} />\n            </div>\n          </Space>\n          <Space size={16} style={{ width: '100%' }}>\n            <Form.Item\n              name=\"sideABgColor\"\n              label=\"正方背景色\"\n              getValueFromEvent={(color) => color.toHexString().toUpperCase()}\n              style={{ flex: 1 }}\n            >\n              <ColorPicker format=\"hex\" disabledAlpha showText />\n            </Form.Item>\n            <Form.Item\n              name=\"sideBBgColor\"\n              label=\"反方背景色\"\n              getValueFromEvent={(color) => color.toHexString().toUpperCase()}\n              style={{ flex: 1 }}\n            >\n              <ColorPicker format=\"hex\" disabledAlpha showText />\n            </Form.Item>\n          </Space>\n          <Form.Item name=\"detail\" label=\"上下文说明\">\n            <Input.TextArea rows={4} />\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/Predict/index.tsx"
     },
     "7": {
       "path": "/predict/tags",
-      "name": "predictTags",
-      "access": "canPredict",
-      "file": "@/pages/PredictTags/index.tsx",
+      "redirect": "/predict/markets",
+      "hideInMenu": true,
       "parentId": "4",
       "id": "7",
-      "absPath": "/predict/tags",
-      "__content": "import { ReloadOutlined, SyncOutlined } from '@ant-design/icons';\nimport {\n  PageContainer,\n  ProCard,\n  ProFormSelect,\n  ProFormSwitch,\n  ProFormText,\n  ProTable,\n  QueryFilter,\n  type ProColumns,\n} from '@ant-design/pro-components';\nimport { history } from '@umijs/max';\nimport { Alert, App, Button, Descriptions, Modal, Space, Tag, Typography } from 'antd';\nimport { useEffect, useMemo, useState } from 'react';\nimport { fmtDate, panelStyle } from '@/features/admin/shared';\nimport {\n  useRequestPredictTags,\n  useRequestRefreshPredictTags,\n} from '@/hooks/useAdminRequest';\nimport type { PredictTagListParams, PredictTagRecord } from '@/types/predictTag';\n\ninterface PredictTagFilterValues {\n  q?: string;\n  slugs?: string;\n  sort?: 'marketCount' | 'updateTime';\n  includeCounts?: boolean;\n}\n\nconst DEFAULT_PAGE_SIZE = 20;\n\nfunction formatUnixTime(ts?: number) {\n  if (!ts) {\n    return '-';\n  }\n\n  return fmtDate(ts < 1e12 ? ts * 1000 : ts);\n}\n\nexport default function PredictTagsPage() {\n  const { message } = App.useApp();\n  const [filters, setFilters] = useState<PredictTagFilterValues>({\n    includeCounts: true,\n    sort: 'marketCount',\n  });\n  const [pagination, setPagination] = useState({ current: 1, pageSize: DEFAULT_PAGE_SIZE });\n  const [detailRecord, setDetailRecord] = useState<PredictTagRecord | null>(null);\n\n  const predictTagsRequest = useRequestPredictTags();\n  const refreshTagsRequest = useRequestRefreshPredictTags();\n\n  const buildQuery = (\n    nextFilters: PredictTagFilterValues,\n    nextPagination = pagination,\n  ): PredictTagListParams => ({\n    current: nextPagination.current,\n    pageSize: nextPagination.pageSize,\n    q: nextFilters.q?.trim() || undefined,\n    slugs: nextFilters.slugs?.trim() || undefined,\n    sort: nextFilters.sort,\n    includeCounts: nextFilters.includeCounts ?? true,\n  });\n\n  const loadTags = async (\n    nextFilters: PredictTagFilterValues = filters,\n    nextPagination = pagination,\n  ) => {\n    try {\n      await predictTagsRequest.run(buildQuery(nextFilters, nextPagination));\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '标签列表加载失败');\n    }\n  };\n\n  useEffect(() => {\n    void loadTags(\n      { includeCounts: true, sort: 'marketCount' },\n      { current: 1, pageSize: DEFAULT_PAGE_SIZE },\n    );\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  const tagRecords = useMemo(\n    () => predictTagsRequest.data?.data || [],\n    [predictTagsRequest.data?.data],\n  );\n\n  const handleFilterSubmit = async (values: PredictTagFilterValues) => {\n    const nextFilters: PredictTagFilterValues = {\n      q: values.q,\n      slugs: values.slugs,\n      sort: values.sort ?? 'marketCount',\n      includeCounts: values.includeCounts ?? true,\n    };\n    const nextPagination = { ...pagination, current: 1 };\n\n    setFilters(nextFilters);\n    setPagination(nextPagination);\n    await loadTags(nextFilters, nextPagination);\n  };\n\n  const handleFilterReset = () => {\n    const nextFilters: PredictTagFilterValues = {\n      includeCounts: true,\n      sort: 'marketCount',\n    };\n    const nextPagination = { current: 1, pageSize: DEFAULT_PAGE_SIZE };\n\n    setFilters(nextFilters);\n    setPagination(nextPagination);\n    void loadTags(nextFilters, nextPagination);\n  };\n\n  const handleTableChange = (page: number, pageSize: number) => {\n    const nextPagination = { current: page, pageSize };\n    setPagination(nextPagination);\n    void loadTags(filters, nextPagination);\n  };\n\n  const handleRefreshMaterialized = async () => {\n    try {\n      await refreshTagsRequest.run();\n      message.success('标签物化刷新完成');\n      await loadTags(filters, pagination);\n    } catch (error) {\n      message.error(error instanceof Error ? error.message : '标签物化刷新失败');\n    }\n  };\n\n  const columns: ProColumns<PredictTagRecord>[] = [\n    { title: 'ID', dataIndex: 'id', width: 80 },\n    {\n      title: 'Slug',\n      dataIndex: 'slug',\n      width: 140,\n      render: (_, record) => <Typography.Text code>{record.slug || '-'}</Typography.Text>,\n    },\n    { title: '英文名', dataIndex: 'name', width: 160, ellipsis: true },\n    {\n      title: '中文名',\n      dataIndex: 'cnName',\n      width: 160,\n      ellipsis: true,\n      render: (_, record) => record.cnName || record.name || '-',\n    },\n    {\n      title: '关联市场数',\n      dataIndex: 'marketCount',\n      width: 120,\n      sorter: filters.includeCounts ? true : undefined,\n      render: (_, record) =>\n        filters.includeCounts ? (\n          <Tag color={record.marketCount > 0 ? 'processing' : 'default'}>{record.marketCount}</Tag>\n        ) : (\n          '-'\n        ),\n    },\n    {\n      title: '最近出现',\n      dataIndex: 'lastSeenAt',\n      width: 140,\n      render: (_, record) => formatUnixTime(record.lastSeenAt),\n    },\n    {\n      title: '更新时间',\n      dataIndex: 'updateTime',\n      width: 140,\n      render: (_, record) => formatUnixTime(record.updateTime),\n    },\n    {\n      title: '操作',\n      valueType: 'option',\n      width: 100,\n      render: (_, record) => [\n        <Button key=\"detail\" type=\"link\" size=\"small\" onClick={() => setDetailRecord(record)}>\n          详情\n        </Button>,\n      ],\n    },\n  ];\n\n  const tagsError = predictTagsRequest.error instanceof Error ? predictTagsRequest.error : undefined;\n\n  return (\n    <PageContainer title=\"预测标签分类\">\n      <Space direction=\"vertical\" size={16} style={{ width: '100%' }}>\n        {tagsError ? (\n          <Alert type=\"error\" showIcon message=\"标签列表加载失败\" description={tagsError.message} />\n        ) : null}\n\n        <ProCard style={panelStyle}>\n          <QueryFilter<PredictTagFilterValues>\n            defaultCollapsed={false}\n            initialValues={{\n              includeCounts: true,\n              sort: 'marketCount',\n            }}\n            labelWidth=\"auto\"\n            span={6}\n            onFinish={handleFilterSubmit}\n            onReset={handleFilterReset}\n          >\n            <ProFormText name=\"q\" label=\"关键字\" placeholder=\"搜索 slug / name / cnName\" />\n            <ProFormText name=\"slugs\" label=\"指定 Slug\" placeholder=\"多个用英文逗号分隔\" />\n            <ProFormSelect\n              name=\"sort\"\n              label=\"排序\"\n              options={[\n                { label: '市场数（需开启统计）', value: 'marketCount' },\n                { label: '更新时间', value: 'updateTime' },\n              ]}\n            />\n            <ProFormSwitch name=\"includeCounts\" label=\"关联统计\" />\n          </QueryFilter>\n        </ProCard>\n\n        <ProTable<PredictTagRecord>\n          headerTitle=\"预测标签维表\"\n          style={panelStyle}\n          search={false}\n          options={false}\n          toolBarRender={() => [\n            <Button key=\"refresh\" icon={<ReloadOutlined />} onClick={() => void loadTags()}>\n              刷新\n            </Button>,\n            <Button\n              key=\"materialize\"\n              icon={<SyncOutlined />}\n              loading={refreshTagsRequest.loading}\n              onClick={() => void handleRefreshMaterialized()}\n            >\n              刷新物化\n            </Button>,\n            <Button key=\"markets\" onClick={() => history.push('/predict/markets')}>\n              返回市场列表\n            </Button>,\n          ]}\n          tableAlertRender={false}\n          tableAlertOptionRender={false}\n          rowKey=\"id\"\n          loading={predictTagsRequest.loading}\n          dataSource={tagRecords}\n          pagination={{\n            current: predictTagsRequest.data?.page || pagination.current,\n            pageSize: predictTagsRequest.data?.pageSize || pagination.pageSize,\n            total: predictTagsRequest.data?.total || 0,\n            showSizeChanger: true,\n            showTotal: (total) => `共 ${total} 条`,\n            onChange: (page, pageSize) => handleTableChange(page, pageSize),\n          }}\n          columns={columns}\n        />\n      </Space>\n\n      <Modal\n        open={Boolean(detailRecord)}\n        title={detailRecord ? `标签详情 · ${detailRecord.cnName || detailRecord.name}` : '标签详情'}\n        footer={null}\n        onCancel={() => setDetailRecord(null)}\n        destroyOnHidden\n        width={560}\n      >\n        {detailRecord ? (\n          <Descriptions bordered size=\"small\" column={1}>\n            <Descriptions.Item label=\"ID\">{detailRecord.id}</Descriptions.Item>\n            <Descriptions.Item label=\"Slug\">{detailRecord.slug || '-'}</Descriptions.Item>\n            <Descriptions.Item label=\"英文名\">{detailRecord.name || '-'}</Descriptions.Item>\n            <Descriptions.Item label=\"中文名\">{detailRecord.cnName || '-'}</Descriptions.Item>\n            <Descriptions.Item label=\"关联市场数\">\n              {filters.includeCounts ? detailRecord.marketCount : '未加载统计'}\n            </Descriptions.Item>\n            <Descriptions.Item label=\"最近出现\">{formatUnixTime(detailRecord.lastSeenAt)}</Descriptions.Item>\n            <Descriptions.Item label=\"创建时间\">{formatUnixTime(detailRecord.createTime)}</Descriptions.Item>\n            <Descriptions.Item label=\"更新时间\">{formatUnixTime(detailRecord.updateTime)}</Descriptions.Item>\n          </Descriptions>\n        ) : null}\n      </Modal>\n    </PageContainer>\n  );\n}\n",
-      "__isJSFile": true,
-      "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/PredictTags/index.tsx"
+      "absPath": "/predict/tags"
     },
     "8": {
       "path": "/battle",

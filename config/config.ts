@@ -8,6 +8,7 @@ export default defineConfig({
   model: {},
   request: {},
   initialState: {},
+  esbuildMinifyIIFE: true,
   // spine-canvas 为 ESM，MFSU 预构建容器无法正确暴露，需排除后由应用直接打包
   mfsu: {
     exclude: ['@esotericsoftware/spine-canvas', '@esotericsoftware/spine-core'],
