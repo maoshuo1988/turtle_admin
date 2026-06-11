@@ -148,7 +148,6 @@ export default function LoginPage() {
               <div className={styles.captchaRow}>
                 <Input
                   size="large"
-                  inputMode="numeric"
                   maxLength={6}
                   placeholder={intl.formatMessage({ id: 'login.captcha.placeholder' })}
                 />

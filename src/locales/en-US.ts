@@ -44,7 +44,7 @@ export default {
   'login.submit': 'Sign In',
   'login.success': 'Login success',
   'login.captcha.placeholder': 'Captcha',
-  'login.captcha.required': 'Please enter the numeric captcha',
+  'login.captcha.required': 'Please enter the captcha',
   'login.captcha.refresh': 'Refresh',
   'login.captcha.loading': 'Loading',
   'login.captcha.loadError': 'Load failed',

@@ -60,7 +60,7 @@ export function getPetAssetKind(url: string | undefined): PetAssetKind | null {
 
 /** 取 display 中第一个有效链接用于列表预览 */
 export function getPetDisplayPreviewUrl(display?: PetDisplay): string | undefined {
-  for (const url of [display?.thumbnail, display?.icon, display?.cover]) {
+  for (const url of [display?.icon, display?.thumbnail]) {
     const trimmed = url?.trim();
     if (trimmed) {
       return trimmed;

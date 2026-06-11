@@ -96,7 +96,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -113,7 +113,7 @@
             1
           ]
         },
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -157,10 +157,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            16
+            13
           ]
         },
-        "register": 12
+        "register": 11
       },
       "enableBy": "register"
     },
@@ -193,7 +193,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -240,7 +240,7 @@
             0
           ]
         },
-        "register": 4
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -848,7 +848,7 @@
       "enableBy": "register",
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "virtual: config-extraBabelIncludes": {
@@ -1109,7 +1109,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1122,7 +1122,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1135,7 +1135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 50
+        "register": 48
       },
       "enableBy": "register"
     },
@@ -1148,7 +1148,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 21
+        "register": 18
       },
       "enableBy": "config"
     },
@@ -1161,7 +1161,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 12
+        "register": 9
       },
       "enableBy": "config"
     },
@@ -1221,7 +1221,7 @@
             1
           ]
         },
-        "register": 20
+        "register": 16
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1233,7 +1233,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1246,7 +1246,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1271,7 +1271,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1285,7 +1285,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            0
+            1
           ]
         },
         "register": 1
@@ -1313,7 +1313,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1352,7 +1352,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1365,7 +1365,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1378,7 +1378,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1442,7 +1442,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1480,7 +1480,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 12
+        "register": 9
       },
       "enableBy": "config"
     },
@@ -1518,7 +1518,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1531,7 +1531,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1573,7 +1573,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1585,7 +1585,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1622,7 +1622,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 14
+        "register": 13
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1660,7 +1660,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1673,7 +1673,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 17
+        "register": 16
       },
       "enableBy": "register"
     },
@@ -1687,10 +1687,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            10
+            6
           ]
         },
-        "register": 14
+        "register": 15
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1715,7 +1715,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1741,7 +1741,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1754,7 +1754,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1819,7 +1819,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1832,7 +1832,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1871,7 +1871,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1910,7 +1910,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1923,7 +1923,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1936,7 +1936,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 11
+        "register": 10
       },
       "enableBy": "register"
     },
@@ -1949,7 +1949,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1962,7 +1962,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1975,7 +1975,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1990,7 +1990,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/plugins/dist/antd": {
@@ -2012,7 +2012,7 @@
             0
           ]
         },
-        "register": 4
+        "register": 3
       }
     },
     "./node_modules/@umijs/plugins/dist/dva": {
@@ -2024,7 +2024,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2037,7 +2037,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2052,7 +2052,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2091,7 +2091,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2104,7 +2104,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2223,7 +2223,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2240,7 +2240,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2270,7 +2270,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     }
@@ -3696,7 +3696,7 @@
       "file": "@/pages/Login/index.tsx",
       "id": "1",
       "absPath": "/login",
-      "__content": "import { ProCard, ProForm, ProFormText } from '@ant-design/pro-components';\nimport { LockOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';\nimport { history, useIntl, useLocation, useModel } from '@umijs/max';\nimport { App, Button, Form, Input, Typography } from 'antd';\nimport { useCallback, useEffect, useMemo, useState } from 'react';\nimport { useRequestImageCaptcha, useRequestSignIn } from '@/hooks/useRequest';\nimport type { AppInitialState } from '@/types/runtime';\nimport { LOGIN_PATH } from '@/utils/auth';\nimport { normalizeCaptchaImage } from '@/utils/captcha';\nimport styles from './index.module.scss';\n\ninterface LoginFormValues {\n  account: string;\n  password: string;\n  captchaCode: string;\n}\n\nexport default function LoginPage() {\n  const intl = useIntl();\n  const location = useLocation();\n  const { message } = App.useApp();\n  const { initialState, setInitialState } = useModel('@@initialState');\n  const appState = initialState as AppInitialState | undefined;\n  const [form] = Form.useForm<LoginFormValues>();\n  const { run: runSignIn, loading: signInLoading } = useRequestSignIn();\n  const { run: runImageCaptcha } = useRequestImageCaptcha();\n  const [captchaId, setCaptchaId] = useState('');\n  const [captchaImage, setCaptchaImage] = useState('');\n  const [captchaLoading, setCaptchaLoading] = useState(false);\n  const redirectTarget = useMemo(() => {\n    const redirect = new URLSearchParams(location.search).get('redirect');\n\n    if (!redirect || redirect === LOGIN_PATH || redirect.startsWith(`${LOGIN_PATH}?`)) {\n      return '/';\n    }\n\n    return redirect;\n  }, [location.search]);\n\n  const loadCaptcha = useCallback(async (silent = false) => {\n    setCaptchaLoading(true);\n    try {\n      const response = await runImageCaptcha();\n      setCaptchaId(response.captchaId);\n      setCaptchaImage(normalizeCaptchaImage(response.captchaBase64));\n      form.setFieldValue('captchaCode', '');\n    } catch (error) {\n      if (!silent) {\n        message.error(error instanceof Error ? error.message : '验证码加载失败');\n      }\n    } finally {\n      setCaptchaLoading(false);\n    }\n  }, [form, message, runImageCaptcha]);\n\n  useEffect(() => {\n    void loadCaptcha(true);\n  }, [loadCaptcha]);\n\n  useEffect(() => {\n    if (appState?.currentUser) {\n      history.replace(redirectTarget);\n    }\n  }, [appState?.currentUser, redirectTarget]);\n\n  return (\n    <div className={styles.page}>\n      <div className={styles.shell}>\n        <ProCard bordered className={styles.card}>\n          <Typography.Title level={3} style={{ marginTop: 0 }}>\n            {intl.formatMessage({ id: 'login.title' })}\n          </Typography.Title>\n          <Typography.Paragraph type=\"secondary\">\n            {intl.formatMessage({ id: 'login.subtitle' })}\n          </Typography.Paragraph>\n\n          <ProForm<LoginFormValues>\n            form={form}\n            layout=\"vertical\"\n            submitter={{\n              searchConfig: {\n                submitText: intl.formatMessage({ id: 'login.submit' }),\n              },\n              submitButtonProps: {\n                size: 'large',\n                block: true,\n              },\n              resetButtonProps: false,\n            }}\n            onFinish={async (values) => {\n              if (!captchaId) {\n                await loadCaptcha();\n                return false;\n              }\n\n              try {\n                const result = await runSignIn({\n                  account: values.account,\n                  password: values.password,\n                  captchaCode: values.captchaCode,\n                  captchaId,\n                  captchaProtocol: 3,\n                });\n\n                const currentUser = appState?.fetchUserInfo\n                  ? await appState.fetchUserInfo()\n                  : result.currentUser;\n\n                await setInitialState((state) => ({\n                  ...(state as AppInitialState),\n                  currentUser: currentUser || result.currentUser,\n                }));\n\n                message.success(intl.formatMessage({ id: 'login.success' }));\n                return true;\n              } catch (error) {\n                message.error(error instanceof Error ? error.message : '登录失败');\n                await loadCaptcha(true);\n                return false;\n              }\n            }}\n          loading={signInLoading}\n          >\n            <ProFormText\n              name=\"account\"\n              fieldProps={{\n                size: 'large',\n                prefix: <UserOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.account' })}\n              rules={[{ required: true }]}\n            />\n\n            <ProFormText.Password\n              name=\"password\"\n              fieldProps={{\n                size: 'large',\n                prefix: <LockOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.password' })}\n              rules={[{ required: true }]}\n            />\n\n            <Form.Item\n              name=\"captchaCode\"\n              rules={[{ required: true, message: intl.formatMessage({ id: 'login.captcha.required' }) }]}\n            >\n              <div className={styles.captchaRow}>\n                <Input\n                  size=\"large\"\n                  inputMode=\"numeric\"\n                  maxLength={6}\n                  placeholder={intl.formatMessage({ id: 'login.captcha.placeholder' })}\n                />\n\n                <div className={styles.captchaImageBox}>\n                  {captchaImage ? (\n                    <img alt=\"captcha\" className={styles.captchaImage} src={captchaImage} />\n                  ) : (\n                    <span className={styles.captchaFallback}>\n                      {captchaLoading\n                        ? intl.formatMessage({ id: 'login.captcha.loading' })\n                        : intl.formatMessage({ id: 'login.captcha.loadError' })}\n                    </span>\n                  )}\n                </div>\n\n                <Button\n                  icon={<ReloadOutlined />}\n                  loading={captchaLoading}\n                  onClick={() => {\n                    void loadCaptcha();\n                  }}\n                  size=\"large\"\n                >\n                  {intl.formatMessage({ id: 'login.captcha.refresh' })}\n                </Button>\n              </div>\n            </Form.Item>\n          </ProForm>\n        </ProCard>\n      </div>\n    </div>\n  );\n}\n",
+      "__content": "import { ProCard, ProForm, ProFormText } from '@ant-design/pro-components';\nimport { LockOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';\nimport { history, useIntl, useLocation, useModel } from '@umijs/max';\nimport { App, Button, Form, Input, Typography } from 'antd';\nimport { useCallback, useEffect, useMemo, useState } from 'react';\nimport { useRequestImageCaptcha, useRequestSignIn } from '@/hooks/useRequest';\nimport type { AppInitialState } from '@/types/runtime';\nimport { LOGIN_PATH } from '@/utils/auth';\nimport { normalizeCaptchaImage } from '@/utils/captcha';\nimport styles from './index.module.scss';\n\ninterface LoginFormValues {\n  account: string;\n  password: string;\n  captchaCode: string;\n}\n\nexport default function LoginPage() {\n  const intl = useIntl();\n  const location = useLocation();\n  const { message } = App.useApp();\n  const { initialState, setInitialState } = useModel('@@initialState');\n  const appState = initialState as AppInitialState | undefined;\n  const [form] = Form.useForm<LoginFormValues>();\n  const { run: runSignIn, loading: signInLoading } = useRequestSignIn();\n  const { run: runImageCaptcha } = useRequestImageCaptcha();\n  const [captchaId, setCaptchaId] = useState('');\n  const [captchaImage, setCaptchaImage] = useState('');\n  const [captchaLoading, setCaptchaLoading] = useState(false);\n  const redirectTarget = useMemo(() => {\n    const redirect = new URLSearchParams(location.search).get('redirect');\n\n    if (!redirect || redirect === LOGIN_PATH || redirect.startsWith(`${LOGIN_PATH}?`)) {\n      return '/';\n    }\n\n    return redirect;\n  }, [location.search]);\n\n  const loadCaptcha = useCallback(async (silent = false) => {\n    setCaptchaLoading(true);\n    try {\n      const response = await runImageCaptcha();\n      setCaptchaId(response.captchaId);\n      setCaptchaImage(normalizeCaptchaImage(response.captchaBase64));\n      form.setFieldValue('captchaCode', '');\n    } catch (error) {\n      if (!silent) {\n        message.error(error instanceof Error ? error.message : '验证码加载失败');\n      }\n    } finally {\n      setCaptchaLoading(false);\n    }\n  }, [form, message, runImageCaptcha]);\n\n  useEffect(() => {\n    void loadCaptcha(true);\n  }, [loadCaptcha]);\n\n  useEffect(() => {\n    if (appState?.currentUser) {\n      history.replace(redirectTarget);\n    }\n  }, [appState?.currentUser, redirectTarget]);\n\n  return (\n    <div className={styles.page}>\n      <div className={styles.shell}>\n        <ProCard bordered className={styles.card}>\n          <Typography.Title level={3} style={{ marginTop: 0 }}>\n            {intl.formatMessage({ id: 'login.title' })}\n          </Typography.Title>\n          <Typography.Paragraph type=\"secondary\">\n            {intl.formatMessage({ id: 'login.subtitle' })}\n          </Typography.Paragraph>\n\n          <ProForm<LoginFormValues>\n            form={form}\n            layout=\"vertical\"\n            submitter={{\n              searchConfig: {\n                submitText: intl.formatMessage({ id: 'login.submit' }),\n              },\n              submitButtonProps: {\n                size: 'large',\n                block: true,\n              },\n              resetButtonProps: false,\n            }}\n            onFinish={async (values) => {\n              if (!captchaId) {\n                await loadCaptcha();\n                return false;\n              }\n\n              try {\n                const result = await runSignIn({\n                  account: values.account,\n                  password: values.password,\n                  captchaCode: values.captchaCode,\n                  captchaId,\n                  captchaProtocol: 3,\n                });\n\n                const currentUser = appState?.fetchUserInfo\n                  ? await appState.fetchUserInfo()\n                  : result.currentUser;\n\n                await setInitialState((state) => ({\n                  ...(state as AppInitialState),\n                  currentUser: currentUser || result.currentUser,\n                }));\n\n                message.success(intl.formatMessage({ id: 'login.success' }));\n                return true;\n              } catch (error) {\n                message.error(error instanceof Error ? error.message : '登录失败');\n                await loadCaptcha(true);\n                return false;\n              }\n            }}\n          loading={signInLoading}\n          >\n            <ProFormText\n              name=\"account\"\n              fieldProps={{\n                size: 'large',\n                prefix: <UserOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.account' })}\n              rules={[{ required: true }]}\n            />\n\n            <ProFormText.Password\n              name=\"password\"\n              fieldProps={{\n                size: 'large',\n                prefix: <LockOutlined />,\n              }}\n              placeholder={intl.formatMessage({ id: 'login.password' })}\n              rules={[{ required: true }]}\n            />\n\n            <Form.Item\n              name=\"captchaCode\"\n              rules={[{ required: true, message: intl.formatMessage({ id: 'login.captcha.required' }) }]}\n            >\n              <div className={styles.captchaRow}>\n                <Input\n                  size=\"large\"\n                  maxLength={6}\n                  placeholder={intl.formatMessage({ id: 'login.captcha.placeholder' })}\n                />\n\n                <div className={styles.captchaImageBox}>\n                  {captchaImage ? (\n                    <img alt=\"captcha\" className={styles.captchaImage} src={captchaImage} />\n                  ) : (\n                    <span className={styles.captchaFallback}>\n                      {captchaLoading\n                        ? intl.formatMessage({ id: 'login.captcha.loading' })\n                        : intl.formatMessage({ id: 'login.captcha.loadError' })}\n                    </span>\n                  )}\n                </div>\n\n                <Button\n                  icon={<ReloadOutlined />}\n                  loading={captchaLoading}\n                  onClick={() => {\n                    void loadCaptcha();\n                  }}\n                  size=\"large\"\n                >\n                  {intl.formatMessage({ id: 'login.captcha.refresh' })}\n                </Button>\n              </div>\n            </Form.Item>\n          </ProForm>\n        </ProCard>\n      </div>\n    </div>\n  );\n}\n",
       "__isJSFile": true,
       "__absFile": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/src/pages/Login/index.tsx"
     },
@@ -4152,7 +4152,7 @@
   "faviconFiles": [],
   "port": 8002,
   "host": "0.0.0.0",
-  "ip": "192.168.1.2",
+  "ip": "192.168.1.4",
   "antd": {
     "pkgPath": "/Users/wangheng/Documents/PolyMarket/forum/turtle-admin/node_modules/antd",
     "version": "5.29.3"
